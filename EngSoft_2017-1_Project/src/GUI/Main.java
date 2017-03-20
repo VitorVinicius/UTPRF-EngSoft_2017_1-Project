@@ -7,7 +7,7 @@ package GUI;
 
 /**
  *
- * @author Vitor
+ * @author Grupo
  */
 public class Main {
 
