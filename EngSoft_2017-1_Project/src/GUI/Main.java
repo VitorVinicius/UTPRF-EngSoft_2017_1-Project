@@ -5,6 +5,14 @@
  */
 package GUI;
 
+import Database.Conector;
+import Excecoes.ParametrosInsuficientesException;
+import Excecoes.ResultSetNuloOuVazioException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Grupo
@@ -15,7 +23,21 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        try {
+           Database.Conector.Conectar("localhost", 3306, "nome_do_banco", "usuario", "senha");
+           try(ResultSet rs = Conector.obterDados("select * from nome_da_tabela;")){
+                while(rs.next()){
+                    String coluna = (rs.getString("nome_da_coluna"));
+                    System.out.println(coluna);
+                }
+                rs.close();
+           }
+           Database.Conector.fecharConexao();
+        } catch (SQLException | ResultSetNuloOuVazioException | ParametrosInsuficientesException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
     }
     
 }

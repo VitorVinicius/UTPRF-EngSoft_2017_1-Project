@@ -5,6 +5,7 @@
  */
 package Classes;
 
+
 import java.util.List;
 
 /**
@@ -12,7 +13,7 @@ import java.util.List;
  * @author Vitor
  */
 public abstract class Pessoa {
-
+    private long id;
     private String nome;
     private String rua;
     private String numero;
@@ -21,6 +22,14 @@ public abstract class Pessoa {
     private String cidade;
     private UF uf;
     private List<Historico> historicos;
+    
+     public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
     
     public String getNome() {
         return nome;

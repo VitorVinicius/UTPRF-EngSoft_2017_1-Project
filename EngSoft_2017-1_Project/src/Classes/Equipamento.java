@@ -13,16 +13,25 @@ import java.util.List;
  * @author Vitor
  */
 public class Equipamento {
-
+    private long id;
     private String nome;
     private String fabricante;
     private double valorDiaria;
     private double valorPatrimonio;
+    
     private List<Historico> historicos;
     private StatusEquipamento status;
     private Date proximaRevisao;
     private Date dataCompra;
     private Date validade;
+    
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
     
     public String getNome() {
         return nome;
