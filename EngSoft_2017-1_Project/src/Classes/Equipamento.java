@@ -16,7 +16,15 @@ public class Equipamento {
     private long id;
     private String nome;
     private String descricao;
+    private Concessionaria concessionaria;
 
+    public Concessionaria getConcessionaria() {
+        return concessionaria;
+    }
+
+    public void setConcessionaria(Concessionaria concessionaria) {
+        this.concessionaria = concessionaria;
+    }
     public String getDescricao() {
         return descricao;
     }

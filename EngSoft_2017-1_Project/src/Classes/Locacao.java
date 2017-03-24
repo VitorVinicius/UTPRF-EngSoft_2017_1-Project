@@ -6,6 +6,7 @@
 package Classes;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -18,8 +19,43 @@ public class Locacao {
     private Date dataLocacao;
     private Date dataDevolucao;
     private StatusLocacao status;
-    
+    private List<Pagamento> pagamentos;
+    private float valorDiaria;
+    private float totalLocacao;
+    private float multaAtraso;
     private Funcionario funcionario;
+
+    public float getMultaAtraso() {
+        return multaAtraso;
+    }
+
+    public void setMultaAtraso(float multaAtraso) {
+        this.multaAtraso = multaAtraso;
+    }
+    
+    public List<Pagamento> getPagamentos() {
+        return pagamentos;
+    }
+
+    public void setPagamentos(List<Pagamento> pagamentos) {
+        this.pagamentos = pagamentos;
+    }
+
+    public float getValorDiaria() {
+        return valorDiaria;
+    }
+
+    public void setValorDiaria(float valorDiaria) {
+        this.valorDiaria = valorDiaria;
+    }
+
+    public float getTotalLocacao() {
+        return totalLocacao;
+    }
+
+    public void setTotalLocacao(float totalLocacao) {
+        this.totalLocacao = totalLocacao;
+    }
     
     
     public long getId() {

@@ -15,7 +15,7 @@ import java.util.List;
 public class Funcionario {
     private Date dataAdmissao;
     private String nis;
-    private double salario;
+    private float salario;
     private List<Locacao> locacoesEfetuadas;
 
     public Date getDataAdmissao() {
@@ -34,11 +34,11 @@ public class Funcionario {
         this.nis = nis;
     }
 
-    public double getSalario() {
+    public float getSalario() {
         return salario;
     }
 
-    public void setSalario(double salario) {
+    public void setSalario(float salario) {
         this.salario = salario;
     }
 

@@ -5,6 +5,8 @@
  */
 package Classes;
 
+import java.util.Date;
+
 /**
  *
  * @author Vitor
@@ -12,8 +14,53 @@ package Classes;
 public class Pagamento {
 
     private long id;
-    private double valor;
+    private float valor;
     private String formaPagamento;
+    private String referencia;
+    private int parcela;
+    private int totalParcelas;
+    private Boolean pendente;
+    private Date dataPagamento;
+
+    public int getParcela() {
+        return parcela;
+    }
+
+    public void setParcela(int parcela) {
+        this.parcela = parcela;
+    }
+
+    public int getTotalParcelas() {
+        return totalParcelas;
+    }
+
+    public void setTotalParcelas(int totalParcelas) {
+        this.totalParcelas = totalParcelas;
+    }
+
+    public Boolean getPendente() {
+        return pendente;
+    }
+
+    public void setPendente(Boolean pendente) {
+        this.pendente = pendente;
+    }
+
+    public Date getDataPagamento() {
+        return dataPagamento;
+    }
+
+    public void setDataPagamento(Date dataPagamento) {
+        this.dataPagamento = dataPagamento;
+    }
+
+    public String getReferencia() {
+        return referencia;
+    }
+
+    public void setReferencia(String referencia) {
+        this.referencia = referencia;
+    }
     
     public long getId() {
         return id;
@@ -23,11 +70,11 @@ public class Pagamento {
         this.id = id;
     }
 
-    public double getValor() {
+    public float getValor() {
         return valor;
     }
 
-    public void setValor(double valor) {
+    public void setValor(float valor) {
         this.valor = valor;
     }
 
