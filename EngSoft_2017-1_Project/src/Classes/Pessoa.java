@@ -20,7 +20,7 @@ public abstract class Pessoa {
     private String cep;
     private String bairro;
     private String cidade;
-    private UF uf;
+    private String uf;
     private List<Historico> historicos;
     
      public long getId() {
@@ -79,11 +79,11 @@ public abstract class Pessoa {
         this.cidade = cidade;
     }
 
-    public UF getUf() {
+    public String getUf() {
         return uf;
     }
 
-    public void setUf(UF uf) {
+    public void setUf(String uf) {
         this.uf = uf;
     }
 

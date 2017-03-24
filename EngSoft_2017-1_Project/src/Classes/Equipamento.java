@@ -15,9 +15,46 @@ import java.util.List;
 public class Equipamento {
     private long id;
     private String nome;
+    private String descricao;
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
     private String fabricante;
-    private double valorDiaria;
-    private double valorPatrimonio;
+    private float valorDiaria;
+    private float valorPatrimonio;
+    private Funcionario funcionario;
+
+    public Funcionario getFuncionario() {
+        return funcionario;
+    }
+
+    public void setFuncionario(Funcionario funcionario) {
+        this.funcionario = funcionario;
+    }
+    
+    public String getEan() {
+        return ean;
+    }
+
+    public void setEan(String ean) {
+        this.ean = ean;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+    private String ean;
+    private String categoria;
+    
     
     private List<Historico> historicos;
     private StatusEquipamento status;
@@ -49,19 +86,19 @@ public class Equipamento {
         this.fabricante = fabricante;
     }
 
-    public double getValorDiaria() {
+    public float getValorDiaria() {
         return valorDiaria;
     }
 
-    public void setValorDiaria(double valorDiaria) {
+    public void setValorDiaria(float valorDiaria) {
         this.valorDiaria = valorDiaria;
     }
 
-    public double getValorPatrimonio() {
+    public float getValorPatrimonio() {
         return valorPatrimonio;
     }
 
-    public void setValorPatrimonio(double valorPatrimonio) {
+    public void setValorPatrimonio(float valorPatrimonio) {
         this.valorPatrimonio = valorPatrimonio;
     }
 

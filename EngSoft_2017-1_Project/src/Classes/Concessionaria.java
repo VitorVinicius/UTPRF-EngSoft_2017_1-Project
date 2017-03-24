@@ -11,7 +11,17 @@ package Classes;
  * @author Vitor
  */
 public class Concessionaria extends PessoaJuridica {
-   public boolean consultarConcessionaria() throws Exception{
+    private String nomeResponsavel;
+
+    public String getNomeResponsavel() {
+        return nomeResponsavel;
+    }
+
+    public void setNomeResponsavel(String nomeResponsavel) {
+        this.nomeResponsavel = nomeResponsavel;
+    }
+    
+    public boolean consultarConcessionaria() throws Exception{
         throw new Exception("Método ainda não implementado.");
     }
    public boolean solicitarRevisaoEquipamento(Equipamento equipamento) throws Exception{
