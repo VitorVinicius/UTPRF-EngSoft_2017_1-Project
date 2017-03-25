@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author Vitor
  */
-public class PessoaFisica implements Locatario{
+public class PessoaFisica extends Pessoa implements Locatario{
     private String cpf;
     private String dataNascimento;
     private List<Pagamento> pagamentos;

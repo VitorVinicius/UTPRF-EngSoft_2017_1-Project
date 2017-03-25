@@ -15,6 +15,23 @@ public class PessoaJuridica extends Pessoa implements Locatario {
     private String razaoSocial;
     private String cnpj;
     private String  inscricaoEstadual;
+    private String nomeFantasia;
+
+    public String getNomeFantasia() {
+        return nomeFantasia;
+    }
+
+    public void setNomeFantasia(String nomeFantasia) {
+        this.nomeFantasia = nomeFantasia;
+    }
+
+    public List<Pagamento> getPagamentos() {
+        return pagamentos;
+    }
+
+    public void setPagamentos(List<Pagamento> pagamentos) {
+        this.pagamentos = pagamentos;
+    }
     private List<Pagamento> pagamentos;
     public String getRazaoSocial() {
         return razaoSocial;
