@@ -57,4 +57,8 @@ public class Funcionario {
         throw new Exception("Método não ainda implementado.");
     }
     
+    public void testaMedoto(){
+        
+    }
+    
 }
