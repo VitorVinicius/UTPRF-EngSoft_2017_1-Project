@@ -11,6 +11,14 @@ import Classes.PessoaFisica;
 import Classes.PessoaJuridica;
 import Database.Conector;
 
+import Database.Conector;
+import Excecoes.ParametrosInsuficientesException;
+import Excecoes.ResultSetNuloOuVazioException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import Excecoes.ConfiguracoesException;
 import Excecoes.EntidadeDesconhecidaExeption;
 import Excecoes.ParametrosInsuficientesException;
@@ -33,41 +41,19 @@ public class Main {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParametrosInsuficientesException {
         try {
-           
-            if(!Database.Propiedades.checarArquivoExiste()){
-                TelaConfigurarBD telaCfg = new TelaConfigurarBD((Frame)null,true);    
-                telaCfg.setVisible(true);
-                boolean configurado = telaCfg.foiConfigurado();
-                if(!configurado){
-                    System.exit(-1);
+           Database.Conector.conectar("localhost", 3306, "locadora", "root", "root");
+           try(ResultSet rs = Conector.obterDados("select * from funcionario;")){
+                while(rs.next()){
+                    String coluna = (rs.getString("id"));
+                    System.out.println(coluna);
                 }
-                
-            }else{
-               Database.Propiedades.carregarOuGerarArquivo();
-            }
-           //Database.Propiedades.carregarOuGerarArquivo();
-           
-           String dbServer = Database.Propiedades.getPropiedade("dbServer");
-           String dbServerPort = Database.Propiedades.getPropiedade("dbServerPort");
-           String dataBase = Database.Propiedades.getPropiedade("dataBase");
-           String userName = Database.Propiedades.getPropiedade("userName");
-           String password = Database.Propiedades.getPropiedade("password");
-           
-           Database.Conector.conectar(dbServer, Integer.parseInt(dbServerPort), dataBase, userName, password);
-           
-           //Exemplo para obter todos os Locatarios
-            List<Locatario> locatarios = Database.Entidades.obterLocatarios();
-            PessoaFisica primeiraPessoa = (PessoaFisica)locatarios.get(0);//casting para pessoa. Poderia ser casting para PessoaFisica ou PessoaJuridica tbm
-            JOptionPane.showMessageDialog(null, locatarios.size() + " locatários encontrados. Primeiro: "+primeiraPessoa.getNome());
-           //fim do exemplo
+                rs.close();
+           }
            Database.Conector.fecharConexao();
-        } catch (SQLException | ParametrosInsuficientesException | ConfiguracoesException | ResultSetNuloOuVazioException | EntidadeDesconhecidaExeption ex) {
+        } catch (SQLException | ResultSetNuloOuVazioException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
-    }
-    
+    }   
 }
