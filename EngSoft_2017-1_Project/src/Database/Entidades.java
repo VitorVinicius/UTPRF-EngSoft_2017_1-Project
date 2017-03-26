@@ -66,7 +66,8 @@ public final class Entidades {
                        case "PessoaFisica":    
                            PessoaFisica pFisica = new PessoaFisica();
                            
-                           pFisica.setId(id);
+                           pFisica.setId(id); 
+                           
                            pFisica.setNome(nome);
                            pFisica.setRua(rua);
                            pFisica.setNumero(numero);
