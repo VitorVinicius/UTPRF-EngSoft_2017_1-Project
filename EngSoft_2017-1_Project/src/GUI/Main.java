@@ -5,31 +5,17 @@
  */
 package GUI;
 
-import Classes.Locatario;
-import Classes.Pessoa;
-import Classes.PessoaFisica;
-import Classes.PessoaJuridica;
-import Database.Conector;
+import Classes.Funcionario;
 
 import Database.Conector;
-import Excecoes.ParametrosInsuficientesException;
-import Excecoes.ResultSetNuloOuVazioException;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
+import Database.Propiedades;
 import Excecoes.ConfiguracoesException;
-import Excecoes.EntidadeDesconhecidaExeption;
 import Excecoes.ParametrosInsuficientesException;
 import Excecoes.ResultSetNuloOuVazioException;
-import java.awt.Frame;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 /**
@@ -41,19 +27,64 @@ public class Main {
     /**
      * @param args the command line arguments
      */
+    //Instanciei um funcionario pra interação com a interface e métodos. Futuro sistema de login
+    private static Funcionario funcionario;
+
+    public static Funcionario getFuncionario() {
+        return funcionario;
+    }
+
+    public static void setFuncionario(Funcionario funcionario) {
+        Main.funcionario = funcionario;
+    }
+    private static int falhasConexao= 0;
     public static void main(String[] args) throws ParametrosInsuficientesException {
+        
+        if(!Propiedades.checarArquivoExiste()){
+             new TelaConfigurarBD(null, true).setVisible(true);
+        }
+        
         try {
-           Database.Conector.conectar("localhost", 3306, "locadora", "root", "root");
+           Database.Conector.conectar(Propiedades.getPropiedade("dbServer"), Integer.parseInt(Propiedades.getPropiedade("dbServerPort")) , Propiedades.getPropiedade("dataBase"), Propiedades.getPropiedade("userName"), Propiedades.getPropiedade("password"));
            try(ResultSet rs = Conector.obterDados("select * from funcionario;")){
                 while(rs.next()){
-                    String coluna = (rs.getString("id"));
-                    System.out.println(coluna);
+                    funcionario = new Funcionario();
+                    long id = (rs.getLong("id"));
+                    funcionario = new Funcionario();
+                    funcionario.setId(id);
+                    //terminar de settar atributos
                 }
                 rs.close();
            }
-           Database.Conector.fecharConexao();
-        } catch (SQLException | ResultSetNuloOuVazioException ex) {
+           catch (ResultSetNuloOuVazioException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            }
+           if(funcionario!=null){
+               new TelaPrincipal().setVisible(true);
+           }else{
+               JOptionPane.showMessageDialog(null, "Não existem funcionários cadastrados. Cadastre um para abrir o aplicativo.", "Nenhum funcionáio", JOptionPane.ERROR_MESSAGE);
+           }
+           
+           
+        } catch (SQLException ex){
+            
+            new TelaConfigurarBD(null, true).setVisible(true);
+            try {
+                Conector.fecharConexao();
+            } catch (SQLException ex1) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+            if(falhasConexao++ <3){
+                main( new String[]{} );
+            }else{
+                System.exit(-1);
+            }
+         } 
+        catch (ConfiguracoesException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }   
-}
+              
+        }
+
+    }
+

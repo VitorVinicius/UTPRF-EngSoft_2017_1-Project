@@ -10,7 +10,7 @@ package Classes;
  *
  * @author Vitor
  */
-public class Concessionaria extends PessoaJuridica {
+public class Concessionaria extends Locatario {
     private String nomeResponsavel;
 
     public String getNomeResponsavel() {

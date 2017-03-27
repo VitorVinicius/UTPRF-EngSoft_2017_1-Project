@@ -115,6 +115,7 @@ public class Propiedades {
         if(!checarArquivoExiste()){
            throw new Excecoes.ConfiguracoesException("O arquivo de configuração ainda não foi gerado.");
         }
+        carregarOuGerarArquivo();
         return prop.getProperty(nome);
     }
 

@@ -31,10 +31,12 @@ public class Conector {
      * @param userName nome de usuário do banco de dados
      * @param password senha de usuário do banco de dados
      * @throws Excecoes.ParametrosInsuficientesException
+     * @throws java.sql.SQLException
      */
     
-    public static void conectar(String dbServer, int dbServerPort, String dataBase,String userName,String password) throws ParametrosInsuficientesException{
+    public static void conectar(String dbServer, int dbServerPort, String dataBase,String userName,String password) throws ParametrosInsuficientesException, SQLException{
         DBConnectionManager.configurar(dbServer, dbServerPort, dataBase, userName, password);
+        getConexao();
     }
     public static void fecharConexao() throws SQLException{
      if(conexao!=null)   

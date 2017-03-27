@@ -58,13 +58,11 @@ protected static void configurar(String dbServer, int dbServerPort, String dataB
     }
 }
 
-    protected static Connection getConnection() {
-        try {
+    protected static Connection getConnection() throws SQLException {
+        
             return DriverManager.getConnection(
           dbURL, userName, password);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        
     }
 
 }

@@ -6,14 +6,12 @@
 package Database;
 
 import Classes.Locatario;
-import Classes.Pessoa;
-import Classes.PessoaFisica;
-import Classes.PessoaJuridica;
 import Excecoes.EntidadeDesconhecidaExeption;
 import Excecoes.ResultSetNuloOuVazioException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -34,56 +32,31 @@ public final class Entidades {
                    String cidade = (rs.getString("cidade"));
                    String tipo = (rs.getString("tipo"));
                    String cpf = (rs.getString("cpf"));
-                   String dataNascimento = (rs.getString("dataNascimento"));
+                   Date dataNascimento = (rs.getDate("dataNascimento"));
                    String razaoSocial = (rs.getString("razaoSocial"));
                    String nomeFantasia = (rs.getString("nomeFantasia"));
                    String incricaoEstadual = (rs.getString("incricaoEstadual"));
                    String cnpj = (rs.getString("cnpj"));
                    String uf = (rs.getString("uf"));
                    
-                   
-                   
-                   Locatario locatario = null;
-                   switch(tipo){
-                       case "PessoaJuridica":
-                           PessoaJuridica pJuridica = new PessoaJuridica();
-                           pJuridica.setId(id);
-                           pJuridica.setNome(nome);
-                           pJuridica.setRua(rua);
-                           pJuridica.setNumero(numero);
-                           pJuridica.setCep(cep);
-                           pJuridica.setBairro(bairro);
-                           pJuridica.setCidade(cidade);
-                           pJuridica.setUf(uf);
-                           
-                           pJuridica.setCnpj(cnpj);
-                           pJuridica.setInscricaoEstadual(incricaoEstadual);
-                           pJuridica.setRazaoSocial(razaoSocial);
-                           pJuridica.setNomeFantasia(nomeFantasia);
-                           locatario = pJuridica;
-                       break;
-                       
-                       case "PessoaFisica":    
-                           PessoaFisica pFisica = new PessoaFisica();
-                           
-                           pFisica.setId(id); 
-                           
-                           pFisica.setNome(nome);
-                           pFisica.setRua(rua);
-                           pFisica.setNumero(numero);
-                           pFisica.setCep(cep);
-                           pFisica.setBairro(bairro);
-                           pFisica.setCidade(cidade);
-                           pFisica.setUf(uf);
-                           
-                           pFisica.setCpf(cpf);
-                           pFisica.setDataNascimento(dataNascimento);
-                           
-                           locatario = pFisica;
-                       break;    
-                       default:
-                           throw new Excecoes.EntidadeDesconhecidaExeption("A entidade '"+ tipo + "' não é reconhecida [id: "+ id+"]");
-                   }
+                   Locatario locatario =  new Locatario();
+                    locatario.setId(id);
+                    locatario.setNome(nome);
+                    locatario.setRua(rua);
+                    locatario.setNumero(numero);
+                    locatario.setCep(cep);
+                    locatario.setBairro(bairro);
+                    locatario.setCidade(cidade);
+                    locatario.setUf(uf);
+                    locatario.setTipo(tipo);
+                    locatario.setCnpj(cnpj);
+                    locatario.setInscricaoEstadual(incricaoEstadual);
+                    locatario.setRazaoSocial(razaoSocial);
+                    locatario.setNomeFantasia(nomeFantasia);
+
+                    locatario.setCpf(cpf);
+                    locatario.setDataNascimento(dataNascimento);
+                    
                    locatarios.add(locatario);
                 }
                 rs.close();
