@@ -5,6 +5,8 @@
  */
 package Classes;
 
+import Database.Conector;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
@@ -57,11 +59,9 @@ public class Funcionario {
         throw new Exception("Método não ainda implementado.");
     }
     
-    public void testaMedoto(){
-        //teste comentario
-        ///Fweito agora
-        //terceiro comentario
-        //quarto comentario, agora vai
+    public void cadastrarCliente(Pessoa pessoa) throws SQLException{
+        //Aqui colocar a acao de jogar no banco, chamando o metodo statico ExecutarConsulta
+        Conector.executarConsulta("insert into pessoa Values("+pessoa.getNome()+","+pessoa.getRua()+","+pessoa.getNumero()+","+pessoa.getCep()+","+pessoa.getBairro()+","+pessoa.getCidade()+","+pessoa.getUf()+")");
     }
     
 }
