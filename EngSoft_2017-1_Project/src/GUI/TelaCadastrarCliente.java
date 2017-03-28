@@ -6,9 +6,7 @@
 
 package GUI;
 
-import Classes.Funcionario;
 import Classes.Locatario;
-import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -57,7 +55,7 @@ public class TelaCadastrarCliente extends javax.swing.JFrame {
 
         jLabel7.setText("Uf:");
 
-        jbCadastar.setText("Cadastrar");
+        jbCadastar.setText("Salvar");
         jbCadastar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbCadastarActionPerformed(evt);
@@ -100,8 +98,7 @@ public class TelaCadastrarCliente extends javax.swing.JFrame {
                                 .addComponent(jLabel8))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jbCadastar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                        .addComponent(jbCadastar)))
                 .addContainerGap(43, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
