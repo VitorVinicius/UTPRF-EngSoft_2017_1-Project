@@ -62,6 +62,9 @@ public class Main {
            if(funcionario!=null){
                new TelaPrincipal().setVisible(true);
            }else{
+               funcionario= new Funcionario();
+               funcionario.setId(1);
+               new TelaPrincipal().setVisible(true);
                JOptionPane.showMessageDialog(null, "Não existem funcionários cadastrados. Cadastre um para abrir o aplicativo.", "Nenhum funcionáio", JOptionPane.ERROR_MESSAGE);
            }
            

@@ -87,6 +87,7 @@ public class Funcionario extends Locatario {
         pstmt.setString(7, locatario.getTipo());
         pstmt.setString(8, locatario.getCpf());
         Date dataNasc = locatario.getDataNascimento();
+        
         if(dataNasc!=null){
             java.sql.Date sqlDate = new java.sql.Date(locatario.getDataNascimento().getTime());
             pstmt.setDate(9, sqlDate);
@@ -98,8 +99,51 @@ public class Funcionario extends Locatario {
         pstmt.setString(12, locatario.getInscricaoEstadual());
         pstmt.setString(13, locatario.getCnpj());
         pstmt.setString(14, locatario.getUf());
-        pstmt.executeUpdate();
+        pstmt.executeUpdate();        
+    }
+    
+    public void alterarCliente(Locatario locatario) throws SQLException{
         
+        PreparedStatement  pstmt = Conector.getConexao().prepareStatement("Replace INTO `locadora`.`pessoa`\n" +
+                                                "(`id`,\n" +
+                                                "`nome`,\n" +
+                                                "`rua`,\n" +
+                                                "`numero`,\n" +
+                                                "`cep`,\n" +
+                                                "`bairro`,\n" +
+                                                "`cidade`,\n" +
+                                                "`tipo`,\n" +
+                                                "`cpf`,\n" +
+                                                "`dataNascimento`,\n" +
+                                                "`razaoSocial`,\n" +
+                                                "`nomeFantasia`,\n" +
+                                                "`incricaoEstadual`,\n" +
+                                                "`cnpj`,\n" +
+                                                "`uf`)\n" +
+                                                "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);"); 
+        pstmt.setLong(1, locatario.getId());
+        pstmt.setString(2, locatario.getNome());
+        pstmt.setString(3, locatario.getRua());
+        pstmt.setString(4, locatario.getNumero());
+        pstmt.setString(5, locatario.getCep());
+        pstmt.setString(6, locatario.getBairro());
+        pstmt.setString(7, locatario.getCidade());
+        pstmt.setString(8, locatario.getTipo());
+        pstmt.setString(9, locatario.getCpf());
+        Date dataNasc = locatario.getDataNascimento();
+        
+        if(dataNasc!=null){
+            java.sql.Date sqlDate = new java.sql.Date(locatario.getDataNascimento().getTime());
+            pstmt.setDate(10, sqlDate);
+        }else{
+            pstmt.setDate(10, null);
+        }
+        pstmt.setString(11, locatario.getRazaoSocial());
+        pstmt.setString(12, locatario.getNomeFantasia());
+        pstmt.setString(13, locatario.getInscricaoEstadual());
+        pstmt.setString(14, locatario.getCnpj());
+        pstmt.setString(15, locatario.getUf());
+        pstmt.executeUpdate();        
     }
     
 }
