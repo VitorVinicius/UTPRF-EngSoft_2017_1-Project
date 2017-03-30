@@ -5,17 +5,28 @@
  */
 package Classes;
 
+import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
 
 /**
  *
  * @author Vitor
  */
-public class Equipamento {
+@Entity
+public class Equipamento implements Serializable  {
+    @Id
+    @GeneratedValue
     private long id;
     private String nome;
     private String descricao;
+    @OneToOne
     private Concessionaria concessionaria;
 
     public Concessionaria getConcessionaria() {
@@ -35,6 +46,7 @@ public class Equipamento {
     private String fabricante;
     private float valorDiaria;
     private float valorPatrimonio;
+    @OneToOne
     private Funcionario funcionario;
 
     public Funcionario getFuncionario() {
@@ -63,11 +75,14 @@ public class Equipamento {
     private String ean;
     private String categoria;
     
-    
-    private List<Historico> historicos;
+    @OneToMany
+    private Set<Historico> historicos;
     private StatusEquipamento status;
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date proximaRevisao;
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date dataCompra;
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date validade;
     
     public long getId() {
@@ -110,11 +125,11 @@ public class Equipamento {
         this.valorPatrimonio = valorPatrimonio;
     }
 
-    public List<Historico> getHistoricos() {
+    public Set<Historico> getHistoricos() {
         return historicos;
     }
 
-    public void setHistoricos(List<Historico> historicos) {
+    public void setHistoricos(Set<Historico> historicos) {
         this.historicos = historicos;
     }
 

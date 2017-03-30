@@ -7,19 +7,10 @@ package GUI;
 
 import Classes.Locatario;
 import Database.Entidades;
-import Excecoes.EntidadeDesconhecidaExeption;
-import Excecoes.ResultSetNuloOuVazioException;
-import java.awt.Dimension;
-import java.sql.SQLException;
-import java.util.ArrayList;
+import Database.Persistencia;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
 
 /**
  *
@@ -45,7 +36,6 @@ public class TelaVisualizarClientes extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jbconsult = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -72,30 +62,15 @@ public class TelaVisualizarClientes extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTable1);
 
-        jbconsult.setText("jButton1");
-        jbconsult.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbconsultActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 462, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jbconsult)
-                .addGap(0, 14, Short.MAX_VALUE))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 567, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(79, 79, 79)
-                .addComponent(jbconsult)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -106,13 +81,14 @@ public class TelaVisualizarClientes extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         
         try {
-            List<Locatario> locatarios = Entidades.obterLocatarios();
+            List<Object> locatarios = Persistencia.buscar("select t from Locatario as t");
              for(int i=0; i< locatarios.size();i++){
+                    Locatario locatario = (Locatario)locatarios.get(i);
                     Object[] linha = new Object[]{
-                                locatarios.get(i),
-                                locatarios.get(i).getNome(),
-                                locatarios.get(i).getTipo(),
-                                locatarios.get(i).getCpf() +" "+  locatarios.get(i).getCnpj()
+                                locatario,
+                                locatario.getNome(),
+                                locatario.getTipo(),
+                                locatario.getCpf() +" "+  locatario.getCnpj()
                             };
                    model.addRow(linha);
             }
@@ -124,21 +100,6 @@ public class TelaVisualizarClientes extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_CarregarClientes
-
-    private void jbconsultActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbconsultActionPerformed
-      
-       Locatario locatario= (Locatario) jTable1.getValueAt(0, 0);
-       locatario.setNome("Carlos");
-        try {
-            Main.getFuncionario().alterarCliente(locatario);
-        } catch (SQLException ex) {
-            Logger.getLogger(TelaVisualizarClientes.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-
-        
-
-    }//GEN-LAST:event_jbconsultActionPerformed
 
     /**
      * @param args the command line arguments
@@ -178,6 +139,5 @@ public class TelaVisualizarClientes extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JButton jbconsult;
     // End of variables declaration//GEN-END:variables
 }

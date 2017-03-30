@@ -5,21 +5,29 @@
  */
 package Classes;
 
+import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Temporal;
 
 /**
  *
  * @author Vitor
  */
-public class Pagamento {
-
+@Entity
+public class Pagamento implements Serializable {
+    @Id
+    @GeneratedValue
     private long id;
     private float valor;
     private String formaPagamento;
     private String referencia;
     private int parcela;
     private int totalParcelas;
-    private Boolean pendente;
+    private boolean pendente;
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date dataPagamento;
 
     public int getParcela() {

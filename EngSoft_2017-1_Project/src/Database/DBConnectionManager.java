@@ -21,6 +21,7 @@ import java.sql.SQLException;
 *
 * @author brainless
 */
+@Deprecated
 public class DBConnectionManager {
 
     private static String dataBase;
@@ -31,7 +32,7 @@ public class DBConnectionManager {
     private static int dbServerPort;
 
 
-
+@Deprecated
 protected static void configurar(String dbServer, int dbServerPort, String dataBase,String userName,String password) throws ParametrosInsuficientesException {
         DBConnectionManager.dataBase = dataBase;
         DBConnectionManager.userName = userName;
@@ -57,7 +58,7 @@ protected static void configurar(String dbServer, int dbServerPort, String dataB
         +" conector do banco de dados é insuficiente.");
     }
 }
-
+@Deprecated
     protected static Connection getConnection() throws SQLException {
         
             return DriverManager.getConnection(

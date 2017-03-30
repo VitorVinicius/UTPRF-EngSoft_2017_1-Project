@@ -16,8 +16,10 @@ import java.sql.Statement;
  *
  * @author Vitor
  */
+@Deprecated
 public class Conector {
     private static Connection conexao;
+    
     public static Connection getConexao() throws SQLException{
         if(conexao==null)
             conexao = DBConnectionManager.getConnection();

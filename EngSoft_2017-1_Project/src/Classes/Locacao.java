@@ -5,24 +5,41 @@
  */
 package Classes;
 
+import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
+
+import java.util.Set;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
 
 /**
  *
  * @author Vitor
  */
-public class Locacao {
+@Entity
+public class Locacao implements Serializable {
+    @Id
+    @GeneratedValue
     private long id;
+    @OneToOne
     private Locatario locatario;
+    @OneToOne
     private Equipamento equipamento;
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date dataLocacao;
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date dataDevolucao;
     private StatusLocacao status;
-    private List<Pagamento> pagamentos;
+    @OneToMany
+    private Set<Pagamento> pagamentos;
     private float valorDiaria;
     private float totalLocacao;
     private float multaAtraso;
+    @OneToOne
     private Funcionario funcionario;
 
     public float getMultaAtraso() {
@@ -33,11 +50,11 @@ public class Locacao {
         this.multaAtraso = multaAtraso;
     }
     
-    public List<Pagamento> getPagamentos() {
+    public Set<Pagamento> getPagamentos() {
         return pagamentos;
     }
 
-    public void setPagamentos(List<Pagamento> pagamentos) {
+    public void setPagamentos(Set<Pagamento> pagamentos) {
         this.pagamentos = pagamentos;
     }
 

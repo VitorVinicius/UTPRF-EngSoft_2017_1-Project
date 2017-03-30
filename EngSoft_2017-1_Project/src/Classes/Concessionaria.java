@@ -5,12 +5,17 @@
  */
 package Classes;
 
+import java.io.Serializable;
+import javax.persistence.Entity;
+
+
 
 /**
  *
  * @author Vitor
  */
-public class Concessionaria extends Locatario {
+@Entity
+public class Concessionaria extends Locatario implements Serializable {
     private String nomeResponsavel;
 
     public String getNomeResponsavel() {

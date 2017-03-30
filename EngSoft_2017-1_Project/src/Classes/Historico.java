@@ -5,18 +5,24 @@
  */
 package Classes;
 
+import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
 
 /**
  *
  * @author Vitor
  */
-public class Historico {
-   
+@Entity
+public class Historico implements Serializable {
+    @Id
+    @GeneratedValue
     private long id;
     private String descricao;
     private TipoOcorrencia tipoOcorrencia;
-    
-    
+
     public long getId() {
         return id;
     }

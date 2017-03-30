@@ -10,5 +10,5 @@ package Classes;
  * @author Vitor
  */
 public enum TipoOcorrencia {
-    //enumerar os tipos de ocorrência aqui.
+    Locacao,Venda,Compra,Atraso,Saida,Entrada,Sinistro,Perda
 }

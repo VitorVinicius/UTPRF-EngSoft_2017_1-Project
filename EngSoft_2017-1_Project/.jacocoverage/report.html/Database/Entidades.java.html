@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Entidades.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;EngSoft_2017-1_Project&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">Database</a> &gt; <span class="el_source">Entidades.java</span></div><h1>Entidades.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Database;
+
+import Classes.Equipamento;
+import Classes.Funcionario;
+import Classes.Historico;
+import Classes.Locatario;
+import Classes.TipoOcorrencia;
+import Excecoes.EntidadeDesconhecidaExeption;
+import Excecoes.ResultSetNuloOuVazioException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+/**
+ *
+ * @author Vitor
+ */
+<span class="nc" id="L26">public final class Entidades {</span>
+    
+    public static List&lt;Historico&gt; obterHistorico(long id) throws SQLException{
+<span class="nc" id="L29">        List&lt;Historico&gt; historicos = new ArrayList();</span>
+<span class="nc" id="L30">        PreparedStatement pstmt = Conector.getConexao().prepareStatement(&quot;SELECT * FROM `locadora`.`historico` where id = ?;&quot;);</span>
+<span class="nc" id="L31">        pstmt.setLong(1, id);</span>
+<span class="nc" id="L32">        try(ResultSet rs = pstmt.executeQuery()){</span>
+<span class="nc bnc" id="L33" title="All 2 branches missed.">                while(rs.next()){</span>
+<span class="nc" id="L34">                   Historico historico = new Historico();</span>
+<span class="nc" id="L35">                   long idEquipamento = (rs.getLong(&quot;idEquipamento&quot;));</span>
+<span class="nc" id="L36">                   long idPessoa= (rs.getLong(&quot;idPessoa&quot;));</span>
+<span class="nc" id="L37">                   int tipoOcorrencia = (rs.getInt(&quot;tipoOcorrencia&quot;));</span>
+<span class="nc" id="L38">                   String descricao = (rs.getString(&quot;descricao&quot;));</span>
+                   
+<span class="nc" id="L40">                   historico.setId(id);</span>
+<span class="nc" id="L41">                   historico.setIdPessoa(idPessoa);</span>
+<span class="nc" id="L42">                   historico.setIdEquipamento(idEquipamento);</span>
+<span class="nc" id="L43">                   historico.setDescricao(descricao);</span>
+<span class="nc" id="L44">                   historico.setTipoOcorrencia(TipoOcorrencia.values()[tipoOcorrencia]);</span>
+                   
+<span class="nc" id="L46">                   historicos.add(historico);</span>
+<span class="nc" id="L47">                }</span>
+<span class="nc" id="L48">                rs.close();</span>
+<span class="nc bnc" id="L49" title="All 8 branches missed.">        }</span>
+<span class="nc" id="L50">        return historicos;</span>
+    }
+    
+    public static List&lt;Historico&gt; obterHistorico(Equipamento  equipamento) throws SQLException{
+<span class="nc" id="L54">        List&lt;Historico&gt; historicos = new ArrayList();</span>
+<span class="nc" id="L55">        PreparedStatement pstmt = Conector.getConexao().prepareStatement(&quot;SELECT * FROM `locadora`.`historico` where idEquipamento = ?;&quot;);</span>
+<span class="nc" id="L56">        pstmt.setLong(1, equipamento.getId());</span>
+<span class="nc" id="L57">        try(ResultSet rs = pstmt.executeQuery()){</span>
+<span class="nc bnc" id="L58" title="All 2 branches missed.">                while(rs.next()){</span>
+<span class="nc" id="L59">                   Historico historico = new Historico();</span>
+<span class="nc" id="L60">                   long id = (rs.getLong(&quot;id&quot;));</span>
+<span class="nc" id="L61">                   long idPessoa= (rs.getLong(&quot;idPessoa&quot;));</span>
+<span class="nc" id="L62">                   int tipoOcorrencia = (rs.getInt(&quot;tipoOcorrencia&quot;));</span>
+<span class="nc" id="L63">                   String descricao = (rs.getString(&quot;descricao&quot;));</span>
+                   
+<span class="nc" id="L65">                   historico.setId(id);</span>
+<span class="nc" id="L66">                   historico.setIdPessoa(idPessoa);</span>
+<span class="nc" id="L67">                   historico.setIdEquipamento(equipamento.getId());</span>
+<span class="nc" id="L68">                   historico.setDescricao(descricao);</span>
+<span class="nc" id="L69">                   historico.setTipoOcorrencia(TipoOcorrencia.values()[tipoOcorrencia]);</span>
+                   
+<span class="nc" id="L71">                   historicos.add(historico);</span>
+<span class="nc" id="L72">                }</span>
+<span class="nc" id="L73">                rs.close();</span>
+<span class="nc bnc" id="L74" title="All 8 branches missed.">        }</span>
+<span class="nc" id="L75">        return historicos;</span>
+    }
+    
+    public static List&lt;Historico&gt; obterHistorico(Locatario  locatario) throws SQLException{
+<span class="nc" id="L79">        List&lt;Historico&gt; historicos = new ArrayList();</span>
+<span class="nc" id="L80">        PreparedStatement pstmt = Conector.getConexao().prepareStatement(&quot;SELECT * FROM `locadora`.`historico` where idPessoa = ?;&quot;);</span>
+<span class="nc" id="L81">        pstmt.setLong(1, locatario.getId());</span>
+<span class="nc" id="L82">        try(ResultSet rs = pstmt.executeQuery()){</span>
+<span class="nc bnc" id="L83" title="All 2 branches missed.">                while(rs.next()){</span>
+<span class="nc" id="L84">                   Historico historico = new Historico();</span>
+<span class="nc" id="L85">                   long id = (rs.getLong(&quot;id&quot;));</span>
+<span class="nc" id="L86">                   long idEquipamento = (rs.getLong(&quot;idEquipamento&quot;));</span>
+<span class="nc" id="L87">                   int tipoOcorrencia = (rs.getInt(&quot;tipoOcorrencia&quot;));</span>
+<span class="nc" id="L88">                   String descricao = (rs.getString(&quot;descricao&quot;));</span>
+                   
+<span class="nc" id="L90">                   historico.setId(id);</span>
+<span class="nc" id="L91">                   historico.setIdPessoa(locatario.getId());</span>
+<span class="nc" id="L92">                   historico.setIdEquipamento(idEquipamento);</span>
+<span class="nc" id="L93">                   historico.setDescricao(descricao);</span>
+<span class="nc" id="L94">                   historico.setTipoOcorrencia(TipoOcorrencia.values()[tipoOcorrencia]);</span>
+                   
+<span class="nc" id="L96">                   historicos.add(historico);</span>
+<span class="nc" id="L97">                }</span>
+<span class="nc" id="L98">                rs.close();</span>
+<span class="nc bnc" id="L99" title="All 8 branches missed.">        }</span>
+<span class="nc" id="L100">        return historicos;</span>
+    }
+    
+    public static Funcionario obterFuncionario(long id) throws SQLException{
+<span class="nc" id="L104">        Funcionario funcionario = null;</span>
+<span class="nc" id="L105">        PreparedStatement pstmt = Conector.getConexao().prepareStatement(&quot;select Pessoa.*, Funcionario.nis,Funcionario.salario,Funcionario.dataAdmissao from  Pessoa natural join Funcionario where id = ?;&quot;);</span>
+<span class="nc" id="L106">        pstmt.setLong(1, id);</span>
+<span class="nc" id="L107">        try(ResultSet rs = pstmt.executeQuery()){</span>
+<span class="nc bnc" id="L108" title="All 2 branches missed.">                while(rs.next()){</span>
+        
+<span class="nc" id="L110">                   String nome = (rs.getString(&quot;nome&quot;));</span>
+<span class="nc" id="L111">                   String rua = (rs.getString(&quot;rua&quot;));</span>
+<span class="nc" id="L112">                   String numero = (rs.getString(&quot;numero&quot;));</span>
+<span class="nc" id="L113">                   String cep = (rs.getString(&quot;cep&quot;));</span>
+<span class="nc" id="L114">                   String bairro = (rs.getString(&quot;bairro&quot;));</span>
+<span class="nc" id="L115">                   String cidade = (rs.getString(&quot;cidade&quot;));</span>
+<span class="nc" id="L116">                   String tipo = (rs.getString(&quot;tipo&quot;));</span>
+<span class="nc" id="L117">                   String cpf = (rs.getString(&quot;cpf&quot;));</span>
+<span class="nc" id="L118">                   Date dataNascimento = (rs.getDate(&quot;dataNascimento&quot;));</span>
+<span class="nc" id="L119">                   String razaoSocial = (rs.getString(&quot;razaoSocial&quot;));</span>
+<span class="nc" id="L120">                   String nomeFantasia = (rs.getString(&quot;nomeFantasia&quot;));</span>
+<span class="nc" id="L121">                   String incricaoEstadual = (rs.getString(&quot;incricaoEstadual&quot;));</span>
+<span class="nc" id="L122">                   String cnpj = (rs.getString(&quot;cnpj&quot;));</span>
+<span class="nc" id="L123">                   String uf = (rs.getString(&quot;uf&quot;));</span>
+<span class="nc" id="L124">                   String nis = (rs.getString(&quot;nis&quot;));</span>
+<span class="nc" id="L125">                   Float salario = rs.getFloat(&quot;salario&quot;);</span>
+<span class="nc" id="L126">                   Date dataAdmissao = (rs.getDate(&quot;dataAdmissao&quot;));</span>
+<span class="nc" id="L127">                   funcionario = new Funcionario();</span>
+<span class="nc" id="L128">                    funcionario.setId(id);</span>
+<span class="nc" id="L129">                    funcionario.setNome(nome);</span>
+<span class="nc" id="L130">                    funcionario.setRua(rua);</span>
+<span class="nc" id="L131">                    funcionario.setNumero(numero);</span>
+<span class="nc" id="L132">                    funcionario.setCep(cep);</span>
+<span class="nc" id="L133">                    funcionario.setBairro(bairro);</span>
+<span class="nc" id="L134">                    funcionario.setCidade(cidade);</span>
+<span class="nc" id="L135">                    funcionario.setUf(uf);</span>
+<span class="nc" id="L136">                    funcionario.setTipo(tipo);</span>
+<span class="nc" id="L137">                    funcionario.setCnpj(cnpj);</span>
+<span class="nc" id="L138">                    funcionario.setInscricaoEstadual(incricaoEstadual);</span>
+<span class="nc" id="L139">                    funcionario.setRazaoSocial(razaoSocial);</span>
+<span class="nc" id="L140">                    funcionario.setNomeFantasia(nomeFantasia);</span>
+
+<span class="nc" id="L142">                    funcionario.setCpf(cpf);</span>
+<span class="nc" id="L143">                    funcionario.setDataNascimento(dataNascimento);</span>
+                   
+<span class="nc" id="L145">                    funcionario.setNis(nis);</span>
+<span class="nc" id="L146">                    funcionario.setSalario(salario);</span>
+<span class="nc" id="L147">                    funcionario.setDataAdmissao(dataAdmissao);</span>
+<span class="nc" id="L148">                }</span>
+<span class="nc" id="L149">                rs.close();</span>
+<span class="nc bnc" id="L150" title="All 8 branches missed.">        }</span>
+<span class="nc" id="L151">        return funcionario;</span>
+    }
+    
+    
+    public static List&lt;Funcionario&gt; obterFuncionarios() throws SQLException, ResultSetNuloOuVazioException{
+<span class="nc" id="L156">        List&lt;Funcionario&gt; funcionarios = new ArrayList();</span>
+        
+<span class="nc" id="L158">        try(ResultSet rs = Conector.obterDados(&quot;select Pessoa.*, Funcionario.nis,Funcionario.salario,Funcionario.dataAdmissao from  Pessoa natural join Funcionario;&quot;)){</span>
+<span class="nc bnc" id="L159" title="All 2 branches missed.">                while(rs.next()){</span>
+<span class="nc" id="L160">                   Funcionario funcionario = new Funcionario();</span>
+<span class="nc" id="L161">                   long id = (rs.getLong(&quot;id&quot;));</span>
+<span class="nc" id="L162">                   String nome = (rs.getString(&quot;nome&quot;));</span>
+<span class="nc" id="L163">                   String rua = (rs.getString(&quot;rua&quot;));</span>
+<span class="nc" id="L164">                   String numero = (rs.getString(&quot;numero&quot;));</span>
+<span class="nc" id="L165">                   String cep = (rs.getString(&quot;cep&quot;));</span>
+<span class="nc" id="L166">                   String bairro = (rs.getString(&quot;bairro&quot;));</span>
+<span class="nc" id="L167">                   String cidade = (rs.getString(&quot;cidade&quot;));</span>
+<span class="nc" id="L168">                   String tipo = (rs.getString(&quot;tipo&quot;));</span>
+<span class="nc" id="L169">                   String cpf = (rs.getString(&quot;cpf&quot;));</span>
+<span class="nc" id="L170">                   Date dataNascimento = (rs.getDate(&quot;dataNascimento&quot;));</span>
+<span class="nc" id="L171">                   String razaoSocial = (rs.getString(&quot;razaoSocial&quot;));</span>
+<span class="nc" id="L172">                   String nomeFantasia = (rs.getString(&quot;nomeFantasia&quot;));</span>
+<span class="nc" id="L173">                   String incricaoEstadual = (rs.getString(&quot;incricaoEstadual&quot;));</span>
+<span class="nc" id="L174">                   String cnpj = (rs.getString(&quot;cnpj&quot;));</span>
+<span class="nc" id="L175">                   String uf = (rs.getString(&quot;uf&quot;));</span>
+<span class="nc" id="L176">                   String nis = (rs.getString(&quot;nis&quot;));</span>
+<span class="nc" id="L177">                   Float salario = rs.getFloat(&quot;salario&quot;);</span>
+<span class="nc" id="L178">                   Date dataAdmissao = (rs.getDate(&quot;dataAdmissao&quot;));</span>
+<span class="nc" id="L179">                    funcionario.setId(id);</span>
+<span class="nc" id="L180">                    funcionario.setNome(nome);</span>
+<span class="nc" id="L181">                    funcionario.setRua(rua);</span>
+<span class="nc" id="L182">                    funcionario.setNumero(numero);</span>
+<span class="nc" id="L183">                    funcionario.setCep(cep);</span>
+<span class="nc" id="L184">                    funcionario.setBairro(bairro);</span>
+<span class="nc" id="L185">                    funcionario.setCidade(cidade);</span>
+<span class="nc" id="L186">                    funcionario.setUf(uf);</span>
+<span class="nc" id="L187">                    funcionario.setTipo(tipo);</span>
+<span class="nc" id="L188">                    funcionario.setCnpj(cnpj);</span>
+<span class="nc" id="L189">                    funcionario.setInscricaoEstadual(incricaoEstadual);</span>
+<span class="nc" id="L190">                    funcionario.setRazaoSocial(razaoSocial);</span>
+<span class="nc" id="L191">                    funcionario.setNomeFantasia(nomeFantasia);</span>
+
+<span class="nc" id="L193">                    funcionario.setCpf(cpf);</span>
+<span class="nc" id="L194">                    funcionario.setDataNascimento(dataNascimento);</span>
+                   
+<span class="nc" id="L196">                    funcionario.setNis(nis);</span>
+<span class="nc" id="L197">                    funcionario.setSalario(salario);</span>
+<span class="nc" id="L198">                    funcionario.setDataAdmissao(dataAdmissao);</span>
+                    
+<span class="nc" id="L200">                    funcionarios.add(funcionario);</span>
+                    
+<span class="nc" id="L202">                }</span>
+<span class="nc" id="L203">                rs.close();</span>
+<span class="nc bnc" id="L204" title="All 8 branches missed.">           }</span>
+<span class="nc" id="L205">        return funcionarios;</span>
+    }
+    
+    public static Locatario obterLocatario(long id) throws SQLException, ResultSetNuloOuVazioException, EntidadeDesconhecidaExeption{
+<span class="nc" id="L209">        Locatario locatario= null;</span>
+<span class="nc" id="L210">        PreparedStatement pstmt = Conector.getConexao().prepareStatement(&quot;select * from pessoa where id = ?;&quot;);</span>
+<span class="nc" id="L211">        pstmt.setLong(1, id);</span>
+<span class="nc" id="L212">        try(ResultSet rs = pstmt.executeQuery()){</span>
+<span class="nc bnc" id="L213" title="All 2 branches missed.">                while(rs.next()){</span>
+                   
+<span class="nc" id="L215">                   String nome = (rs.getString(&quot;nome&quot;));</span>
+<span class="nc" id="L216">                   String rua = (rs.getString(&quot;rua&quot;));</span>
+<span class="nc" id="L217">                   String numero = (rs.getString(&quot;numero&quot;));</span>
+<span class="nc" id="L218">                   String cep = (rs.getString(&quot;cep&quot;));</span>
+<span class="nc" id="L219">                   String bairro = (rs.getString(&quot;bairro&quot;));</span>
+<span class="nc" id="L220">                   String cidade = (rs.getString(&quot;cidade&quot;));</span>
+<span class="nc" id="L221">                   String tipo = (rs.getString(&quot;tipo&quot;));</span>
+<span class="nc" id="L222">                   String cpf = (rs.getString(&quot;cpf&quot;));</span>
+<span class="nc" id="L223">                   Date dataNascimento = (rs.getDate(&quot;dataNascimento&quot;));</span>
+<span class="nc" id="L224">                   String razaoSocial = (rs.getString(&quot;razaoSocial&quot;));</span>
+<span class="nc" id="L225">                   String nomeFantasia = (rs.getString(&quot;nomeFantasia&quot;));</span>
+<span class="nc" id="L226">                   String incricaoEstadual = (rs.getString(&quot;incricaoEstadual&quot;));</span>
+<span class="nc" id="L227">                   String cnpj = (rs.getString(&quot;cnpj&quot;));</span>
+<span class="nc" id="L228">                   String uf = (rs.getString(&quot;uf&quot;));</span>
+                   
+<span class="nc" id="L230">                   locatario =  new Locatario();</span>
+<span class="nc" id="L231">                    locatario.setId(id);</span>
+<span class="nc" id="L232">                    locatario.setNome(nome);</span>
+<span class="nc" id="L233">                    locatario.setRua(rua);</span>
+<span class="nc" id="L234">                    locatario.setNumero(numero);</span>
+<span class="nc" id="L235">                    locatario.setCep(cep);</span>
+<span class="nc" id="L236">                    locatario.setBairro(bairro);</span>
+<span class="nc" id="L237">                    locatario.setCidade(cidade);</span>
+<span class="nc" id="L238">                    locatario.setUf(uf);</span>
+<span class="nc" id="L239">                    locatario.setTipo(tipo);</span>
+<span class="nc" id="L240">                    locatario.setCnpj(cnpj);</span>
+<span class="nc" id="L241">                    locatario.setInscricaoEstadual(incricaoEstadual);</span>
+<span class="nc" id="L242">                    locatario.setRazaoSocial(razaoSocial);</span>
+<span class="nc" id="L243">                    locatario.setNomeFantasia(nomeFantasia);</span>
+
+<span class="nc" id="L245">                    locatario.setCpf(cpf);</span>
+<span class="nc" id="L246">                    locatario.setDataNascimento(dataNascimento);</span>
+                    
+                   
+<span class="nc" id="L249">                }</span>
+<span class="nc" id="L250">                rs.close();</span>
+<span class="nc bnc" id="L251" title="All 8 branches missed.">           } </span>
+<span class="nc" id="L252">        return locatario;</span>
+    }
+    
+    public static List&lt;Locatario&gt; obterLocatarios() throws SQLException, ResultSetNuloOuVazioException, EntidadeDesconhecidaExeption{
+<span class="fc" id="L256">        List&lt;Locatario&gt; locatarios = new ArrayList();</span>
+<span class="pc" id="L257">        try(ResultSet rs = Conector.obterDados(&quot;select * from pessoa;&quot;)){</span>
+<span class="fc bfc" id="L258" title="All 2 branches covered.">                while(rs.next()){</span>
+<span class="fc" id="L259">                   long id = (rs.getLong(&quot;id&quot;));</span>
+<span class="fc" id="L260">                   String nome = (rs.getString(&quot;nome&quot;));</span>
+<span class="fc" id="L261">                   String rua = (rs.getString(&quot;rua&quot;));</span>
+<span class="fc" id="L262">                   String numero = (rs.getString(&quot;numero&quot;));</span>
+<span class="fc" id="L263">                   String cep = (rs.getString(&quot;cep&quot;));</span>
+<span class="fc" id="L264">                   String bairro = (rs.getString(&quot;bairro&quot;));</span>
+<span class="fc" id="L265">                   String cidade = (rs.getString(&quot;cidade&quot;));</span>
+<span class="fc" id="L266">                   String tipo = (rs.getString(&quot;tipo&quot;));</span>
+<span class="fc" id="L267">                   String cpf = (rs.getString(&quot;cpf&quot;));</span>
+<span class="fc" id="L268">                   Date dataNascimento = (rs.getDate(&quot;dataNascimento&quot;));</span>
+<span class="fc" id="L269">                   String razaoSocial = (rs.getString(&quot;razaoSocial&quot;));</span>
+<span class="fc" id="L270">                   String nomeFantasia = (rs.getString(&quot;nomeFantasia&quot;));</span>
+<span class="fc" id="L271">                   String incricaoEstadual = (rs.getString(&quot;incricaoEstadual&quot;));</span>
+<span class="fc" id="L272">                   String cnpj = (rs.getString(&quot;cnpj&quot;));</span>
+<span class="fc" id="L273">                   String uf = (rs.getString(&quot;uf&quot;));</span>
+                   
+<span class="fc" id="L275">                   Locatario locatario =  new Locatario();</span>
+<span class="fc" id="L276">                    locatario.setId(id);</span>
+<span class="fc" id="L277">                    locatario.setNome(nome);</span>
+<span class="fc" id="L278">                    locatario.setRua(rua);</span>
+<span class="fc" id="L279">                    locatario.setNumero(numero);</span>
+<span class="fc" id="L280">                    locatario.setCep(cep);</span>
+<span class="fc" id="L281">                    locatario.setBairro(bairro);</span>
+<span class="fc" id="L282">                    locatario.setCidade(cidade);</span>
+<span class="fc" id="L283">                    locatario.setUf(uf);</span>
+<span class="fc" id="L284">                    locatario.setTipo(tipo);</span>
+<span class="fc" id="L285">                    locatario.setCnpj(cnpj);</span>
+<span class="fc" id="L286">                    locatario.setInscricaoEstadual(incricaoEstadual);</span>
+<span class="fc" id="L287">                    locatario.setRazaoSocial(razaoSocial);</span>
+<span class="fc" id="L288">                    locatario.setNomeFantasia(nomeFantasia);</span>
+
+<span class="fc" id="L290">                    locatario.setCpf(cpf);</span>
+<span class="fc" id="L291">                    locatario.setDataNascimento(dataNascimento);</span>
+                    
+<span class="fc" id="L293">                   locatarios.add(locatario);</span>
+<span class="fc" id="L294">                }</span>
+<span class="fc" id="L295">                rs.close();</span>
+<span class="pc bpc" id="L296" title="6 of 8 branches missed.">           } </span>
+<span class="fc" id="L297">        return locatarios;</span>
+    }
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

@@ -73,6 +73,11 @@ public class TelaCadastrarFuncionario extends javax.swing.JFrame {
         jLabel7.setText("UF:");
 
         jButton1.setText("Salvar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel9.setText("NIS:");
 
@@ -231,6 +236,10 @@ public class TelaCadastrarFuncionario extends javax.swing.JFrame {
             this.jpAnoAdmissao.setValue(valor<1900?1900:valor>2500?2500:valor);
         }
     }//GEN-LAST:event_jpDiaAdmissaoStateChanged
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

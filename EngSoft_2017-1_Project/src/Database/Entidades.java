@@ -5,8 +5,11 @@
  */
 package Database;
 
+import Classes.Equipamento;
 import Classes.Funcionario;
+import Classes.Historico;
 import Classes.Locatario;
+import Classes.TipoOcorrencia;
 import Excecoes.EntidadeDesconhecidaExeption;
 import Excecoes.ResultSetNuloOuVazioException;
 import java.sql.PreparedStatement;
@@ -20,8 +23,78 @@ import java.util.List;
  *
  * @author Vitor
  */
+@Deprecated
 public final class Entidades {
-    
+    @Deprecated
+    public static List<Historico> obterHistorico(long id) throws SQLException{
+        List<Historico> historicos = new ArrayList();
+        PreparedStatement pstmt = Conector.getConexao().prepareStatement("SELECT * FROM `locadora`.`historico` where id = ?;");
+        pstmt.setLong(1, id);
+        try(ResultSet rs = pstmt.executeQuery()){
+                while(rs.next()){
+                   Historico historico = new Historico();
+                   long idEquipamento = (rs.getLong("idEquipamento"));
+                   long idPessoa= (rs.getLong("idPessoa"));
+                   int tipoOcorrencia = (rs.getInt("tipoOcorrencia"));
+                   String descricao = (rs.getString("descricao"));
+                   
+                   historico.setId(id);
+                   historico.setDescricao(descricao);
+                   historico.setTipoOcorrencia(TipoOcorrencia.values()[tipoOcorrencia]);
+                   
+                   historicos.add(historico);
+                }
+                rs.close();
+        }
+        return historicos;
+    }
+    @Deprecated
+    public static List<Historico> obterHistorico(Equipamento  equipamento) throws SQLException{
+        List<Historico> historicos = new ArrayList();
+        PreparedStatement pstmt = Conector.getConexao().prepareStatement("SELECT * FROM `locadora`.`historico` where idEquipamento = ?;");
+        pstmt.setLong(1, equipamento.getId());
+        try(ResultSet rs = pstmt.executeQuery()){
+                while(rs.next()){
+                   Historico historico = new Historico();
+                   long id = (rs.getLong("id"));
+                   long idPessoa= (rs.getLong("idPessoa"));
+                   int tipoOcorrencia = (rs.getInt("tipoOcorrencia"));
+                   String descricao = (rs.getString("descricao"));
+                   
+                   historico.setId(id);
+                   historico.setDescricao(descricao);
+                   historico.setTipoOcorrencia(TipoOcorrencia.values()[tipoOcorrencia]);
+                   
+                   historicos.add(historico);
+                }
+                rs.close();
+        }
+        return historicos;
+    }
+    @Deprecated
+    public static List<Historico> obterHistorico(Locatario  locatario) throws SQLException{
+        List<Historico> historicos = new ArrayList();
+        PreparedStatement pstmt = Conector.getConexao().prepareStatement("SELECT * FROM `locadora`.`historico` where idPessoa = ?;");
+        pstmt.setLong(1, locatario.getId());
+        try(ResultSet rs = pstmt.executeQuery()){
+                while(rs.next()){
+                   Historico historico = new Historico();
+                   long id = (rs.getLong("id"));
+                   long idEquipamento = (rs.getLong("idEquipamento"));
+                   int tipoOcorrencia = (rs.getInt("tipoOcorrencia"));
+                   String descricao = (rs.getString("descricao"));
+                   
+                   historico.setId(id);
+                   historico.setDescricao(descricao);
+                   historico.setTipoOcorrencia(TipoOcorrencia.values()[tipoOcorrencia]);
+                   
+                   historicos.add(historico);
+                }
+                rs.close();
+        }
+        return historicos;
+    }
+    @Deprecated
     public static Funcionario obterFuncionario(long id) throws SQLException{
         Funcionario funcionario = null;
         PreparedStatement pstmt = Conector.getConexao().prepareStatement("select Pessoa.*, Funcionario.nis,Funcionario.salario,Funcionario.dataAdmissao from  Pessoa natural join Funcionario where id = ?;");
@@ -73,7 +146,7 @@ public final class Entidades {
         return funcionario;
     }
     
-    
+    @Deprecated
     public static List<Funcionario> obterFuncionarios() throws SQLException, ResultSetNuloOuVazioException{
         List<Funcionario> funcionarios = new ArrayList();
         
@@ -126,7 +199,7 @@ public final class Entidades {
            }
         return funcionarios;
     }
-    
+    @Deprecated
     public static Locatario obterLocatario(long id) throws SQLException, ResultSetNuloOuVazioException, EntidadeDesconhecidaExeption{
         Locatario locatario= null;
         PreparedStatement pstmt = Conector.getConexao().prepareStatement("select * from pessoa where id = ?;");
@@ -173,7 +246,7 @@ public final class Entidades {
            } 
         return locatario;
     }
-    
+    @Deprecated
     public static List<Locatario> obterLocatarios() throws SQLException, ResultSetNuloOuVazioException, EntidadeDesconhecidaExeption{
         List<Locatario> locatarios = new ArrayList();
         try(ResultSet rs = Conector.obterDados("select * from pessoa;")){

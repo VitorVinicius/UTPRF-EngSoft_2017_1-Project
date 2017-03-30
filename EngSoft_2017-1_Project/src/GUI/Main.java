@@ -8,14 +8,21 @@ package GUI;
 import Classes.Funcionario;
 
 import Database.Conector;
+import Database.Persistencia;
 import Database.Propiedades;
 import Excecoes.ConfiguracoesException;
 import Excecoes.ParametrosInsuficientesException;
 import Excecoes.ResultSetNuloOuVazioException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.swing.JOptionPane;
 
 /**
@@ -39,55 +46,28 @@ public class Main {
     }
     private static int falhasConexao= 0;
     public static void main(String[] args) throws ParametrosInsuficientesException {
-        
-        if(!Propiedades.checarArquivoExiste()){
-             new TelaConfigurarBD(null, true).setVisible(true);
-        }
-        
+         
+         
         try {
-           Database.Conector.conectar(Propiedades.getPropiedade("dbServer"), Integer.parseInt(Propiedades.getPropiedade("dbServerPort")) , Propiedades.getPropiedade("dataBase"), Propiedades.getPropiedade("userName"), Propiedades.getPropiedade("password"));
-           try(ResultSet rs = Conector.obterDados("select * from funcionario;")){
-                while(rs.next()){
-                    funcionario = new Funcionario();
-                    long id = (rs.getLong("id"));
-                    funcionario = new Funcionario();
-                    funcionario.setId(id);
-                    //terminar de settar atributos
-                }
-                rs.close();
-           }
-           catch (ResultSetNuloOuVazioException ex) {
-                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            Persistencia.estabelecerConexao();
+            List<Object> funcionarios =  Persistencia.buscar("select t from Locatario as t where DTYPE = 'Funcionario'");
+            if(funcionarios!=null && !funcionarios.isEmpty()){
+                funcionario =(Funcionario) funcionarios.get(0);
             }
-           if(funcionario!=null){
+            else{
+                funcionario = new Funcionario();
+                funcionario.setNome("USUARIO_TESTE");
+                funcionario = (Funcionario) Persistencia.salvar(funcionario);
+            }
+            if(funcionario!=null){
                new TelaPrincipal().setVisible(true);
-           }else{
-               funcionario= new Funcionario();
-               funcionario.setId(1);
-               new TelaPrincipal().setVisible(true);
-               JOptionPane.showMessageDialog(null, "Não existem funcionários cadastrados. Cadastre um para abrir o aplicativo.", "Nenhum funcionáio", JOptionPane.ERROR_MESSAGE);
-           }
-           
-           
-        } catch (SQLException ex){
-            
-            new TelaConfigurarBD(null, true).setVisible(true);
-            try {
-                Conector.fecharConexao();
-            } catch (SQLException ex1) {
-                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex1);
             }
-            if(falhasConexao++ <3){
-                main( new String[]{} );
-            }else{
-                System.exit(-1);
-            }
-         } 
-        catch (ConfiguracoesException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
-              
-        }
+         
+    
+    }
 
     }
 

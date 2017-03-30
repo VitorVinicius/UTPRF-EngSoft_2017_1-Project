@@ -7,19 +7,31 @@ package Classes;
 
 
 import java.util.Date;
-import java.util.List;
+import Excecoes.HistoricoNaoObtidoException;
+import java.io.Serializable;
+import java.util.Set;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
 
 /**
  *
  * @author Vitor
  */
-public class Locatario{
+@Entity
+public class Locatario implements Serializable{
     private String cpf;
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date dataNascimento;
     private String razaoSocial;
     private String cnpj;
     private String  inscricaoEstadual;
     private String nomeFantasia;
+    
+    @Id
+    @GeneratedValue
     private long id;
     private String nome;
     private String rua;
@@ -28,7 +40,9 @@ public class Locatario{
     private String bairro;
     private String cidade;
     private String uf;
-    private List<Historico> historicos;
+    
+    @OneToMany
+    private Set<Historico> historicosRelacionados;
     private String tipo;
     
 
@@ -39,7 +53,9 @@ public class Locatario{
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
-    private List<Pagamento> pagamentos;
+    
+    @OneToMany
+    private Set<Pagamento> pagamentosRelacionados;
     public String getCpf() {
         return cpf;
     }
@@ -56,8 +72,8 @@ public class Locatario{
         this.dataNascimento = dataNascimento;
     }
 
-    public List<Pagamento> ObterPagamentos() {
-        return pagamentos;
+    public Set<Pagamento> ObterPagamentos() {
+        return pagamentosRelacionados;
     }
     
   
@@ -70,12 +86,12 @@ public class Locatario{
         this.nomeFantasia = nomeFantasia;
     }
 
-    public List<Pagamento> getPagamentos() {
-        return pagamentos;
+    public Set<Pagamento> getPagamentos() {
+        return pagamentosRelacionados;
     }
 
-    public void setPagamentos(List<Pagamento> pagamentos) {
-        this.pagamentos = pagamentos;
+    public void setPagamentos(Set<Pagamento> pagamentos) {
+        this.pagamentosRelacionados = pagamentos;
     }
     public String getRazaoSocial() {
         return razaoSocial;
@@ -166,13 +182,14 @@ public class Locatario{
         this.uf = uf;
     }
 
-    public List<Historico> getHistoricos() {
-        return historicos;
+    public Set<Historico> getHistoricos() throws HistoricoNaoObtidoException {
+        return historicosRelacionados;
     }
-
-    public void setHistoricos(List<Historico> historicos) {
-        this.historicos = historicos;
+    
+    public void setHistoricos(Set<Historico> historicos) {
+        this.historicosRelacionados = historicos;
     }
+    
     @Override
     public String toString(){
         return Long.toString(id);
