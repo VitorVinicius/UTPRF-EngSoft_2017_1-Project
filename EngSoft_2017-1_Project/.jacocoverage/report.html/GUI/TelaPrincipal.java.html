@@ -6,8 +6,6 @@
 package GUI;
 
 import Database.Persistencia;
-import java.awt.Frame;
-import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,9 +18,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
     /**
      * Creates new form TelaPrincipal
      */
-<span class="fc" id="L23">    public TelaPrincipal() {</span>
-<span class="fc" id="L24">        initComponents();</span>
-<span class="fc" id="L25">    }</span>
+<span class="fc" id="L21">    public TelaPrincipal() {</span>
+<span class="fc" id="L22">        initComponents();</span>
+<span class="fc" id="L23">    }</span>
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -33,76 +31,76 @@ public class TelaPrincipal extends javax.swing.JFrame {
     // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;Generated Code&quot;&gt;//GEN-BEGIN:initComponents
     private void initComponents() {
 
-<span class="fc" id="L36">        jLabel1 = new javax.swing.JLabel();</span>
-<span class="fc" id="L37">        jButton1 = new javax.swing.JButton();</span>
-<span class="fc" id="L38">        jButton2 = new javax.swing.JButton();</span>
+<span class="fc" id="L34">        jLabel1 = new javax.swing.JLabel();</span>
+<span class="fc" id="L35">        jButton1 = new javax.swing.JButton();</span>
+<span class="fc" id="L36">        jButton2 = new javax.swing.JButton();</span>
 
-<span class="fc" id="L40">        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);</span>
-<span class="fc" id="L41">        addWindowListener(new java.awt.event.WindowAdapter() {</span>
+<span class="fc" id="L38">        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);</span>
+<span class="fc" id="L39">        addWindowListener(new java.awt.event.WindowAdapter() {</span>
             public void windowClosing(java.awt.event.WindowEvent evt) {
-<span class="fc" id="L43">                encerrarConexaoBD(evt);</span>
-<span class="fc" id="L44">            }</span>
+<span class="fc" id="L41">                encerrarConexaoBD(evt);</span>
+<span class="fc" id="L42">            }</span>
         });
 
-<span class="fc" id="L47">        jLabel1.setText(&quot;ATENÇÃO DESIGNERS DO PROJETO: esta é uma tela provisória e deve ser substituida nas próximas sprints&quot;);</span>
+<span class="fc" id="L45">        jLabel1.setText(&quot;ATENÇÃO DESIGNERS DO PROJETO: esta é uma tela provisória e deve ser substituida nas próximas sprints&quot;);</span>
 
-<span class="fc" id="L49">        jButton1.setText(&quot;Cadastro de Cliente&quot;);</span>
-<span class="fc" id="L50">        jButton1.addActionListener(new java.awt.event.ActionListener() {</span>
+<span class="fc" id="L47">        jButton1.setText(&quot;Cadastro de Cliente&quot;);</span>
+<span class="fc" id="L48">        jButton1.addActionListener(new java.awt.event.ActionListener() {</span>
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-<span class="nc" id="L52">                jButton1ActionPerformed(evt);</span>
-<span class="nc" id="L53">            }</span>
+<span class="fc" id="L50">                jButton1ActionPerformed(evt);</span>
+<span class="fc" id="L51">            }</span>
         });
 
-<span class="fc" id="L56">        jButton2.setText(&quot;Ver Clientes&quot;);</span>
-<span class="fc" id="L57">        jButton2.addActionListener(new java.awt.event.ActionListener() {</span>
+<span class="fc" id="L54">        jButton2.setText(&quot;Ver Clientes&quot;);</span>
+<span class="fc" id="L55">        jButton2.addActionListener(new java.awt.event.ActionListener() {</span>
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-<span class="fc" id="L59">                jButton2ActionPerformed(evt);</span>
-<span class="fc" id="L60">            }</span>
+<span class="fc" id="L57">                jButton2ActionPerformed(evt);</span>
+<span class="fc" id="L58">            }</span>
         });
 
-<span class="fc" id="L63">        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());</span>
-<span class="fc" id="L64">        getContentPane().setLayout(layout);</span>
-<span class="fc" id="L65">        layout.setHorizontalGroup(</span>
-<span class="fc" id="L66">            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
-<span class="fc" id="L67">            .addGroup(layout.createSequentialGroup()</span>
-<span class="fc" id="L68">                .addContainerGap()</span>
-<span class="fc" id="L69">                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
-<span class="fc" id="L70">                    .addComponent(jLabel1)</span>
-<span class="fc" id="L71">                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)</span>
-<span class="fc" id="L72">                        .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
-<span class="fc" id="L73">                        .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))</span>
-<span class="fc" id="L74">                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))</span>
+<span class="fc" id="L61">        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());</span>
+<span class="fc" id="L62">        getContentPane().setLayout(layout);</span>
+<span class="fc" id="L63">        layout.setHorizontalGroup(</span>
+<span class="fc" id="L64">            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L65">            .addGroup(layout.createSequentialGroup()</span>
+<span class="fc" id="L66">                .addContainerGap()</span>
+<span class="fc" id="L67">                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L68">                    .addComponent(jLabel1)</span>
+<span class="fc" id="L69">                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)</span>
+<span class="fc" id="L70">                        .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+<span class="fc" id="L71">                        .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))</span>
+<span class="fc" id="L72">                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))</span>
         );
-<span class="fc" id="L76">        layout.setVerticalGroup(</span>
-<span class="fc" id="L77">            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
-<span class="fc" id="L78">            .addGroup(layout.createSequentialGroup()</span>
-<span class="fc" id="L79">                .addContainerGap()</span>
-<span class="fc" id="L80">                .addComponent(jLabel1)</span>
+<span class="fc" id="L74">        layout.setVerticalGroup(</span>
+<span class="fc" id="L75">            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L76">            .addGroup(layout.createSequentialGroup()</span>
+<span class="fc" id="L77">                .addContainerGap()</span>
+<span class="fc" id="L78">                .addComponent(jLabel1)</span>
+<span class="fc" id="L79">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="fc" id="L80">                .addComponent(jButton1)</span>
 <span class="fc" id="L81">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
-<span class="fc" id="L82">                .addComponent(jButton1)</span>
-<span class="fc" id="L83">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
-<span class="fc" id="L84">                .addComponent(jButton2)</span>
-<span class="fc" id="L85">                .addContainerGap(217, Short.MAX_VALUE))</span>
+<span class="fc" id="L82">                .addComponent(jButton2)</span>
+<span class="fc" id="L83">                .addContainerGap(217, Short.MAX_VALUE))</span>
         );
 
-<span class="fc" id="L88">        pack();</span>
-<span class="fc" id="L89">    }// &lt;/editor-fold&gt;//GEN-END:initComponents</span>
+<span class="fc" id="L86">        pack();</span>
+<span class="fc" id="L87">    }// &lt;/editor-fold&gt;//GEN-END:initComponents</span>
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-<span class="nc" id="L92">        new TelaCadastroCliente(this,true).setVisible(true);</span>
-<span class="nc" id="L93">    }//GEN-LAST:event_jButton1ActionPerformed</span>
+<span class="fc" id="L90">        new TelaCadastroCliente(this,true).setVisible(true);</span>
+<span class="fc" id="L91">    }//GEN-LAST:event_jButton1ActionPerformed</span>
 
     private void encerrarConexaoBD(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_encerrarConexaoBD
         try {
-<span class="fc" id="L97">            Persistencia.encerrarConexao();</span>
-<span class="nc" id="L98">        } catch (Exception ex) {</span>
-<span class="nc" id="L99">            Logger.getLogger(TelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);</span>
-<span class="fc" id="L100">        }</span>
-<span class="fc" id="L101">    }//GEN-LAST:event_encerrarConexaoBD</span>
+<span class="fc" id="L95">            Persistencia.encerrarConexao();</span>
+<span class="nc" id="L96">        } catch (Exception ex) {</span>
+<span class="nc" id="L97">            Logger.getLogger(TelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="fc" id="L98">        }</span>
+<span class="fc" id="L99">    }//GEN-LAST:event_encerrarConexaoBD</span>
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-<span class="fc" id="L104">        new TelaVisualizarClientes().setVisible(true);</span>
-<span class="fc" id="L105">    }//GEN-LAST:event_jButton2ActionPerformed</span>
+<span class="fc" id="L102">        new TelaVisualizarClientes().setVisible(true);</span>
+<span class="fc" id="L103">    }//GEN-LAST:event_jButton2ActionPerformed</span>
 
     /**
      * @param args the command line arguments
@@ -114,30 +112,30 @@ public class TelaPrincipal extends javax.swing.JFrame {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-<span class="nc bnc" id="L117" title="All 2 branches missed.">            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {</span>
-<span class="nc bnc" id="L118" title="All 2 branches missed.">                if (&quot;Nimbus&quot;.equals(info.getName())) {</span>
-<span class="nc" id="L119">                    javax.swing.UIManager.setLookAndFeel(info.getClassName());</span>
-<span class="nc" id="L120">                    break;</span>
+<span class="nc bnc" id="L115" title="All 2 branches missed.">            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {</span>
+<span class="nc bnc" id="L116" title="All 2 branches missed.">                if (&quot;Nimbus&quot;.equals(info.getName())) {</span>
+<span class="nc" id="L117">                    javax.swing.UIManager.setLookAndFeel(info.getClassName());</span>
+<span class="nc" id="L118">                    break;</span>
                 }
             }
-<span class="nc" id="L123">        } catch (ClassNotFoundException ex) {</span>
+<span class="nc" id="L121">        } catch (ClassNotFoundException ex) {</span>
+<span class="nc" id="L122">            java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L123">        } catch (InstantiationException ex) {</span>
 <span class="nc" id="L124">            java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
-<span class="nc" id="L125">        } catch (InstantiationException ex) {</span>
+<span class="nc" id="L125">        } catch (IllegalAccessException ex) {</span>
 <span class="nc" id="L126">            java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
-<span class="nc" id="L127">        } catch (IllegalAccessException ex) {</span>
+<span class="nc" id="L127">        } catch (javax.swing.UnsupportedLookAndFeelException ex) {</span>
 <span class="nc" id="L128">            java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
-<span class="nc" id="L129">        } catch (javax.swing.UnsupportedLookAndFeelException ex) {</span>
-<span class="nc" id="L130">            java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
-<span class="nc" id="L131">        }</span>
+<span class="nc" id="L129">        }</span>
         //&lt;/editor-fold&gt;
 
         /* Create and display the form */
-<span class="nc" id="L135">        java.awt.EventQueue.invokeLater(new Runnable() {</span>
+<span class="nc" id="L133">        java.awt.EventQueue.invokeLater(new Runnable() {</span>
             public void run() {
-<span class="nc" id="L137">                new TelaPrincipal().setVisible(true);</span>
-<span class="nc" id="L138">            }</span>
+<span class="nc" id="L135">                new TelaPrincipal().setVisible(true);</span>
+<span class="nc" id="L136">            }</span>
         });
-<span class="nc" id="L140">    }</span>
+<span class="nc" id="L138">    }</span>
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

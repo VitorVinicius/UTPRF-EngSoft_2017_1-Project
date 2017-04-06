@@ -17,21 +17,15 @@ import javax.persistence.Persistence;
 public class Persistencia {
     private static EntityManagerFactory factory;
     private static EntityManager manager;
-    private static boolean conexaoEstabelecida = false;
     public static EntityManager getManager() {
         return manager;
     }
 
     public static void estabelecerConexao() throws Exception{
-        if(conexaoEstabelecida) throw new Exception("A conexão com o banco de dados já foi estabelecida.");
-        
         factory = Persistence.createEntityManagerFactory("locadora");
         manager = factory.createEntityManager();
-        conexaoEstabelecida = true;
     }
     public static Object salvar(Object objeto) throws Exception{
-         if(!conexaoEstabelecida) throw new Exception("A conexão com o banco de dados não foi estabelecida ainda.");
-        
          manager.getTransaction().begin();
          manager.persist(objeto);
          manager.flush();
@@ -39,34 +33,24 @@ public class Persistencia {
          return objeto;
     }
     public static void atualizar(Object objeto) throws Exception{
-         if(!conexaoEstabelecida) throw new Exception("A conexão com o banco de dados não foi estabelecida ainda.");
-        
          manager.getTransaction().begin();
          manager.merge(objeto);
          manager.getTransaction().commit();
     }
     public static void remover(Object objeto) throws Exception{
-         if(!conexaoEstabelecida) throw new Exception("A conexão com o banco de dados não foi estabelecida ainda.");
-        
          manager.getTransaction().begin();
          manager.remove(objeto);
          manager.getTransaction().commit();
     }
     public static Object buscar( Class tipo,long id) throws Exception{
-         if(!conexaoEstabelecida) throw new Exception("A conexão com o banco de dados não foi estabelecida ainda.");
-        
         Object encontrado = manager.find(tipo, id);
         return encontrado;
     }
     public static List<Object> buscar( String consulta) throws Exception{
-         if(!conexaoEstabelecida) throw new Exception("A conexão com o banco de dados não foi estabelecida ainda.");
-        
         List<Object> encontrados = manager.createQuery(consulta).getResultList();
         return encontrados;
     }
     public static void encerrarConexao() throws Exception{
-         if(!conexaoEstabelecida) throw new Exception("A conexão com o banco de dados não foi estabelecida ainda.");
-        
         manager.close();
         factory.close();
     }

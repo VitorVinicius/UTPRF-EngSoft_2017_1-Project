@@ -33,9 +33,9 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
      */
     private Locatario locatarioEdicao;
     public TelaCadastroCliente(java.awt.Frame parent, boolean modal) {
-<span class="nc" id="L36">        super(parent, modal);</span>
-<span class="nc" id="L37">        initComponents();</span>
-<span class="nc" id="L38">    }</span>
+<span class="fc" id="L36">        super(parent, modal);</span>
+<span class="fc" id="L37">        initComponents();</span>
+<span class="fc" id="L38">    }</span>
     public TelaCadastroCliente(java.awt.Frame parent, boolean modal, Locatario locatario) {
 <span class="fc" id="L40">        super(parent, modal);</span>
 <span class="fc" id="L41">        initComponents();</span>
@@ -489,8 +489,8 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
 <span class="fc" id="L489">        jbCadastar.setText(&quot;Salvar&quot;);</span>
 <span class="fc" id="L490">        jbCadastar.addActionListener(new java.awt.event.ActionListener() {</span>
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-<span class="nc" id="L492">                jbCadastarActionPerformed(evt);</span>
-<span class="nc" id="L493">            }</span>
+<span class="fc" id="L492">                jbCadastarActionPerformed(evt);</span>
+<span class="fc" id="L493">            }</span>
         });
 
 <span class="fc" id="L496">        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());</span>
@@ -543,75 +543,75 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
 
     private void jbCadastarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCadastarActionPerformed
         try {
-<span class="nc bnc" id="L546" title="All 2 branches missed.">                if (this.rbFuncionario.isSelected()) {</span>
+<span class="pc bpc" id="L546" title="1 of 2 branches missed.">                if (this.rbFuncionario.isSelected()) {</span>
 <span class="nc" id="L547">                    this.cadastrarFuncionario();</span>
-<span class="nc bnc" id="L548" title="All 4 branches missed.">                } else if (this.rbPJuridica.isSelected() || this.rbPFisica.isSelected()) {</span>
-<span class="nc" id="L549">                    this.cadastrarLocatario();</span>
+<span class="fc bfc" id="L548" title="All 4 branches covered.">                } else if (this.rbPJuridica.isSelected() || this.rbPFisica.isSelected()) {</span>
+<span class="fc" id="L549">                    this.cadastrarLocatario();</span>
                 } else {
-<span class="nc" id="L551">                    this.cadastrarConcessionaria();</span>
+<span class="fc" id="L551">                    this.cadastrarConcessionaria();</span>
                 }
-<span class="nc" id="L553">            this.dispose();</span>
-<span class="nc" id="L554">        } catch (Exception ex) {</span>
-<span class="nc" id="L555">            JOptionPane.showMessageDialog(null, ex.toString(), &quot;Erro ao cadastrar funcionário&quot;, JOptionPane.ERROR_MESSAGE);</span>
-<span class="nc" id="L556">            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);</span>
-<span class="nc" id="L557">        }</span>
-<span class="nc" id="L558">    }//GEN-LAST:event_jbCadastarActionPerformed</span>
+<span class="fc" id="L553">            this.dispose();</span>
+<span class="fc" id="L554">        } catch (Exception ex) {</span>
+<span class="fc" id="L555">            JOptionPane.showMessageDialog(null, ex.toString(), &quot;Erro ao cadastrar funcionário&quot;, JOptionPane.ERROR_MESSAGE);</span>
+<span class="fc" id="L556">            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="fc" id="L557">        }</span>
+<span class="fc" id="L558">    }//GEN-LAST:event_jbCadastarActionPerformed</span>
 
     public void cadastrarConcessionaria() throws UFInvalidaException, ParseException, Exception{
-<span class="nc" id="L561">        TipoLocatario tipoLocatario = TipoLocatario.CONCESSIONARIA;</span>
+<span class="fc" id="L561">        TipoLocatario tipoLocatario = TipoLocatario.CONCESSIONARIA;</span>
 
-<span class="nc" id="L563">        String nome = tfNome.getText();</span>
-<span class="nc" id="L564">        String nomeResponsavel = this.tfNomeResponsavel.getText();</span>
-<span class="nc" id="L565">        String razaoSocial = this.tfRazaoSocial.getText();</span>
-<span class="nc" id="L566">        String cpf = this.tfCPF.getText();</span>
-<span class="nc" id="L567">        String cnpj = this.tfCNPJ.getText();</span>
-<span class="nc" id="L568">        String ie = this.tfIE.getText();</span>
+<span class="fc" id="L563">        String nome = tfNome.getText();</span>
+<span class="fc" id="L564">        String nomeResponsavel = this.tfNomeResponsavel.getText();</span>
+<span class="fc" id="L565">        String razaoSocial = this.tfRazaoSocial.getText();</span>
+<span class="fc" id="L566">        String cpf = this.tfCPF.getText();</span>
+<span class="fc" id="L567">        String cnpj = this.tfCNPJ.getText();</span>
+<span class="fc" id="L568">        String ie = this.tfIE.getText();</span>
 
-<span class="nc" id="L570">        String data = this.tfDiaNascimento.getValue().toString() + &quot;/&quot; + this.tfMesNascimento.getValue().toString() + &quot;/&quot; + this.tfAnoNascimento.getValue().toString();</span>
-<span class="nc" id="L571">        DateFormat format = new SimpleDateFormat(&quot;dd/MM/yyyy&quot;, Locale.ENGLISH);</span>
-<span class="nc" id="L572">        Date dataNascimento = format.parse(data);</span>
+<span class="fc" id="L570">        String data = this.tfDiaNascimento.getValue().toString() + &quot;/&quot; + this.tfMesNascimento.getValue().toString() + &quot;/&quot; + this.tfAnoNascimento.getValue().toString();</span>
+<span class="fc" id="L571">        DateFormat format = new SimpleDateFormat(&quot;dd/MM/yyyy&quot;, Locale.ENGLISH);</span>
+<span class="fc" id="L572">        Date dataNascimento = format.parse(data);</span>
 
-<span class="nc" id="L574">        String rua = this.tfRua.getText();</span>
-<span class="nc" id="L575">        String cep = tfCEP.getText();</span>
-<span class="nc" id="L576">        String bairro = tfBairro.getText();</span>
-<span class="nc" id="L577">        String cidade = tfCidade.getText();</span>
-<span class="nc" id="L578">        String uf = tfUF.getText();</span>
-<span class="nc" id="L579">        validarUF(uf);</span>
-<span class="nc" id="L580">        int numero = Integer.parseInt(tfNumero.getText());</span>
+<span class="fc" id="L574">        String rua = this.tfRua.getText();</span>
+<span class="fc" id="L575">        String cep = tfCEP.getText();</span>
+<span class="fc" id="L576">        String bairro = tfBairro.getText();</span>
+<span class="fc" id="L577">        String cidade = tfCidade.getText();</span>
+<span class="fc" id="L578">        String uf = tfUF.getText();</span>
+<span class="fc" id="L579">        validarUF(uf);</span>
+<span class="fc" id="L580">        int numero = Integer.parseInt(tfNumero.getText());</span>
 
         //dados de contato
-<span class="nc" id="L583">        String telefonePrincipal = this.tfTelefonePrincipal.getText();</span>
-<span class="nc" id="L584">        String telefone2 = this.tfTelefone2.getText();</span>
-<span class="nc" id="L585">        String emailPrincipal = this.tfEmailPrincipal.getText();</span>
-<span class="nc" id="L586">        String email2 = this.tfEmail2.getText();</span>
+<span class="fc" id="L583">        String telefonePrincipal = this.tfTelefonePrincipal.getText();</span>
+<span class="fc" id="L584">        String telefone2 = this.tfTelefone2.getText();</span>
+<span class="fc" id="L585">        String emailPrincipal = this.tfEmailPrincipal.getText();</span>
+<span class="fc" id="L586">        String email2 = this.tfEmail2.getText();</span>
 
-<span class="nc" id="L588">        Concessionaria concessionaria = new Concessionaria();</span>
-<span class="nc" id="L589">        concessionaria.setNome(nome);</span>
-<span class="nc" id="L590">        concessionaria.setNomeResponsavel(nomeResponsavel);</span>
-<span class="nc" id="L591">        concessionaria.setRazaoSocial(razaoSocial);</span>
-<span class="nc" id="L592">        concessionaria.setCpf(cpf);</span>
-<span class="nc" id="L593">        concessionaria.setCnpj(cnpj);</span>
-<span class="nc" id="L594">        concessionaria.setInscricaoEstadual(ie);</span>
-<span class="nc" id="L595">        concessionaria.setDataNascimento(dataNascimento);</span>
-<span class="nc" id="L596">        concessionaria.setRua(rua);</span>
-<span class="nc" id="L597">        concessionaria.setCep(cep);</span>
-<span class="nc" id="L598">        concessionaria.setBairro(bairro);</span>
-<span class="nc" id="L599">        concessionaria.setCidade(cidade);</span>
-<span class="nc" id="L600">        concessionaria.setUf(uf);</span>
-<span class="nc" id="L601">        concessionaria.setNumero(numero);</span>
+<span class="fc" id="L588">        Concessionaria concessionaria = new Concessionaria();</span>
+<span class="fc" id="L589">        concessionaria.setNome(nome);</span>
+<span class="fc" id="L590">        concessionaria.setNomeResponsavel(nomeResponsavel);</span>
+<span class="fc" id="L591">        concessionaria.setRazaoSocial(razaoSocial);</span>
+<span class="fc" id="L592">        concessionaria.setCpf(cpf);</span>
+<span class="fc" id="L593">        concessionaria.setCnpj(cnpj);</span>
+<span class="fc" id="L594">        concessionaria.setInscricaoEstadual(ie);</span>
+<span class="fc" id="L595">        concessionaria.setDataNascimento(dataNascimento);</span>
+<span class="fc" id="L596">        concessionaria.setRua(rua);</span>
+<span class="fc" id="L597">        concessionaria.setCep(cep);</span>
+<span class="fc" id="L598">        concessionaria.setBairro(bairro);</span>
+<span class="fc" id="L599">        concessionaria.setCidade(cidade);</span>
+<span class="fc" id="L600">        concessionaria.setUf(uf);</span>
+<span class="fc" id="L601">        concessionaria.setNumero(numero);</span>
 
-<span class="nc" id="L603">        concessionaria.setTelefonePrincipal(telefonePrincipal);</span>
-<span class="nc" id="L604">        concessionaria.setTelefone2(telefone2);</span>
-<span class="nc" id="L605">        concessionaria.setEmailPrincipal(emailPrincipal);</span>
-<span class="nc" id="L606">        concessionaria.setEmail2(email2);</span>
+<span class="fc" id="L603">        concessionaria.setTelefonePrincipal(telefonePrincipal);</span>
+<span class="fc" id="L604">        concessionaria.setTelefone2(telefone2);</span>
+<span class="fc" id="L605">        concessionaria.setEmailPrincipal(emailPrincipal);</span>
+<span class="fc" id="L606">        concessionaria.setEmail2(email2);</span>
 
-<span class="nc" id="L608">        concessionaria.setTipo(tipoLocatario);</span>
+<span class="fc" id="L608">        concessionaria.setTipo(tipoLocatario);</span>
 
-<span class="nc bnc" id="L610" title="All 2 branches missed.">        if (this.locatarioEdicao != null) {</span>
-<span class="nc" id="L611">            concessionaria.setId(this.locatarioEdicao.getId());</span>
-<span class="nc bnc" id="L612" title="All 2 branches missed.">            if (Main.getFuncionario() != null) {</span>
+<span class="pc bpc" id="L610" title="1 of 2 branches missed.">        if (this.locatarioEdicao != null) {</span>
+<span class="fc" id="L611">            concessionaria.setId(this.locatarioEdicao.getId());</span>
+<span class="pc bpc" id="L612" title="1 of 2 branches missed.">            if (Main.getFuncionario() != null) {</span>
 
-<span class="nc" id="L614">                Main.getFuncionario().alterarCliente(concessionaria);</span>
+<span class="fc" id="L614">                Main.getFuncionario().alterarCliente(concessionaria);</span>
             } else {
 <span class="nc" id="L616">                Persistencia.atualizar(concessionaria);</span>
             }
@@ -622,7 +622,7 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
 <span class="nc" id="L622">                Persistencia.salvar(concessionaria);</span>
             }
         }
-<span class="nc" id="L625">    }</span>
+<span class="fc" id="L625">    }</span>
     
     private void cadastrarFuncionario() throws UFInvalidaException, ParseException, Exception{
 
@@ -709,85 +709,85 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
 
         TipoLocatario tipoLocatario;
 
-<span class="nc bnc" id="L712" title="All 2 branches missed.">        if (this.rbPJuridica.isSelected()) {</span>
-<span class="nc" id="L713">            tipoLocatario = TipoLocatario.JURIDICA;</span>
+<span class="fc bfc" id="L712" title="All 2 branches covered.">        if (this.rbPJuridica.isSelected()) {</span>
+<span class="fc" id="L713">            tipoLocatario = TipoLocatario.JURIDICA;</span>
         } else {
-<span class="nc" id="L715">            tipoLocatario = TipoLocatario.FISICA;</span>
+<span class="fc" id="L715">            tipoLocatario = TipoLocatario.FISICA;</span>
         }
 
-<span class="nc" id="L718">        String nome = tfNome.getText();</span>
-<span class="nc" id="L719">        String razaoSocial = this.tfRazaoSocial.getText();</span>
-<span class="nc" id="L720">        String cpf = this.tfCPF.getText();</span>
-<span class="nc" id="L721">        String cnpj = this.tfCNPJ.getText();</span>
-<span class="nc" id="L722">        String ie = this.tfIE.getText();</span>
+<span class="fc" id="L718">        String nome = tfNome.getText();</span>
+<span class="fc" id="L719">        String razaoSocial = this.tfRazaoSocial.getText();</span>
+<span class="fc" id="L720">        String cpf = this.tfCPF.getText();</span>
+<span class="fc" id="L721">        String cnpj = this.tfCNPJ.getText();</span>
+<span class="fc" id="L722">        String ie = this.tfIE.getText();</span>
 
-<span class="nc" id="L724">        String data = this.tfDiaNascimento.getValue().toString() + &quot;/&quot; + this.tfMesNascimento.getValue().toString() + &quot;/&quot; + this.tfAnoNascimento.getValue().toString();</span>
-<span class="nc" id="L725">        DateFormat format = new SimpleDateFormat(&quot;dd/MM/yyyy&quot;, Locale.ENGLISH);</span>
-<span class="nc" id="L726">        Date dataNascimento = format.parse(data);</span>
+<span class="fc" id="L724">        String data = this.tfDiaNascimento.getValue().toString() + &quot;/&quot; + this.tfMesNascimento.getValue().toString() + &quot;/&quot; + this.tfAnoNascimento.getValue().toString();</span>
+<span class="fc" id="L725">        DateFormat format = new SimpleDateFormat(&quot;dd/MM/yyyy&quot;, Locale.ENGLISH);</span>
+<span class="fc" id="L726">        Date dataNascimento = format.parse(data);</span>
 
-<span class="nc" id="L728">        String rua = this.tfRua.getText();</span>
-<span class="nc" id="L729">        String cep = tfCEP.getText();</span>
-<span class="nc" id="L730">        String bairro = tfBairro.getText();</span>
-<span class="nc" id="L731">        String cidade = tfCidade.getText();</span>
-<span class="nc" id="L732">        String uf = tfUF.getText();</span>
-<span class="nc" id="L733">        validarUF(uf);</span>
-<span class="nc" id="L734">        int numero = Integer.parseInt(tfNumero.getText());</span>
+<span class="fc" id="L728">        String rua = this.tfRua.getText();</span>
+<span class="fc" id="L729">        String cep = tfCEP.getText();</span>
+<span class="fc" id="L730">        String bairro = tfBairro.getText();</span>
+<span class="fc" id="L731">        String cidade = tfCidade.getText();</span>
+<span class="fc" id="L732">        String uf = tfUF.getText();</span>
+<span class="fc" id="L733">        validarUF(uf);</span>
+<span class="fc" id="L734">        int numero = Integer.parseInt(tfNumero.getText());</span>
 
         //dados de contato
-<span class="nc" id="L737">        String telefonePrincipal = this.tfTelefonePrincipal.getText();</span>
-<span class="nc" id="L738">        String telefone2 = this.tfTelefone2.getText();</span>
-<span class="nc" id="L739">        String emailPrincipal = this.tfEmailPrincipal.getText();</span>
-<span class="nc" id="L740">        String email2 = this.tfEmail2.getText();</span>
+<span class="fc" id="L737">        String telefonePrincipal = this.tfTelefonePrincipal.getText();</span>
+<span class="fc" id="L738">        String telefone2 = this.tfTelefone2.getText();</span>
+<span class="fc" id="L739">        String emailPrincipal = this.tfEmailPrincipal.getText();</span>
+<span class="fc" id="L740">        String email2 = this.tfEmail2.getText();</span>
 
-<span class="nc" id="L742">        Locatario locatario = new Locatario();</span>
-<span class="nc" id="L743">        locatario.setNome(nome);</span>
-<span class="nc" id="L744">        locatario.setRazaoSocial(razaoSocial);</span>
-<span class="nc" id="L745">        locatario.setCpf(cpf);</span>
-<span class="nc" id="L746">        locatario.setCnpj(cnpj);</span>
-<span class="nc" id="L747">        locatario.setInscricaoEstadual(ie);</span>
-<span class="nc" id="L748">        locatario.setDataNascimento(dataNascimento);</span>
-<span class="nc" id="L749">        locatario.setRua(rua);</span>
-<span class="nc" id="L750">        locatario.setCep(cep);</span>
-<span class="nc" id="L751">        locatario.setBairro(bairro);</span>
-<span class="nc" id="L752">        locatario.setCidade(cidade);</span>
-<span class="nc" id="L753">        locatario.setUf(uf);</span>
-<span class="nc" id="L754">        locatario.setNumero(numero);</span>
+<span class="fc" id="L742">        Locatario locatario = new Locatario();</span>
+<span class="fc" id="L743">        locatario.setNome(nome);</span>
+<span class="fc" id="L744">        locatario.setRazaoSocial(razaoSocial);</span>
+<span class="fc" id="L745">        locatario.setCpf(cpf);</span>
+<span class="fc" id="L746">        locatario.setCnpj(cnpj);</span>
+<span class="fc" id="L747">        locatario.setInscricaoEstadual(ie);</span>
+<span class="fc" id="L748">        locatario.setDataNascimento(dataNascimento);</span>
+<span class="fc" id="L749">        locatario.setRua(rua);</span>
+<span class="fc" id="L750">        locatario.setCep(cep);</span>
+<span class="fc" id="L751">        locatario.setBairro(bairro);</span>
+<span class="fc" id="L752">        locatario.setCidade(cidade);</span>
+<span class="fc" id="L753">        locatario.setUf(uf);</span>
+<span class="fc" id="L754">        locatario.setNumero(numero);</span>
 
-<span class="nc" id="L756">        locatario.setTelefonePrincipal(telefonePrincipal);</span>
-<span class="nc" id="L757">        locatario.setTelefone2(telefone2);</span>
-<span class="nc" id="L758">        locatario.setEmailPrincipal(emailPrincipal);</span>
-<span class="nc" id="L759">        locatario.setEmail2(email2);</span>
+<span class="fc" id="L756">        locatario.setTelefonePrincipal(telefonePrincipal);</span>
+<span class="fc" id="L757">        locatario.setTelefone2(telefone2);</span>
+<span class="fc" id="L758">        locatario.setEmailPrincipal(emailPrincipal);</span>
+<span class="fc" id="L759">        locatario.setEmail2(email2);</span>
 
-<span class="nc" id="L761">        locatario.setTipo(tipoLocatario);</span>
+<span class="fc" id="L761">        locatario.setTipo(tipoLocatario);</span>
 
-<span class="nc bnc" id="L763" title="All 2 branches missed.">        if (this.locatarioEdicao != null) {</span>
-<span class="nc" id="L764">            locatario.setId(this.locatarioEdicao.getId());</span>
-<span class="nc bnc" id="L765" title="All 2 branches missed.">            if (Main.getFuncionario() != null) {</span>
+<span class="fc bfc" id="L763" title="All 2 branches covered.">        if (this.locatarioEdicao != null) {</span>
+<span class="fc" id="L764">            locatario.setId(this.locatarioEdicao.getId());</span>
+<span class="pc bpc" id="L765" title="1 of 2 branches missed.">            if (Main.getFuncionario() != null) {</span>
 
-<span class="nc" id="L767">                Main.getFuncionario().alterarCliente(locatario);</span>
+<span class="fc" id="L767">                Main.getFuncionario().alterarCliente(locatario);</span>
             } else {
 <span class="nc" id="L769">                Persistencia.atualizar(locatario);</span>
             }
         } else {
-<span class="nc bnc" id="L772" title="All 2 branches missed.">            if (Main.getFuncionario() != null) {</span>
-<span class="nc" id="L773">                Main.getFuncionario().cadastrarLocatario(locatario);</span>
+<span class="pc bpc" id="L772" title="1 of 2 branches missed.">            if (Main.getFuncionario() != null) {</span>
+<span class="fc" id="L773">                Main.getFuncionario().cadastrarLocatario(locatario);</span>
             } else {
 <span class="nc" id="L775">                Persistencia.salvar(locatario);</span>
             }
         }
 
-<span class="nc" id="L779">    }</span>
+<span class="fc" id="L779">    }</span>
     
     private void validarUF(String uf) throws UFInvalidaException {
         try
         {
-<span class="nc" id="L784">            UF.valueOf(uf.toUpperCase());</span>
+<span class="fc" id="L784">            UF.valueOf(uf.toUpperCase());</span>
         }
-<span class="nc" id="L786">        catch(Exception ex)</span>
+<span class="fc" id="L786">        catch(Exception ex)</span>
         {
-<span class="nc" id="L788">            throw new Excecoes.UFInvalidaException(&quot;A UF '&quot;+uf+&quot;' declarada não é válida.&quot;,ex);</span>
-<span class="nc" id="L789">        }</span>
-<span class="nc" id="L790">    }</span>
+<span class="fc" id="L788">            throw new Excecoes.UFInvalidaException(&quot;A UF '&quot;+uf+&quot;' declarada não é válida.&quot;,ex);</span>
+<span class="fc" id="L789">        }</span>
+<span class="fc" id="L790">    }</span>
     
     private void validarDataAdmissao(javax.swing.event.ChangeEvent evt){
 <span class="nc bnc" id="L793" title="All 2 branches missed.">        if(evt.getSource() == this.tfDiaNascimento){</span>

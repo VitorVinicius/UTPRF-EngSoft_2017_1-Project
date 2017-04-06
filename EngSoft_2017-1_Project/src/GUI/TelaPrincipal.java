@@ -6,8 +6,6 @@
 package GUI;
 
 import Database.Persistencia;
-import java.awt.Frame;
-import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
