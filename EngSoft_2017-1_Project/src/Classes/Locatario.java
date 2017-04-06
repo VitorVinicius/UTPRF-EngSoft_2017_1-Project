@@ -10,6 +10,7 @@ import java.util.Date;
 import Excecoes.HistoricoNaoObtidoException;
 import java.io.Serializable;
 import java.util.Set;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -20,37 +21,88 @@ import javax.persistence.Temporal;
  *
  * @author Vitor
  */
+
+
 @Entity
 public class Locatario implements Serializable{
+    
     private String cpf;
+    
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dataNascimento;
     private String razaoSocial;
     private String cnpj;
-    private String  inscricaoEstadual;
-    private String nomeFantasia;
     
+    private String  inscricaoEstadual;
+   
     @Id
     @GeneratedValue
     private long id;
+    
     private String nome;
+    
     private String rua;
-    private String numero;
+    
+    private int numero;
+    
     private String cep;
+    
     private String bairro;
+    
     private String cidade;
+    
     private String uf;
+    
+    private String telefonePrincipal;
+    
+    private String telefone2;
+    
+    private String emailPrincipal;
+    
+    private String email2;
+
+    public String getTelefonePrincipal() {
+        return telefonePrincipal;
+    }
+
+    public void setTelefonePrincipal(String telefonePrincipal) {
+        this.telefonePrincipal = telefonePrincipal;
+    }
+
+    public String getTelefone2() {
+        return telefone2;
+    }
+
+    public void setTelefone2(String telefone2) {
+        this.telefone2 = telefone2;
+    }
+
+    public String getEmailPrincipal() {
+        return emailPrincipal;
+    }
+
+    public void setEmailPrincipal(String emailPrincipal) {
+        this.emailPrincipal = emailPrincipal;
+    }
+
+    public String getEmail2() {
+        return email2;
+    }
+
+    public void setEmail2(String email2) {
+        this.email2 = email2;
+    }
     
     @OneToMany
     private Set<Historico> historicosRelacionados;
-    private String tipo;
+    private TipoLocatario tipo;
     
 
-    public String getTipo() {
+    public TipoLocatario getTipo() {
         return tipo;
     }
 
-    public void setTipo(String tipo) {
+    public void setTipo(TipoLocatario tipo) {
         this.tipo = tipo;
     }
     
@@ -78,13 +130,6 @@ public class Locatario implements Serializable{
     
   
 
-    public String getNomeFantasia() {
-        return nomeFantasia;
-    }
-
-    public void setNomeFantasia(String nomeFantasia) {
-        this.nomeFantasia = nomeFantasia;
-    }
 
     public Set<Pagamento> getPagamentos() {
         return pagamentosRelacionados;
@@ -142,11 +187,11 @@ public class Locatario implements Serializable{
         this.rua = rua;
     }
 
-    public String getNumero() {
+    public int getNumero() {
         return numero;
     }
 
-    public void setNumero(String numero) {
+    public void setNumero(int numero) {
         this.numero = numero;
     }
 

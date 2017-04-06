@@ -5,14 +5,10 @@
  */
 package Classes;
 
-import Database.Conector;
 import Database.Persistencia;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.Date;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
@@ -24,8 +20,11 @@ import javax.persistence.Temporal;
 @Entity
 public class Funcionario extends Locatario {
     @Temporal(javax.persistence.TemporalType.DATE)
+    
     private Date dataAdmissao;
+    
     private String nis;
+    
     private float salario;
     
     @OneToMany
@@ -70,7 +69,7 @@ public class Funcionario extends Locatario {
         throw new Exception("Método não ainda implementado.");
     }
     
-    public void cadastrarCliente(Locatario locatario) throws Exception{
+    public void cadastrarLocatario(Locatario locatario) throws Exception{
          Persistencia.salvar(locatario);
         /*Antigo Método de Salvar Locatario
             //Aqui colocar a acao de jogar no banco, chamando o metodo statico ExecutarConsulta

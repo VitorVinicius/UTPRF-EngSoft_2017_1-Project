@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import java.util.Set;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -24,20 +25,28 @@ import javax.persistence.Temporal;
 public class Locacao implements Serializable {
     @Id
     @GeneratedValue
+     
     private long id;
     @OneToOne
     private Locatario locatario;
     @OneToOne
     private Equipamento equipamento;
     @Temporal(javax.persistence.TemporalType.DATE)
+    
     private Date dataLocacao;
     @Temporal(javax.persistence.TemporalType.DATE)
+    
     private Date dataDevolucao;
+    
     private StatusLocacao status;
     @OneToMany
+    
     private Set<Pagamento> pagamentos;
+    
     private float valorDiaria;
+    
     private float totalLocacao;
+    
     private float multaAtraso;
     @OneToOne
     private Funcionario funcionario;

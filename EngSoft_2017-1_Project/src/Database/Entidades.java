@@ -10,6 +10,7 @@ import Classes.Funcionario;
 import Classes.Historico;
 import Classes.Locatario;
 import Classes.TipoOcorrencia;
+import Classes.TipoLocatario;
 import Excecoes.EntidadeDesconhecidaExeption;
 import Excecoes.ResultSetNuloOuVazioException;
 import java.sql.PreparedStatement;
@@ -104,16 +105,15 @@ public final class Entidades {
         
                    String nome = (rs.getString("nome"));
                    String rua = (rs.getString("rua"));
-                   String numero = (rs.getString("numero"));
+                   int numero = (rs.getInt("numero"));
                    String cep = (rs.getString("cep"));
                    String bairro = (rs.getString("bairro"));
                    String cidade = (rs.getString("cidade"));
-                   String tipo = (rs.getString("tipo"));
+                   int tipo = (rs.getInt("tipo"));
                    String cpf = (rs.getString("cpf"));
                    Date dataNascimento = (rs.getDate("dataNascimento"));
                    String razaoSocial = (rs.getString("razaoSocial"));
-                   String nomeFantasia = (rs.getString("nomeFantasia"));
-                   String incricaoEstadual = (rs.getString("incricaoEstadual"));
+                    String incricaoEstadual = (rs.getString("incricaoEstadual"));
                    String cnpj = (rs.getString("cnpj"));
                    String uf = (rs.getString("uf"));
                    String nis = (rs.getString("nis"));
@@ -128,12 +128,11 @@ public final class Entidades {
                     funcionario.setBairro(bairro);
                     funcionario.setCidade(cidade);
                     funcionario.setUf(uf);
-                    funcionario.setTipo(tipo);
+                    funcionario.setTipo(TipoLocatario.values()[tipo]);
                     funcionario.setCnpj(cnpj);
                     funcionario.setInscricaoEstadual(incricaoEstadual);
                     funcionario.setRazaoSocial(razaoSocial);
-                    funcionario.setNomeFantasia(nomeFantasia);
-
+                    
                     funcionario.setCpf(cpf);
                     funcionario.setDataNascimento(dataNascimento);
                    
@@ -156,15 +155,14 @@ public final class Entidades {
                    long id = (rs.getLong("id"));
                    String nome = (rs.getString("nome"));
                    String rua = (rs.getString("rua"));
-                   String numero = (rs.getString("numero"));
+                   int numero = (rs.getInt("numero"));
                    String cep = (rs.getString("cep"));
                    String bairro = (rs.getString("bairro"));
                    String cidade = (rs.getString("cidade"));
-                   String tipo = (rs.getString("tipo"));
+                   int tipo = (rs.getInt("tipo"));
                    String cpf = (rs.getString("cpf"));
                    Date dataNascimento = (rs.getDate("dataNascimento"));
                    String razaoSocial = (rs.getString("razaoSocial"));
-                   String nomeFantasia = (rs.getString("nomeFantasia"));
                    String incricaoEstadual = (rs.getString("incricaoEstadual"));
                    String cnpj = (rs.getString("cnpj"));
                    String uf = (rs.getString("uf"));
@@ -179,12 +177,11 @@ public final class Entidades {
                     funcionario.setBairro(bairro);
                     funcionario.setCidade(cidade);
                     funcionario.setUf(uf);
-                    funcionario.setTipo(tipo);
+                    funcionario.setTipo(TipoLocatario.values()[tipo]);
                     funcionario.setCnpj(cnpj);
                     funcionario.setInscricaoEstadual(incricaoEstadual);
                     funcionario.setRazaoSocial(razaoSocial);
-                    funcionario.setNomeFantasia(nomeFantasia);
-
+                   
                     funcionario.setCpf(cpf);
                     funcionario.setDataNascimento(dataNascimento);
                    
@@ -209,15 +206,14 @@ public final class Entidades {
                    
                    String nome = (rs.getString("nome"));
                    String rua = (rs.getString("rua"));
-                   String numero = (rs.getString("numero"));
+                   int numero = (rs.getInt("numero"));
                    String cep = (rs.getString("cep"));
                    String bairro = (rs.getString("bairro"));
                    String cidade = (rs.getString("cidade"));
-                   String tipo = (rs.getString("tipo"));
+                   int tipo = (rs.getInt("tipo"));
                    String cpf = (rs.getString("cpf"));
                    Date dataNascimento = (rs.getDate("dataNascimento"));
                    String razaoSocial = (rs.getString("razaoSocial"));
-                   String nomeFantasia = (rs.getString("nomeFantasia"));
                    String incricaoEstadual = (rs.getString("incricaoEstadual"));
                    String cnpj = (rs.getString("cnpj"));
                    String uf = (rs.getString("uf"));
@@ -231,12 +227,11 @@ public final class Entidades {
                     locatario.setBairro(bairro);
                     locatario.setCidade(cidade);
                     locatario.setUf(uf);
-                    locatario.setTipo(tipo);
+                    locatario.setTipo(TipoLocatario.values()[tipo]);
                     locatario.setCnpj(cnpj);
                     locatario.setInscricaoEstadual(incricaoEstadual);
                     locatario.setRazaoSocial(razaoSocial);
-                    locatario.setNomeFantasia(nomeFantasia);
-
+                   
                     locatario.setCpf(cpf);
                     locatario.setDataNascimento(dataNascimento);
                     
@@ -254,15 +249,14 @@ public final class Entidades {
                    long id = (rs.getLong("id"));
                    String nome = (rs.getString("nome"));
                    String rua = (rs.getString("rua"));
-                   String numero = (rs.getString("numero"));
+                   int numero = (rs.getInt("numero"));
                    String cep = (rs.getString("cep"));
                    String bairro = (rs.getString("bairro"));
                    String cidade = (rs.getString("cidade"));
-                   String tipo = (rs.getString("tipo"));
+                   int tipo = (rs.getInt("tipo"));
                    String cpf = (rs.getString("cpf"));
                    Date dataNascimento = (rs.getDate("dataNascimento"));
                    String razaoSocial = (rs.getString("razaoSocial"));
-                   String nomeFantasia = (rs.getString("nomeFantasia"));
                    String incricaoEstadual = (rs.getString("incricaoEstadual"));
                    String cnpj = (rs.getString("cnpj"));
                    String uf = (rs.getString("uf"));
@@ -276,12 +270,11 @@ public final class Entidades {
                     locatario.setBairro(bairro);
                     locatario.setCidade(cidade);
                     locatario.setUf(uf);
-                    locatario.setTipo(tipo);
+                    locatario.setTipo(TipoLocatario.values()[tipo]);
                     locatario.setCnpj(cnpj);
                     locatario.setInscricaoEstadual(incricaoEstadual);
                     locatario.setRazaoSocial(razaoSocial);
-                    locatario.setNomeFantasia(nomeFantasia);
-
+                   
                     locatario.setCpf(cpf);
                     locatario.setDataNascimento(dataNascimento);
                     

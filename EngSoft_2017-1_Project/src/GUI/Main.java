@@ -7,22 +7,12 @@ package GUI;
 
 import Classes.Funcionario;
 
-import Database.Conector;
 import Database.Persistencia;
-import Database.Propiedades;
-import Excecoes.ConfiguracoesException;
 import Excecoes.ParametrosInsuficientesException;
-import Excecoes.ResultSetNuloOuVazioException;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Date;
+import java.awt.Frame;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.swing.JOptionPane;
 
 /**
@@ -55,9 +45,12 @@ public class Main {
                 funcionario =(Funcionario) funcionarios.get(0);
             }
             else{
-                funcionario = new Funcionario();
-                funcionario.setNome("USUARIO_TESTE");
-                funcionario = (Funcionario) Persistencia.salvar(funcionario);
+              JOptionPane.showMessageDialog(null, "Cadastre um funcionario para continuar.", "Nenhum Funcionario Presente", JOptionPane.INFORMATION_MESSAGE);
+              TelaCadastroCliente telaCadastro = new TelaCadastroCliente((Frame)null,true);
+              telaCadastro.setLogarFuncionarioAoCadastrar(true);
+              telaCadastro.setVisible(true);
+              
+                
             }
             if(funcionario!=null){
                new TelaPrincipal().setVisible(true);

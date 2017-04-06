@@ -8,6 +8,7 @@ package Classes;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -24,7 +25,9 @@ public class Equipamento implements Serializable  {
     @Id
     @GeneratedValue
     private long id;
+    
     private String nome;
+    
     private String descricao;
     @OneToOne
     private Concessionaria concessionaria;
@@ -43,8 +46,11 @@ public class Equipamento implements Serializable  {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
+    
     private String fabricante;
+    
     private float valorDiaria;
+    
     private float valorPatrimonio;
     @OneToOne
     private Funcionario funcionario;
