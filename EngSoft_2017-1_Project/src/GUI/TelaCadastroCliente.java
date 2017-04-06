@@ -40,7 +40,7 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         this.locatarioEdicao = locatario;
-        
+        this.jbRemover.setEnabled(true);
        
         
     }
@@ -113,6 +113,8 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
         jLabel14 = new javax.swing.JLabel();
         tfCEP = new javax.swing.JTextField();
         rbConcessionaria = new javax.swing.JRadioButton();
+        jLabel22 = new javax.swing.JLabel();
+        tfId = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         tfTelefonePrincipal = new javax.swing.JTextField();
@@ -135,6 +137,7 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
         tfNomeResponsavel = new javax.swing.JTextField();
         jLabel21 = new javax.swing.JLabel();
         jbCadastar = new javax.swing.JButton();
+        jbRemover = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -145,6 +148,7 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
         rbFuncionario.setText("Funcionário");
 
         buttonGroup1.add(rbPFisica);
+        rbPFisica.setSelected(true);
         rbPFisica.setText("Pessoa Física");
 
         jLabel10.setText("Data de Nascimento/Fundação:");
@@ -197,38 +201,40 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
         buttonGroup1.add(rbConcessionaria);
         rbConcessionaria.setText("Concessionária");
 
+        jLabel22.setText("Id:");
+
+        tfId.setEditable(false);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(30, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel14)
-                    .addComponent(jLabel9)
-                    .addComponent(jLabel11)
-                    .addComponent(jLabel12)
-                    .addComponent(jLabel13)
-                    .addComponent(jLabel10)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel1))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel14, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel22, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(tfId, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(tfDiaNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(tfMesNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(tfAnoNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(tfRazaoSocial, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(tfNome, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(tfCNPJ, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(tfCPF, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(tfIE, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfRazaoSocial, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfNome, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(tfCEP, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -253,13 +259,21 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel7)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(tfUF, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(tfUF, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(tfIE, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE)
+                        .addComponent(tfCNPJ, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(tfCPF, javax.swing.GroupLayout.Alignment.LEADING)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(4, 4, 4)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel22)
+                    .addComponent(tfId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(tfNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -382,7 +396,7 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tfEmail2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel20))
-                .addContainerGap(197, Short.MAX_VALUE))
+                .addContainerGap(218, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Dados de Contato", jPanel3);
@@ -456,7 +470,7 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tfSalario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel17))
-                .addContainerGap(250, Short.MAX_VALUE))
+                .addContainerGap(271, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Dados Funcionais", jPanel2);
@@ -481,7 +495,7 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel21)
                     .addComponent(tfNomeResponsavel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(302, Short.MAX_VALUE))
+                .addContainerGap(323, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Dados de Concessionária", jPanel4);
@@ -493,21 +507,32 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
             }
         });
 
+        jbRemover.setText("Remover");
+        jbRemover.setEnabled(false);
+        jbRemover.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbRemoverActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jTabbedPane1)
             .addGroup(layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jbRemover)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jbCadastar))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jbCadastar))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jbCadastar)
+                    .addComponent(jbRemover)))
         );
 
         pack();
@@ -556,6 +581,18 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jbCadastarActionPerformed
+
+    private void jbRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRemoverActionPerformed
+       try{
+            if(this.locatarioEdicao != null){
+                Persistencia.remover(this.locatarioEdicao);
+                this.dispose();
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.toString(), "Erro ao remover cliente", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jbRemoverActionPerformed
 
     public void cadastrarConcessionaria() throws UFInvalidaException, ParseException, Exception{
         TipoLocatario tipoLocatario = TipoLocatario.CONCESSIONARIA;
@@ -882,6 +919,7 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -895,6 +933,7 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JButton jbCadastar;
+    private javax.swing.JButton jbRemover;
     private javax.swing.JSpinner jpAnoAdmissao;
     private javax.swing.JSpinner jpDiaAdmissao;
     private javax.swing.JSpinner jpMesAdmissao;
@@ -912,6 +951,7 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
     private javax.swing.JTextField tfEmail2;
     private javax.swing.JTextField tfEmailPrincipal;
     private javax.swing.JTextField tfIE;
+    private javax.swing.JTextField tfId;
     private javax.swing.JSpinner tfMesNascimento;
     private javax.swing.JTextField tfNIS;
     private javax.swing.JTextField tfNome;
@@ -932,7 +972,10 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
             else if(this.locatarioEdicao.getTipo() == TipoLocatario.JURIDICA){
                 this.rbPJuridica.setSelected(true);
             }
+            this.jTabbedPane1.setEnabledAt(2, false);
+            this.jTabbedPane1.setEnabledAt(3, false);
             
+            this.tfId.setText(String.valueOf(this.locatarioEdicao.getId()));
             tfNome.setText(this.locatarioEdicao.getNome());
             this.tfRazaoSocial.setText(this.locatarioEdicao.getRazaoSocial());
             this.tfCPF.setText(this.locatarioEdicao.getCpf());
@@ -970,8 +1013,10 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
     private void carregarDadosFuncionario() {
 
         this.rbFuncionario.setSelected(true);
-
+        this.jTabbedPane1.setEnabledAt(3, false);
+        
         Funcionario funcionario = (Funcionario) this.locatarioEdicao;
+        this.tfId.setText(String.valueOf(funcionario.getId()));
         tfNome.setText(funcionario.getNome());
         this.tfRazaoSocial.setText(funcionario.getRazaoSocial());
         this.tfCPF.setText(funcionario.getCpf());
@@ -1024,8 +1069,10 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
     }
 
     private void carregarDadosConcessionaria() {
+            
             this.rbConcessionaria.setSelected(true);
             Concessionaria concessionaria = (Concessionaria)this.locatarioEdicao;
+            this.tfId.setText(String.valueOf(concessionaria.getId()));
             tfNome.setText(concessionaria.getNome());
             this.tfRazaoSocial.setText(concessionaria.getRazaoSocial());
             this.tfCPF.setText(concessionaria.getCpf());

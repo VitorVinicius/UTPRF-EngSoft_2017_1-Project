@@ -38,6 +38,13 @@ public class TelaVisualizarClientes extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jButton3 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jTextField2 = new javax.swing.JTextField();
+        jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -71,50 +78,79 @@ public class TelaVisualizarClientes extends javax.swing.JFrame {
             }
         });
 
+        jButton2.setText("Novo");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Buscar pelo CPF/CNPJ:");
+
+        jButton3.setText("Buscar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("Buscar pelo Id:");
+
+        jButton4.setText("Buscar");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 567, Short.MAX_VALUE)
+            .addComponent(jScrollPane1)
             .addGroup(layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jButton2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton1))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton4)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(2, 2, 2)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton3)
+                    .addComponent(jLabel2)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2)))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void CarregarClientes(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_CarregarClientes
-      
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        
-        try {
-            List<Object> locatarios = Persistencia.buscar("select t from Locatario as t");
-             for(int i=0; i< locatarios.size();i++){
-                    Locatario locatario = (Locatario)locatarios.get(i);
-                    Object[] linha = new Object[]{
-                                locatario,
-                                locatario.getNome(),
-                                locatario.getTipo(),
-                                locatario.getCpf() +" "+  locatario.getCnpj()
-                            };
-                   model.addRow(linha);
-            }
-            
-            
-            
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, ex.toString(), "Erro ao obter clientes", JOptionPane.ERROR_MESSAGE);
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
+      carregarLocatarios();
     }//GEN-LAST:event_CarregarClientes
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -125,6 +161,7 @@ public class TelaVisualizarClientes extends javax.swing.JFrame {
         try{
             telaCadastro.carregarDadosLocatarioEdicao();
             telaCadastro.setVisible(true);
+            carregarLocatarios();
         }
         catch(Exception ex){
              JOptionPane.showMessageDialog(null, ex.toString(), "Erro ao carregar cadastro.", JOptionPane.ERROR_MESSAGE);
@@ -132,6 +169,19 @@ public class TelaVisualizarClientes extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        new TelaCadastroCliente(this,true).setVisible(true);
+        carregarLocatarios();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        carregarLocatariosPorDocumento();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+       carregarLocatariosPorId();
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -170,7 +220,87 @@ public class TelaVisualizarClientes extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
+
+    private void carregarLocatarios() {
+        
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
+        try {
+            List<Object> locatarios = Persistencia.buscar("select t from Locatario as t");
+             for(int i=0; i< locatarios.size();i++){
+                    Locatario locatario = (Locatario)locatarios.get(i);
+                    Object[] linha = new Object[]{
+                                locatario,
+                                locatario.getNome(),
+                                locatario.getTipo(),
+                                locatario.getCpf() +" "+  locatario.getCnpj()
+                            };
+                   model.addRow(linha);
+            }
+            
+            
+            
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.toString(), "Erro ao obter clientes", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    private void carregarLocatariosPorDocumento() {
+        
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
+        try {
+            List<Object> locatarios = Persistencia.buscar("select t from Locatario as t where cpf = '"+jTextField1.getText()+"' or cnpj = '"+jTextField1.getText()+"'");
+             for(int i=0; i< locatarios.size();i++){
+                    Locatario locatario = (Locatario)locatarios.get(i);
+                    Object[] linha = new Object[]{
+                                locatario,
+                                locatario.getNome(),
+                                locatario.getTipo(),
+                                locatario.getCpf() +" "+  locatario.getCnpj()
+                            };
+                   model.addRow(linha);
+            }
+            
+            
+            
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.toString(), "Erro ao obter clientes", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    private void carregarLocatariosPorId() {
+        
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
+        try {
+            List<Object> locatarios = Persistencia.buscar("select t from Locatario as t where id = '"+jTextField2.getText()+"'");
+             for(int i=0; i< locatarios.size();i++){
+                    Locatario locatario = (Locatario)locatarios.get(i);
+                    Object[] linha = new Object[]{
+                                locatario,
+                                locatario.getNome(),
+                                locatario.getTipo(),
+                                locatario.getCpf() +" "+  locatario.getCnpj()
+                            };
+                   model.addRow(linha);
+            }
+            
+            
+            
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.toString(), "Erro ao obter clientes", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

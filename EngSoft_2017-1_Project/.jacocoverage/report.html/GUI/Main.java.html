@@ -8,7 +8,6 @@ package GUI;
 import Classes.Funcionario;
 
 import Database.Persistencia;
-import Excecoes.ParametrosInsuficientesException;
 import java.awt.Frame;
 import java.util.List;
 import java.util.logging.Level;
@@ -19,7 +18,7 @@ import javax.swing.JOptionPane;
  *
  * @author Grupo
  */
-<span class="nc" id="L22">public class Main {</span>
+<span class="nc" id="L21">public class Main {</span>
 
     /**
      * @param args the command line arguments
@@ -28,39 +27,39 @@ import javax.swing.JOptionPane;
     private static Funcionario funcionario;
 
     public static Funcionario getFuncionario() {
-<span class="fc" id="L31">        return funcionario;</span>
+<span class="nc" id="L30">        return funcionario;</span>
     }
 
     public static void setFuncionario(Funcionario funcionario) {
-<span class="nc" id="L35">        Main.funcionario = funcionario;</span>
-<span class="nc" id="L36">    }</span>
-<span class="fc" id="L37">    private static int falhasConexao= 0;</span>
-    public static void main(String[] args) throws ParametrosInsuficientesException {
+<span class="nc" id="L34">        Main.funcionario = funcionario;</span>
+<span class="nc" id="L35">    }</span>
+<span class="fc" id="L36">    private static int falhasConexao= 0;</span>
+    public static void main(String[] args)  {
          
          
         try {
-<span class="fc" id="L42">            Persistencia.estabelecerConexao();</span>
-<span class="fc" id="L43">            List&lt;Object&gt; funcionarios =  Persistencia.buscar(&quot;select t from Locatario as t where DTYPE = 'Funcionario'&quot;);</span>
-<span class="pc bpc" id="L44" title="2 of 4 branches missed.">            if(funcionarios!=null &amp;&amp; !funcionarios.isEmpty()){</span>
-<span class="fc" id="L45">                funcionario =(Funcionario) funcionarios.get(0);</span>
+<span class="fc" id="L41">            Persistencia.estabelecerConexao();</span>
+<span class="fc" id="L42">            List&lt;Object&gt; funcionarios =  Persistencia.buscar(&quot;select t from Locatario as t where DTYPE = 'Funcionario'&quot;);</span>
+<span class="pc bpc" id="L43" title="2 of 4 branches missed.">            if(funcionarios!=null &amp;&amp; !funcionarios.isEmpty()){</span>
+<span class="fc" id="L44">                funcionario =(Funcionario) funcionarios.get(0);</span>
             }
             else{
-<span class="nc" id="L48">              JOptionPane.showMessageDialog(null, &quot;Cadastre um funcionario para continuar.&quot;, &quot;Nenhum Funcionario Presente&quot;, JOptionPane.INFORMATION_MESSAGE);</span>
-<span class="nc" id="L49">              TelaCadastroCliente telaCadastro = new TelaCadastroCliente((Frame)null,true);</span>
-<span class="nc" id="L50">              telaCadastro.setLogarFuncionarioAoCadastrar(true);</span>
-<span class="nc" id="L51">              telaCadastro.setVisible(true);</span>
+<span class="nc" id="L47">              JOptionPane.showMessageDialog(null, &quot;Cadastre um funcionario para continuar.&quot;, &quot;Nenhum Funcionario Presente&quot;, JOptionPane.INFORMATION_MESSAGE);</span>
+<span class="nc" id="L48">              TelaCadastroCliente telaCadastro = new TelaCadastroCliente((Frame)null,true);</span>
+<span class="nc" id="L49">              telaCadastro.setLogarFuncionarioAoCadastrar(true);</span>
+<span class="nc" id="L50">              telaCadastro.setVisible(true);</span>
               
                 
             }
-<span class="pc bpc" id="L55" title="1 of 2 branches missed.">            if(funcionario!=null){</span>
-<span class="fc" id="L56">               new TelaPrincipal().setVisible(true);</span>
+<span class="pc bpc" id="L54" title="1 of 2 branches missed.">            if(funcionario!=null){</span>
+<span class="fc" id="L55">               new TelaPrincipal().setVisible(true);</span>
             }
-<span class="nc" id="L58">        } catch (Exception ex) {</span>
-<span class="nc" id="L59">            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);</span>
-<span class="fc" id="L60">        }</span>
+<span class="nc" id="L57">        } catch (Exception ex) {</span>
+<span class="nc" id="L58">            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="fc" id="L59">        }</span>
          
     
-<span class="fc" id="L63">    }</span>
+<span class="fc" id="L62">    }</span>
 
     }
 
