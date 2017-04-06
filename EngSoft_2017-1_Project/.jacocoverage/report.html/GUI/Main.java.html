@@ -7,13 +7,10 @@ package GUI;
 
 import Classes.Funcionario;
 
-import Database.Conector;
-import Database.Propiedades;
-import Excecoes.ConfiguracoesException;
+import Database.Persistencia;
 import Excecoes.ParametrosInsuficientesException;
-import Excecoes.ResultSetNuloOuVazioException;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.awt.Frame;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -22,7 +19,7 @@ import javax.swing.JOptionPane;
  *
  * @author Grupo
  */
-<span class="nc" id="L25">public class Main {</span>
+<span class="nc" id="L22">public class Main {</span>
 
     /**
      * @param args the command line arguments
@@ -31,63 +28,39 @@ import javax.swing.JOptionPane;
     private static Funcionario funcionario;
 
     public static Funcionario getFuncionario() {
-<span class="fc" id="L34">        return funcionario;</span>
+<span class="fc" id="L31">        return funcionario;</span>
     }
 
     public static void setFuncionario(Funcionario funcionario) {
-<span class="nc" id="L38">        Main.funcionario = funcionario;</span>
-<span class="nc" id="L39">    }</span>
-<span class="fc" id="L40">    private static int falhasConexao= 0;</span>
+<span class="fc" id="L35">        Main.funcionario = funcionario;</span>
+<span class="fc" id="L36">    }</span>
+<span class="fc" id="L37">    private static int falhasConexao= 0;</span>
     public static void main(String[] args) throws ParametrosInsuficientesException {
-        
-<span class="pc bpc" id="L43" title="1 of 2 branches missed.">        if(!Propiedades.checarArquivoExiste()){</span>
-<span class="nc" id="L44">             new TelaConfigurarBD(null, true).setVisible(true);</span>
-        }
-        
+         
+         
         try {
-<span class="fc" id="L48">           Database.Conector.conectar(Propiedades.getPropiedade(&quot;dbServer&quot;), Integer.parseInt(Propiedades.getPropiedade(&quot;dbServerPort&quot;)) , Propiedades.getPropiedade(&quot;dataBase&quot;), Propiedades.getPropiedade(&quot;userName&quot;), Propiedades.getPropiedade(&quot;password&quot;));</span>
-<span class="pc" id="L49">           try(ResultSet rs = Conector.obterDados(&quot;select * from funcionario;&quot;)){</span>
-<span class="fc bfc" id="L50" title="All 2 branches covered.">                while(rs.next()){</span>
-<span class="fc" id="L51">                    funcionario = new Funcionario();</span>
-<span class="fc" id="L52">                    long id = (rs.getLong(&quot;id&quot;));</span>
-<span class="fc" id="L53">                    funcionario = new Funcionario();</span>
-<span class="fc" id="L54">                    funcionario.setId(id);</span>
-                    //terminar de settar atributos
-<span class="fc" id="L56">                }</span>
-<span class="fc" id="L57">                rs.close();</span>
-<span class="pc bpc" id="L58" title="6 of 8 branches missed.">           }</span>
-<span class="nc" id="L59">           catch (ResultSetNuloOuVazioException ex) {</span>
-<span class="nc" id="L60">                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);</span>
-<span class="fc" id="L61">            }</span>
-<span class="pc bpc" id="L62" title="1 of 2 branches missed.">           if(funcionario!=null){</span>
-<span class="fc" id="L63">               new TelaPrincipal().setVisible(true);</span>
-           }else{
-<span class="nc" id="L65">               funcionario= new Funcionario();</span>
-<span class="nc" id="L66">               funcionario.setId(1);</span>
-<span class="nc" id="L67">               new TelaPrincipal().setVisible(true);</span>
-<span class="nc" id="L68">               JOptionPane.showMessageDialog(null, &quot;Não existem funcionários cadastrados. Cadastre um para abrir o aplicativo.&quot;, &quot;Nenhum funcionáio&quot;, JOptionPane.ERROR_MESSAGE);</span>
-           }
-           
-           
-<span class="nc" id="L72">        } catch (SQLException ex){</span>
-            
-<span class="nc" id="L74">            new TelaConfigurarBD(null, true).setVisible(true);</span>
-            try {
-<span class="nc" id="L76">                Conector.fecharConexao();</span>
-<span class="nc" id="L77">            } catch (SQLException ex1) {</span>
-<span class="nc" id="L78">                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex1);</span>
-<span class="nc" id="L79">            }</span>
-<span class="nc bnc" id="L80" title="All 2 branches missed.">            if(falhasConexao++ &lt;3){</span>
-<span class="nc" id="L81">                main( new String[]{} );</span>
-            }else{
-<span class="nc" id="L83">                System.exit(-1);</span>
+<span class="fc" id="L42">            Persistencia.estabelecerConexao();</span>
+<span class="fc" id="L43">            List&lt;Object&gt; funcionarios =  Persistencia.buscar(&quot;select t from Locatario as t where DTYPE = 'Funcionario'&quot;);</span>
+<span class="pc bpc" id="L44" title="2 of 4 branches missed.">            if(funcionarios!=null &amp;&amp; !funcionarios.isEmpty()){</span>
+<span class="fc" id="L45">                funcionario =(Funcionario) funcionarios.get(0);</span>
             }
-         } 
-<span class="nc" id="L86">        catch (ConfiguracoesException ex) {</span>
-<span class="nc" id="L87">            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);</span>
-<span class="pc" id="L88">        }</span>
+            else{
+<span class="nc" id="L48">              JOptionPane.showMessageDialog(null, &quot;Cadastre um funcionario para continuar.&quot;, &quot;Nenhum Funcionario Presente&quot;, JOptionPane.INFORMATION_MESSAGE);</span>
+<span class="nc" id="L49">              TelaCadastroCliente telaCadastro = new TelaCadastroCliente((Frame)null,true);</span>
+<span class="nc" id="L50">              telaCadastro.setLogarFuncionarioAoCadastrar(true);</span>
+<span class="nc" id="L51">              telaCadastro.setVisible(true);</span>
               
-<span class="fc" id="L90">        }</span>
+                
+            }
+<span class="pc bpc" id="L55" title="1 of 2 branches missed.">            if(funcionario!=null){</span>
+<span class="fc" id="L56">               new TelaPrincipal().setVisible(true);</span>
+            }
+<span class="fc" id="L58">        } catch (Exception ex) {</span>
+<span class="fc" id="L59">            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="fc" id="L60">        }</span>
+         
+    
+<span class="fc" id="L63">    }</span>
 
     }
 

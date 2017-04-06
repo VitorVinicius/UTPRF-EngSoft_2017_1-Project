@@ -5,114 +5,140 @@
  */
 package Classes;
 
+import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
+
+import java.util.Set;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
 
 /**
  *
  * @author Vitor
  */
-<span class="nc" id="L15">public class Locacao {</span>
+@Entity
+<span class="fc" id="L25">public class Locacao implements Serializable {</span>
+    @Id
+    @GeneratedValue
+     
     private long id;
+    @OneToOne
     private Locatario locatario;
+    @OneToOne
     private Equipamento equipamento;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    
     private Date dataLocacao;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    
     private Date dataDevolucao;
+    
     private StatusLocacao status;
-    private List&lt;Pagamento&gt; pagamentos;
+    @OneToMany
+    
+    private Set&lt;Pagamento&gt; pagamentos;
+    
     private float valorDiaria;
+    
     private float totalLocacao;
+    
     private float multaAtraso;
+    @OneToOne
     private Funcionario funcionario;
 
     public float getMultaAtraso() {
-<span class="nc" id="L29">        return multaAtraso;</span>
+<span class="nc" id="L55">        return multaAtraso;</span>
     }
 
     public void setMultaAtraso(float multaAtraso) {
-<span class="nc" id="L33">        this.multaAtraso = multaAtraso;</span>
-<span class="nc" id="L34">    }</span>
+<span class="nc" id="L59">        this.multaAtraso = multaAtraso;</span>
+<span class="nc" id="L60">    }</span>
     
-    public List&lt;Pagamento&gt; getPagamentos() {
-<span class="nc" id="L37">        return pagamentos;</span>
+    public Set&lt;Pagamento&gt; getPagamentos() {
+<span class="nc" id="L63">        return pagamentos;</span>
     }
 
-    public void setPagamentos(List&lt;Pagamento&gt; pagamentos) {
-<span class="nc" id="L41">        this.pagamentos = pagamentos;</span>
-<span class="nc" id="L42">    }</span>
+    public void setPagamentos(Set&lt;Pagamento&gt; pagamentos) {
+<span class="nc" id="L67">        this.pagamentos = pagamentos;</span>
+<span class="nc" id="L68">    }</span>
 
     public float getValorDiaria() {
-<span class="nc" id="L45">        return valorDiaria;</span>
+<span class="nc" id="L71">        return valorDiaria;</span>
     }
 
     public void setValorDiaria(float valorDiaria) {
-<span class="nc" id="L49">        this.valorDiaria = valorDiaria;</span>
-<span class="nc" id="L50">    }</span>
+<span class="nc" id="L75">        this.valorDiaria = valorDiaria;</span>
+<span class="nc" id="L76">    }</span>
 
     public float getTotalLocacao() {
-<span class="nc" id="L53">        return totalLocacao;</span>
+<span class="nc" id="L79">        return totalLocacao;</span>
     }
 
     public void setTotalLocacao(float totalLocacao) {
-<span class="nc" id="L57">        this.totalLocacao = totalLocacao;</span>
-<span class="nc" id="L58">    }</span>
+<span class="nc" id="L83">        this.totalLocacao = totalLocacao;</span>
+<span class="nc" id="L84">    }</span>
     
     
     public long getId() {
-<span class="nc" id="L62">        return id;</span>
+<span class="nc" id="L88">        return id;</span>
     }
 
     public void setId(long id) {
-<span class="nc" id="L66">        this.id = id;</span>
-<span class="nc" id="L67">    }</span>
+<span class="nc" id="L92">        this.id = id;</span>
+<span class="nc" id="L93">    }</span>
 
     public Locatario getLocatario() {
-<span class="nc" id="L70">        return locatario;</span>
+<span class="nc" id="L96">        return locatario;</span>
     }
 
     public void setLocatario(Locatario locatario) {
-<span class="nc" id="L74">        this.locatario = locatario;</span>
-<span class="nc" id="L75">    }</span>
+<span class="nc" id="L100">        this.locatario = locatario;</span>
+<span class="nc" id="L101">    }</span>
 
     public Equipamento getEquipamento() {
-<span class="nc" id="L78">        return equipamento;</span>
+<span class="nc" id="L104">        return equipamento;</span>
     }
 
     public void setEquipamento(Equipamento equipamento) {
-<span class="nc" id="L82">        this.equipamento = equipamento;</span>
-<span class="nc" id="L83">    }</span>
+<span class="nc" id="L108">        this.equipamento = equipamento;</span>
+<span class="nc" id="L109">    }</span>
 
     public Date getDataLocacao() {
-<span class="nc" id="L86">        return dataLocacao;</span>
+<span class="nc" id="L112">        return dataLocacao;</span>
     }
 
     public void setDataLocacao(Date dataLocacao) {
-<span class="nc" id="L90">        this.dataLocacao = dataLocacao;</span>
-<span class="nc" id="L91">    }</span>
+<span class="nc" id="L116">        this.dataLocacao = dataLocacao;</span>
+<span class="nc" id="L117">    }</span>
 
     public Date getDataDevolucao() {
-<span class="nc" id="L94">        return dataDevolucao;</span>
+<span class="nc" id="L120">        return dataDevolucao;</span>
     }
 
     public void setDataDevolucao(Date dataDevolucao) {
-<span class="nc" id="L98">        this.dataDevolucao = dataDevolucao;</span>
-<span class="nc" id="L99">    }</span>
+<span class="nc" id="L124">        this.dataDevolucao = dataDevolucao;</span>
+<span class="nc" id="L125">    }</span>
 
     public StatusLocacao getStatus() {
-<span class="nc" id="L102">        return status;</span>
+<span class="nc" id="L128">        return status;</span>
     }
 
     public void setStatus(StatusLocacao status) {
-<span class="nc" id="L106">        this.status = status;</span>
-<span class="nc" id="L107">    }</span>
+<span class="nc" id="L132">        this.status = status;</span>
+<span class="nc" id="L133">    }</span>
 
     public Funcionario getFuncionario() {
-<span class="nc" id="L110">        return funcionario;</span>
+<span class="nc" id="L136">        return funcionario;</span>
     }
 
     public void setFuncionario(Funcionario funcionario) {
-<span class="nc" id="L114">        this.funcionario = funcionario;</span>
-<span class="nc" id="L115">    }</span>
+<span class="nc" id="L140">        this.funcionario = funcionario;</span>
+<span class="nc" id="L141">    }</span>
    
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

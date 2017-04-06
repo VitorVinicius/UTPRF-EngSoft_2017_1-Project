@@ -21,7 +21,8 @@ import java.sql.SQLException;
 *
 * @author brainless
 */
-<span class="nc" id="L24">public class DBConnectionManager {</span>
+@Deprecated
+<span class="nc" id="L25">public class DBConnectionManager {</span>
 
     private static String dataBase;
     private static String userName;
@@ -31,21 +32,21 @@ import java.sql.SQLException;
     private static int dbServerPort;
 
 
-
+@Deprecated
 protected static void configurar(String dbServer, int dbServerPort, String dataBase,String userName,String password) throws ParametrosInsuficientesException {
-<span class="fc" id="L36">        DBConnectionManager.dataBase = dataBase;</span>
-<span class="fc" id="L37">        DBConnectionManager.userName = userName;</span>
-<span class="fc" id="L38">        DBConnectionManager.password = password;</span>
-<span class="fc" id="L39">        DBConnectionManager.dbServer = dbServer;</span>
-<span class="fc" id="L40">        DBConnectionManager.dbServerPort= dbServerPort;</span>
-<span class="pc bpc" id="L41" title="2 of 4 branches missed.">    if(</span>
+<span class="nc" id="L37">        DBConnectionManager.dataBase = dataBase;</span>
+<span class="nc" id="L38">        DBConnectionManager.userName = userName;</span>
+<span class="nc" id="L39">        DBConnectionManager.password = password;</span>
+<span class="nc" id="L40">        DBConnectionManager.dbServer = dbServer;</span>
+<span class="nc" id="L41">        DBConnectionManager.dbServerPort= dbServerPort;</span>
+<span class="nc bnc" id="L42" title="All 4 branches missed.">    if(</span>
           dbServerPort&gt;0
-<span class="pc bpc" id="L43" title="2 of 4 branches missed.">          &amp;&amp;   dbServer!= null &amp;&amp; !dbServer.isEmpty()</span>
-<span class="pc bpc" id="L44" title="2 of 4 branches missed.">          &amp;&amp;   dataBase!= null &amp;&amp; !dataBase.isEmpty()</span>
-<span class="pc bpc" id="L45" title="2 of 4 branches missed.">          &amp;&amp;   userName!= null &amp;&amp; !userName.isEmpty()</span>
-<span class="pc bpc" id="L46" title="1 of 2 branches missed.">          &amp;&amp;   password!= null &amp;&amp; !password.isEmpty()</span>
+<span class="nc bnc" id="L44" title="All 4 branches missed.">          &amp;&amp;   dbServer!= null &amp;&amp; !dbServer.isEmpty()</span>
+<span class="nc bnc" id="L45" title="All 4 branches missed.">          &amp;&amp;   dataBase!= null &amp;&amp; !dataBase.isEmpty()</span>
+<span class="nc bnc" id="L46" title="All 4 branches missed.">          &amp;&amp;   userName!= null &amp;&amp; !userName.isEmpty()</span>
+<span class="nc bnc" id="L47" title="All 2 branches missed.">          &amp;&amp;   password!= null &amp;&amp; !password.isEmpty()</span>
     ){
-<span class="fc" id="L48">        dbURL = &quot;jdbc:mysql://&quot;+</span>
+<span class="nc" id="L49">        dbURL = &quot;jdbc:mysql://&quot;+</span>
                 DBConnectionManager.dbServer
                 +&quot;:&quot;+
                 DBConnectionManager.dbServerPort
@@ -53,14 +54,14 @@ protected static void configurar(String dbServer, int dbServerPort, String dataB
                 + DBConnectionManager.dataBase +&quot;?useUnicode=true&amp;useEncoding=true&amp;characterEncoding=UTF-8&quot;;
     }
     else{
-<span class="nc" id="L56">        throw new Excecoes.ParametrosInsuficientesException(&quot;A quantidade de parâmetros informados para configurar o &quot;</span>
+<span class="nc" id="L57">        throw new Excecoes.ParametrosInsuficientesException(&quot;A quantidade de parâmetros informados para configurar o &quot;</span>
         +&quot; conector do banco de dados é insuficiente.&quot;);
     }
-<span class="fc" id="L59">}</span>
-
+<span class="nc" id="L60">}</span>
+@Deprecated
     protected static Connection getConnection() throws SQLException {
         
-<span class="fc" id="L63">            return DriverManager.getConnection(</span>
+<span class="nc" id="L64">            return DriverManager.getConnection(</span>
           dbURL, userName, password);
         
     }

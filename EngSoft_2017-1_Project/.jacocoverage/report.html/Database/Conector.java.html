@@ -16,12 +16,14 @@ import java.sql.Statement;
  *
  * @author Vitor
  */
-<span class="nc" id="L19">public class Conector {</span>
+@Deprecated
+<span class="nc" id="L20">public class Conector {</span>
     private static Connection conexao;
+    
     public static Connection getConexao() throws SQLException{
-<span class="fc bfc" id="L22" title="All 2 branches covered.">        if(conexao==null)</span>
-<span class="fc" id="L23">            conexao = DBConnectionManager.getConnection();</span>
-<span class="fc" id="L24">        return conexao;</span>
+<span class="nc bnc" id="L24" title="All 2 branches missed.">        if(conexao==null)</span>
+<span class="nc" id="L25">            conexao = DBConnectionManager.getConnection();</span>
+<span class="nc" id="L26">        return conexao;</span>
     }
     
     /**
@@ -35,30 +37,30 @@ import java.sql.Statement;
      */
     
     public static void conectar(String dbServer, int dbServerPort, String dataBase,String userName,String password) throws ParametrosInsuficientesException, SQLException{
-<span class="fc" id="L38">        DBConnectionManager.configurar(dbServer, dbServerPort, dataBase, userName, password);</span>
-<span class="fc" id="L39">        getConexao();</span>
-<span class="fc" id="L40">    }</span>
+<span class="nc" id="L40">        DBConnectionManager.configurar(dbServer, dbServerPort, dataBase, userName, password);</span>
+<span class="nc" id="L41">        getConexao();</span>
+<span class="nc" id="L42">    }</span>
     public static void fecharConexao() throws SQLException{
-<span class="pc bpc" id="L42" title="1 of 2 branches missed.">     if(conexao!=null)   </span>
-<span class="fc" id="L43">         conexao.close();</span>
-<span class="fc" id="L44">    }</span>
+<span class="nc bnc" id="L44" title="All 2 branches missed.">     if(conexao!=null)   </span>
+<span class="nc" id="L45">         conexao.close();</span>
+<span class="nc" id="L46">    }</span>
     public static void executarConsulta(String consulta) throws SQLException{
         
-<span class="nc" id="L47">           try( Statement stmt = getConexao().createStatement()){</span>
-<span class="nc" id="L48">                stmt.executeUpdate(consulta);</span>
-<span class="nc" id="L49">                stmt.close();</span>
-<span class="nc bnc" id="L50" title="All 8 branches missed.">            }</span>
-<span class="nc" id="L51">    }</span>
+<span class="nc" id="L49">           try( Statement stmt = getConexao().createStatement()){</span>
+<span class="nc" id="L50">                stmt.executeUpdate(consulta);</span>
+<span class="nc" id="L51">                stmt.close();</span>
+<span class="nc bnc" id="L52" title="All 8 branches missed.">            }</span>
+<span class="nc" id="L53">    }</span>
     public static ResultSet  obterDados(String consulta) throws SQLException, ResultSetNuloOuVazioException{
         ResultSet resultSet;
         
-<span class="fc" id="L55">        Statement stmt = getConexao().createStatement();</span>
-<span class="fc" id="L56">        resultSet = stmt.executeQuery(consulta);</span>
+<span class="nc" id="L57">        Statement stmt = getConexao().createStatement();</span>
+<span class="nc" id="L58">        resultSet = stmt.executeQuery(consulta);</span>
             
-<span class="pc bpc" id="L58" title="1 of 2 branches missed.">        if(resultSet == null){</span>
-<span class="nc" id="L59">            throw new Excecoes.ResultSetNuloOuVazioException(&quot;O conjunto de dados resultante da consulta '&quot;+  consulta +&quot;' retornou vazio após o envio ao banco de dados&quot;);</span>
+<span class="nc bnc" id="L60" title="All 2 branches missed.">        if(resultSet == null){</span>
+<span class="nc" id="L61">            throw new Excecoes.ResultSetNuloOuVazioException(&quot;O conjunto de dados resultante da consulta '&quot;+  consulta +&quot;' retornou vazio após o envio ao banco de dados&quot;);</span>
         }
-<span class="fc" id="L61">        return resultSet;</span>
+<span class="nc" id="L63">        return resultSet;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>
