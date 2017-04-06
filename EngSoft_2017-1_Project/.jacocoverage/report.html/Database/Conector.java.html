@@ -41,9 +41,9 @@ import java.sql.Statement;
 <span class="nc" id="L41">        getConexao();</span>
 <span class="nc" id="L42">    }</span>
     public static void fecharConexao() throws SQLException{
-<span class="nc bnc" id="L44" title="All 2 branches missed.">     if(conexao!=null)   </span>
+<span class="pc bpc" id="L44" title="1 of 2 branches missed.">     if(conexao!=null)   </span>
 <span class="nc" id="L45">         conexao.close();</span>
-<span class="nc" id="L46">    }</span>
+<span class="fc" id="L46">    }</span>
     public static void executarConsulta(String consulta) throws SQLException{
         
 <span class="nc" id="L49">           try( Statement stmt = getConexao().createStatement()){</span>

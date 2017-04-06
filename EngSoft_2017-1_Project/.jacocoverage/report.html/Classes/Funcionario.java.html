@@ -31,7 +31,7 @@ import javax.persistence.Temporal;
     private Set&lt;Locacao&gt; locacoesEfetuadas;
 
     public Date getDataAdmissao() {
-<span class="nc" id="L34">        return dataAdmissao;</span>
+<span class="fc" id="L34">        return dataAdmissao;</span>
     }
 
     public void setDataAdmissao(Date dataAdmissao) {
@@ -39,7 +39,7 @@ import javax.persistence.Temporal;
 <span class="nc" id="L39">    }</span>
 
     public String getNis() {
-<span class="nc" id="L42">        return nis;</span>
+<span class="fc" id="L42">        return nis;</span>
     }
 
     public void setNis(String nis) {
@@ -47,7 +47,7 @@ import javax.persistence.Temporal;
 <span class="nc" id="L47">    }</span>
 
     public float getSalario() {
-<span class="nc" id="L50">        return salario;</span>
+<span class="fc" id="L50">        return salario;</span>
     }
 
     public void setSalario(float salario) {
@@ -70,7 +70,7 @@ import javax.persistence.Temporal;
     }
     
     public void cadastrarLocatario(Locatario locatario) throws Exception{
-<span class="nc" id="L73">         Persistencia.salvar(locatario);</span>
+<span class="fc" id="L73">         Persistencia.salvar(locatario);</span>
         /*Antigo Método de Salvar Locatario
             //Aqui colocar a acao de jogar no banco, chamando o metodo statico ExecutarConsulta
             PreparedStatement  pstmt = Conector.getConexao().prepareStatement(&quot;INSERT INTO `locadora`.`pessoa`\n&quot; +
@@ -112,11 +112,11 @@ import javax.persistence.Temporal;
             pstmt.setString(14, locatario.getUf());
             pstmt.executeUpdate();
             */
-<span class="nc" id="L115">    }</span>
+<span class="fc" id="L115">    }</span>
     
     public void alterarCliente(Locatario locatario) throws Exception{
         
-<span class="nc" id="L119">        Persistencia.atualizar(locatario);</span>
+<span class="fc" id="L119">        Persistencia.atualizar(locatario);</span>
         
         /*Antigo Método para alterar um locatario
         PreparedStatement  pstmt = Conector.getConexao().prepareStatement(&quot;Replace INTO `locadora`.`pessoa`\n&quot; +
@@ -160,7 +160,7 @@ import javax.persistence.Temporal;
         pstmt.setString(15, locatario.getUf());
         pstmt.executeUpdate();    
         */
-<span class="nc" id="L163">    }</span>
+<span class="fc" id="L163">    }</span>
     
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

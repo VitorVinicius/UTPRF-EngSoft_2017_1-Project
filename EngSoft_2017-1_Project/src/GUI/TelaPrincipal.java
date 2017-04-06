@@ -5,6 +5,7 @@
  */
 package GUI;
 
+import Database.Persistencia;
 import java.awt.Frame;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -93,8 +94,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void encerrarConexaoBD(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_encerrarConexaoBD
         try {
-            Database.Conector.fecharConexao();
-        } catch (SQLException ex) {
+            Persistencia.encerrarConexao();
+        } catch (Exception ex) {
             Logger.getLogger(TelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_encerrarConexaoBD

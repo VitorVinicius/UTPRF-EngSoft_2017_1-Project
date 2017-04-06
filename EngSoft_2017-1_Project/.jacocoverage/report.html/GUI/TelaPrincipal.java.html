@@ -39,8 +39,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
 <span class="fc" id="L39">        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);</span>
 <span class="fc" id="L40">        addWindowListener(new java.awt.event.WindowAdapter() {</span>
             public void windowClosing(java.awt.event.WindowEvent evt) {
-<span class="nc" id="L42">                encerrarConexaoBD(evt);</span>
-<span class="nc" id="L43">            }</span>
+<span class="fc" id="L42">                encerrarConexaoBD(evt);</span>
+<span class="fc" id="L43">            }</span>
         });
 
 <span class="fc" id="L46">        jLabel1.setText(&quot;ATENÇÃO DESIGNERS DO PROJETO: esta é uma tela provisória e deve ser substituida nas próximas sprints&quot;);</span>
@@ -48,15 +48,15 @@ public class TelaPrincipal extends javax.swing.JFrame {
 <span class="fc" id="L48">        jButton1.setText(&quot;Cadastro de Cliente&quot;);</span>
 <span class="fc" id="L49">        jButton1.addActionListener(new java.awt.event.ActionListener() {</span>
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-<span class="nc" id="L51">                jButton1ActionPerformed(evt);</span>
-<span class="nc" id="L52">            }</span>
+<span class="fc" id="L51">                jButton1ActionPerformed(evt);</span>
+<span class="fc" id="L52">            }</span>
         });
 
 <span class="fc" id="L55">        jButton2.setText(&quot;Ver Clientes&quot;);</span>
 <span class="fc" id="L56">        jButton2.addActionListener(new java.awt.event.ActionListener() {</span>
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-<span class="nc" id="L58">                jButton2ActionPerformed(evt);</span>
-<span class="nc" id="L59">            }</span>
+<span class="fc" id="L58">                jButton2ActionPerformed(evt);</span>
+<span class="fc" id="L59">            }</span>
         });
 
 <span class="fc" id="L62">        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());</span>
@@ -88,20 +88,20 @@ public class TelaPrincipal extends javax.swing.JFrame {
 <span class="fc" id="L88">    }// &lt;/editor-fold&gt;//GEN-END:initComponents</span>
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-<span class="nc" id="L91">        new TelaCadastroCliente(this,true).setVisible(true);</span>
-<span class="nc" id="L92">    }//GEN-LAST:event_jButton1ActionPerformed</span>
+<span class="fc" id="L91">        new TelaCadastroCliente(this,true).setVisible(true);</span>
+<span class="fc" id="L92">    }//GEN-LAST:event_jButton1ActionPerformed</span>
 
     private void encerrarConexaoBD(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_encerrarConexaoBD
         try {
-<span class="nc" id="L96">            Database.Conector.fecharConexao();</span>
+<span class="fc" id="L96">            Database.Conector.fecharConexao();</span>
 <span class="nc" id="L97">        } catch (SQLException ex) {</span>
 <span class="nc" id="L98">            Logger.getLogger(TelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);</span>
-<span class="nc" id="L99">        }</span>
-<span class="nc" id="L100">    }//GEN-LAST:event_encerrarConexaoBD</span>
+<span class="fc" id="L99">        }</span>
+<span class="fc" id="L100">    }//GEN-LAST:event_encerrarConexaoBD</span>
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-<span class="nc" id="L103">        new TelaVisualizarClientes().setVisible(true);</span>
-<span class="nc" id="L104">    }//GEN-LAST:event_jButton2ActionPerformed</span>
+<span class="fc" id="L103">        new TelaVisualizarClientes().setVisible(true);</span>
+<span class="fc" id="L104">    }//GEN-LAST:event_jButton2ActionPerformed</span>
 
     /**
      * @param args the command line arguments

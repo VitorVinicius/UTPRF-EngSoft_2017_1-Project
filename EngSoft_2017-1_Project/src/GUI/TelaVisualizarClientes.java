@@ -6,7 +6,6 @@
 package GUI;
 
 import Classes.Locatario;
-import Database.Entidades;
 import Database.Persistencia;
 import java.util.List;
 import java.util.logging.Level;
