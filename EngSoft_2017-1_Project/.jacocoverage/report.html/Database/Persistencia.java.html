@@ -30,21 +30,21 @@ import javax.persistence.Persistence;
 <span class="fc" id="L30">        conexaoEstabelecida = true;</span>
 <span class="fc" id="L31">    }</span>
     public static Object salvar(Object objeto) throws Exception{
-<span class="pc bpc" id="L33" title="1 of 2 branches missed.">         if(!conexaoEstabelecida) throw new Exception(&quot;A conexão com o banco de dados não foi estabelecida ainda.&quot;);</span>
+<span class="nc bnc" id="L33" title="All 2 branches missed.">         if(!conexaoEstabelecida) throw new Exception(&quot;A conexão com o banco de dados não foi estabelecida ainda.&quot;);</span>
         
-<span class="fc" id="L35">         manager.getTransaction().begin();</span>
-<span class="fc" id="L36">         manager.persist(objeto);</span>
-<span class="fc" id="L37">         manager.flush();</span>
-<span class="fc" id="L38">         manager.getTransaction().commit();</span>
-<span class="fc" id="L39">         return objeto;</span>
+<span class="nc" id="L35">         manager.getTransaction().begin();</span>
+<span class="nc" id="L36">         manager.persist(objeto);</span>
+<span class="nc" id="L37">         manager.flush();</span>
+<span class="nc" id="L38">         manager.getTransaction().commit();</span>
+<span class="nc" id="L39">         return objeto;</span>
     }
     public static void atualizar(Object objeto) throws Exception{
-<span class="pc bpc" id="L42" title="1 of 2 branches missed.">         if(!conexaoEstabelecida) throw new Exception(&quot;A conexão com o banco de dados não foi estabelecida ainda.&quot;);</span>
+<span class="nc bnc" id="L42" title="All 2 branches missed.">         if(!conexaoEstabelecida) throw new Exception(&quot;A conexão com o banco de dados não foi estabelecida ainda.&quot;);</span>
         
-<span class="fc" id="L44">         manager.getTransaction().begin();</span>
-<span class="fc" id="L45">         manager.merge(objeto);</span>
-<span class="fc" id="L46">         manager.getTransaction().commit();</span>
-<span class="fc" id="L47">    }</span>
+<span class="nc" id="L44">         manager.getTransaction().begin();</span>
+<span class="nc" id="L45">         manager.merge(objeto);</span>
+<span class="nc" id="L46">         manager.getTransaction().commit();</span>
+<span class="nc" id="L47">    }</span>
     public static void remover(Object objeto) throws Exception{
 <span class="nc bnc" id="L49" title="All 2 branches missed.">         if(!conexaoEstabelecida) throw new Exception(&quot;A conexão com o banco de dados não foi estabelecida ainda.&quot;);</span>
         
@@ -65,10 +65,10 @@ import javax.persistence.Persistence;
 <span class="fc" id="L65">        return encontrados;</span>
     }
     public static void encerrarConexao() throws Exception{
-<span class="nc bnc" id="L68" title="All 2 branches missed.">         if(!conexaoEstabelecida) throw new Exception(&quot;A conexão com o banco de dados não foi estabelecida ainda.&quot;);</span>
+<span class="pc bpc" id="L68" title="1 of 2 branches missed.">         if(!conexaoEstabelecida) throw new Exception(&quot;A conexão com o banco de dados não foi estabelecida ainda.&quot;);</span>
         
-<span class="nc" id="L70">        manager.close();</span>
-<span class="nc" id="L71">        factory.close();</span>
-<span class="nc" id="L72">    }</span>
+<span class="fc" id="L70">        manager.close();</span>
+<span class="fc" id="L71">        factory.close();</span>
+<span class="fc" id="L72">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>
