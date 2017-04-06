@@ -107,7 +107,7 @@
                                       </Group>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="rbPFisica1" min="-2" max="-2" attributes="0"/>
+                                          <Component id="rbConcessionaria" min="-2" max="-2" attributes="0"/>
                                           <Component id="rbPFisica" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
@@ -210,7 +210,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="rbFuncionario" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="rbPFisica1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="rbConcessionaria" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -359,7 +359,7 @@
             </Component>
             <Component class="javax.swing.JTextField" name="tfCEP">
             </Component>
-            <Component class="javax.swing.JRadioButton" name="rbPFisica1">
+            <Component class="javax.swing.JRadioButton" name="rbConcessionaria">
               <Properties>
                 <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                   <ComponentRef name="buttonGroup1"/>

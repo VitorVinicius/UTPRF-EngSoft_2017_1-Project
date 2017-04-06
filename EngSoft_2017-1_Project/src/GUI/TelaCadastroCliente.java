@@ -63,6 +63,12 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
        else if(locatarioEdicao.getClass().equals(Concessionaria.class)){
            carregarDadosConcessionaria();
        }
+       
+       this.rbConcessionaria.setEnabled(false);
+       this.rbFuncionario.setEnabled(false);
+       this.rbPFisica.setEnabled(false);
+       this.rbPJuridica.setEnabled(false);
+       
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -106,7 +112,7 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
         jLabel7 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         tfCEP = new javax.swing.JTextField();
-        rbPFisica1 = new javax.swing.JRadioButton();
+        rbConcessionaria = new javax.swing.JRadioButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         tfTelefonePrincipal = new javax.swing.JTextField();
@@ -188,8 +194,8 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
 
         jLabel14.setText("Tipo de Cadastro:");
 
-        buttonGroup1.add(rbPFisica1);
-        rbPFisica1.setText("Concessionária");
+        buttonGroup1.add(rbConcessionaria);
+        rbConcessionaria.setText("Concessionária");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -236,7 +242,7 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
                                     .addComponent(rbFuncionario))
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(rbPFisica1)
+                                    .addComponent(rbConcessionaria)
                                     .addComponent(rbPFisica))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -313,7 +319,7 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(rbFuncionario)
-                    .addComponent(rbPFisica1))
+                    .addComponent(rbConcessionaria))
                 .addContainerGap())
         );
 
@@ -537,7 +543,6 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
 
     private void jbCadastarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCadastarActionPerformed
         try {
-            if (this.locatarioEdicao == null) {
                 if (this.rbFuncionario.isSelected()) {
                     this.cadastrarFuncionario();
                 } else if (this.rbPJuridica.isSelected() || this.rbPFisica.isSelected()) {
@@ -545,9 +550,6 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
                 } else {
                     this.cadastrarConcessionaria();
                 }
-            }else{
-                Persistencia.atualizar(locatarioEdicao);
-            }
             this.dispose();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.toString(), "Erro ao cadastrar funcionário", JOptionPane.ERROR_MESSAGE);
@@ -558,198 +560,222 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
     public void cadastrarConcessionaria() throws UFInvalidaException, ParseException, Exception{
         TipoLocatario tipoLocatario = TipoLocatario.CONCESSIONARIA;
 
-            String nome= tfNome.getText();
-            String nomeResponsavel = this.tfNomeResponsavel.getText();
-            String razaoSocial = this.tfRazaoSocial.getText();
-            String cpf = this.tfCPF.getText();
-            String cnpj = this.tfCNPJ.getText();
-            String ie = this.tfIE.getText();
+        String nome = tfNome.getText();
+        String nomeResponsavel = this.tfNomeResponsavel.getText();
+        String razaoSocial = this.tfRazaoSocial.getText();
+        String cpf = this.tfCPF.getText();
+        String cnpj = this.tfCNPJ.getText();
+        String ie = this.tfIE.getText();
 
-            String data = this.tfDiaNascimento.getValue().toString()+"/" + this.tfMesNascimento.getValue().toString() +"/" +  this.tfAnoNascimento.getValue().toString();
-            DateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
-            Date dataNascimento = format.parse(data);
+        String data = this.tfDiaNascimento.getValue().toString() + "/" + this.tfMesNascimento.getValue().toString() + "/" + this.tfAnoNascimento.getValue().toString();
+        DateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+        Date dataNascimento = format.parse(data);
 
-            String rua = this.tfRua.getText();
-            String cep= tfCEP.getText();
-            String bairro= tfBairro.getText();
-            String cidade= tfCidade.getText();
-            String uf= tfUF.getText();
-            validarUF(uf);
-            int numero=Integer.parseInt(tfNumero.getText());
+        String rua = this.tfRua.getText();
+        String cep = tfCEP.getText();
+        String bairro = tfBairro.getText();
+        String cidade = tfCidade.getText();
+        String uf = tfUF.getText();
+        validarUF(uf);
+        int numero = Integer.parseInt(tfNumero.getText());
 
-            //dados de contato
-            String telefonePrincipal = this.tfTelefonePrincipal.getText();
-            String telefone2 = this.tfTelefone2.getText();
-            String emailPrincipal = this.tfEmailPrincipal.getText();
-            String email2 = this.tfEmail2.getText();
+        //dados de contato
+        String telefonePrincipal = this.tfTelefonePrincipal.getText();
+        String telefone2 = this.tfTelefone2.getText();
+        String emailPrincipal = this.tfEmailPrincipal.getText();
+        String email2 = this.tfEmail2.getText();
 
-            Concessionaria concessionaria= new Concessionaria();
-            concessionaria.setNome(nome);
-            concessionaria.setNomeResponsavel(nomeResponsavel);
-            concessionaria.setRazaoSocial(razaoSocial);
-            concessionaria.setCpf(cpf);
-            concessionaria.setCnpj(cnpj);
-            concessionaria.setInscricaoEstadual(ie);
-            concessionaria.setDataNascimento(dataNascimento);
-            concessionaria.setRua(rua);
-            concessionaria.setCep(cep);
-            concessionaria.setBairro(bairro);
-            concessionaria.setCidade(cidade);
-            concessionaria.setUf(uf);
-            concessionaria.setNumero(numero);
+        Concessionaria concessionaria = new Concessionaria();
+        concessionaria.setNome(nome);
+        concessionaria.setNomeResponsavel(nomeResponsavel);
+        concessionaria.setRazaoSocial(razaoSocial);
+        concessionaria.setCpf(cpf);
+        concessionaria.setCnpj(cnpj);
+        concessionaria.setInscricaoEstadual(ie);
+        concessionaria.setDataNascimento(dataNascimento);
+        concessionaria.setRua(rua);
+        concessionaria.setCep(cep);
+        concessionaria.setBairro(bairro);
+        concessionaria.setCidade(cidade);
+        concessionaria.setUf(uf);
+        concessionaria.setNumero(numero);
 
-            concessionaria.setTelefonePrincipal(telefonePrincipal);
-            concessionaria.setTelefone2(telefone2);
-            concessionaria.setEmailPrincipal(emailPrincipal);
-            concessionaria.setEmail2(email2);
+        concessionaria.setTelefonePrincipal(telefonePrincipal);
+        concessionaria.setTelefone2(telefone2);
+        concessionaria.setEmailPrincipal(emailPrincipal);
+        concessionaria.setEmail2(email2);
 
-            concessionaria.setTipo(tipoLocatario);
+        concessionaria.setTipo(tipoLocatario);
 
-            
-            if(Main.getFuncionario()!=null){
-                Main.getFuncionario().cadastrarLocatario(concessionaria);
+        if (this.locatarioEdicao != null) {
+            concessionaria.setId(this.locatarioEdicao.getId());
+            if (Main.getFuncionario() != null) {
+
+                Main.getFuncionario().alterarCliente(concessionaria);
+            } else {
+                Persistencia.atualizar(concessionaria);
             }
-            else{
+        } else {
+            if (Main.getFuncionario() != null) {
+                Main.getFuncionario().cadastrarLocatario(concessionaria);
+            } else {
                 Persistencia.salvar(concessionaria);
             }
+        }
     }
     
     private void cadastrarFuncionario() throws UFInvalidaException, ParseException, Exception{
-       
 
-            TipoLocatario tipoLocatario = TipoLocatario.FUNCIONARIO;
+        TipoLocatario tipoLocatario = TipoLocatario.FUNCIONARIO;
 
-            String nome= tfNome.getText();
-            String razaoSocial = this.tfRazaoSocial.getText();
-            String cpf = this.tfCPF.getText();
-            String cnpj = this.tfCNPJ.getText();
-            String ie = this.tfIE.getText();
+        String nome = tfNome.getText();
+        String razaoSocial = this.tfRazaoSocial.getText();
+        String cpf = this.tfCPF.getText();
+        String cnpj = this.tfCNPJ.getText();
+        String ie = this.tfIE.getText();
 
-            String data = this.tfDiaNascimento.getValue().toString()+"/" + this.tfMesNascimento.getValue().toString() +"/" +  this.tfAnoNascimento.getValue().toString();
-            DateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
-            Date dataNascimento = format.parse(data);
+        String data = this.tfDiaNascimento.getValue().toString() + "/" + this.tfMesNascimento.getValue().toString() + "/" + this.tfAnoNascimento.getValue().toString();
+        DateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+        Date dataNascimento = format.parse(data);
 
-            String rua = this.tfRua.getText();
-            String cep= tfCEP.getText();
-            String bairro= tfBairro.getText();
-            String cidade= tfCidade.getText();
-            String uf= tfUF.getText();
-            validarUF(uf);
-            int numero=Integer.parseInt(tfNumero.getText());
+        String rua = this.tfRua.getText();
+        String cep = tfCEP.getText();
+        String bairro = tfBairro.getText();
+        String cidade = tfCidade.getText();
+        String uf = tfUF.getText();
+        validarUF(uf);
+        int numero = Integer.parseInt(tfNumero.getText());
 
-            //dados de contato
-            String telefonePrincipal = this.tfTelefonePrincipal.getText();
-            String telefone2 = this.tfTelefone2.getText();
-            String emailPrincipal = this.tfEmailPrincipal.getText();
-            String email2 = this.tfEmail2.getText();
+        //dados de contato
+        String telefonePrincipal = this.tfTelefonePrincipal.getText();
+        String telefone2 = this.tfTelefone2.getText();
+        String emailPrincipal = this.tfEmailPrincipal.getText();
+        String email2 = this.tfEmail2.getText();
 
-            Funcionario funcionario= new Funcionario();
-            funcionario.setNome(nome);
-            funcionario.setRazaoSocial(razaoSocial);
-            funcionario.setCpf(cpf);
-            funcionario.setCnpj(cnpj);
-            funcionario.setInscricaoEstadual(ie);
-            funcionario.setDataNascimento(dataNascimento);
-            funcionario.setRua(rua);
-            funcionario.setCep(cep);
-            funcionario.setBairro(bairro);
-            funcionario.setCidade(cidade);
-            funcionario.setUf(uf);
-            funcionario.setNumero(numero);
+        Funcionario funcionario = new Funcionario();
+        funcionario.setNome(nome);
+        funcionario.setRazaoSocial(razaoSocial);
+        funcionario.setCpf(cpf);
+        funcionario.setCnpj(cnpj);
+        funcionario.setInscricaoEstadual(ie);
+        funcionario.setDataNascimento(dataNascimento);
+        funcionario.setRua(rua);
+        funcionario.setCep(cep);
+        funcionario.setBairro(bairro);
+        funcionario.setCidade(cidade);
+        funcionario.setUf(uf);
+        funcionario.setNumero(numero);
 
-            funcionario.setTelefonePrincipal(telefonePrincipal);
-            funcionario.setTelefone2(telefone2);
-            funcionario.setEmailPrincipal(emailPrincipal);
-            funcionario.setEmail2(email2);
+        funcionario.setTelefonePrincipal(telefonePrincipal);
+        funcionario.setTelefone2(telefone2);
+        funcionario.setEmailPrincipal(emailPrincipal);
+        funcionario.setEmail2(email2);
 
-            funcionario.setTipo(tipoLocatario);
+        funcionario.setTipo(tipoLocatario);
 
-            //dados funcionais
-            String nis = this.tfNIS.getText();
-            String dataAdm = this.jpDiaAdmissao.getValue().toString()+"/" + this.jpMesAdmissao.getValue().toString() +"/" +  this.jpAnoAdmissao.getValue().toString();
-            Date dataAdmissao = format.parse(dataAdm);
-            float salario = Float.parseFloat(this.tfSalario.getText());
+        //dados funcionais
+        String nis = this.tfNIS.getText();
+        String dataAdm = this.jpDiaAdmissao.getValue().toString() + "/" + this.jpMesAdmissao.getValue().toString() + "/" + this.jpAnoAdmissao.getValue().toString();
+        Date dataAdmissao = format.parse(dataAdm);
+        float salario = Float.parseFloat(this.tfSalario.getText());
 
-            funcionario.setNis(nis);
-            funcionario.setDataAdmissao(dataAdmissao);
-            funcionario.setSalario(salario);
-            Persistencia.salvar(funcionario);
-            if(this.isLogarFuncionarioAoCadastrar())
-                Main.setFuncionario(funcionario);
-            
-            
+        funcionario.setNis(nis);
+        funcionario.setDataAdmissao(dataAdmissao);
+        funcionario.setSalario(salario);
 
-        
+        if (this.locatarioEdicao != null) {
+            funcionario.setId(this.locatarioEdicao.getId());
+            if (Main.getFuncionario() != null) {
+
+                Main.getFuncionario().alterarCliente(funcionario);
+            } else {
+                Persistencia.atualizar(funcionario);
+            }
+        } else {
+            if (Main.getFuncionario() != null) {
+                Main.getFuncionario().cadastrarLocatario(funcionario);
+            } else {
+                Persistencia.salvar(funcionario);
+            }
+        }
+
+        if (this.isLogarFuncionarioAoCadastrar()) {
+            Main.setFuncionario(funcionario);
+        }
+
     }
     
     private void cadastrarLocatario() throws ParseException, UFInvalidaException, Exception {
-    
 
-            TipoLocatario tipoLocatario;
+        TipoLocatario tipoLocatario;
 
-            if(this.rbPJuridica.isSelected())
-            {
-                tipoLocatario = TipoLocatario.JURIDICA;
+        if (this.rbPJuridica.isSelected()) {
+            tipoLocatario = TipoLocatario.JURIDICA;
+        } else {
+            tipoLocatario = TipoLocatario.FISICA;
+        }
+
+        String nome = tfNome.getText();
+        String razaoSocial = this.tfRazaoSocial.getText();
+        String cpf = this.tfCPF.getText();
+        String cnpj = this.tfCNPJ.getText();
+        String ie = this.tfIE.getText();
+
+        String data = this.tfDiaNascimento.getValue().toString() + "/" + this.tfMesNascimento.getValue().toString() + "/" + this.tfAnoNascimento.getValue().toString();
+        DateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+        Date dataNascimento = format.parse(data);
+
+        String rua = this.tfRua.getText();
+        String cep = tfCEP.getText();
+        String bairro = tfBairro.getText();
+        String cidade = tfCidade.getText();
+        String uf = tfUF.getText();
+        validarUF(uf);
+        int numero = Integer.parseInt(tfNumero.getText());
+
+        //dados de contato
+        String telefonePrincipal = this.tfTelefonePrincipal.getText();
+        String telefone2 = this.tfTelefone2.getText();
+        String emailPrincipal = this.tfEmailPrincipal.getText();
+        String email2 = this.tfEmail2.getText();
+
+        Locatario locatario = new Locatario();
+        locatario.setNome(nome);
+        locatario.setRazaoSocial(razaoSocial);
+        locatario.setCpf(cpf);
+        locatario.setCnpj(cnpj);
+        locatario.setInscricaoEstadual(ie);
+        locatario.setDataNascimento(dataNascimento);
+        locatario.setRua(rua);
+        locatario.setCep(cep);
+        locatario.setBairro(bairro);
+        locatario.setCidade(cidade);
+        locatario.setUf(uf);
+        locatario.setNumero(numero);
+
+        locatario.setTelefonePrincipal(telefonePrincipal);
+        locatario.setTelefone2(telefone2);
+        locatario.setEmailPrincipal(emailPrincipal);
+        locatario.setEmail2(email2);
+
+        locatario.setTipo(tipoLocatario);
+
+        if (this.locatarioEdicao != null) {
+            locatario.setId(this.locatarioEdicao.getId());
+            if (Main.getFuncionario() != null) {
+
+                Main.getFuncionario().alterarCliente(locatario);
+            } else {
+                Persistencia.atualizar(locatario);
             }
-            else{
-                tipoLocatario = TipoLocatario.FISICA;
-            }
-
-            String nome= tfNome.getText();
-            String razaoSocial = this.tfRazaoSocial.getText();
-            String cpf = this.tfCPF.getText();
-            String cnpj = this.tfCNPJ.getText();
-            String ie = this.tfIE.getText();
-
-            String data = this.tfDiaNascimento.getValue().toString()+"/" + this.tfMesNascimento.getValue().toString() +"/" +  this.tfAnoNascimento.getValue().toString();
-            DateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
-            Date dataNascimento = format.parse(data);
-
-            String rua = this.tfRua.getText();
-            String cep= tfCEP.getText();
-            String bairro= tfBairro.getText();
-            String cidade= tfCidade.getText();
-            String uf= tfUF.getText();
-            validarUF(uf);
-            int numero=Integer.parseInt(tfNumero.getText());
-
-            //dados de contato
-            String telefonePrincipal = this.tfTelefonePrincipal.getText();
-            String telefone2 = this.tfTelefone2.getText();
-            String emailPrincipal = this.tfEmailPrincipal.getText();
-            String email2 = this.tfEmail2.getText();
-
-            Locatario locatario= new Locatario();
-            locatario.setNome(nome);
-            locatario.setRazaoSocial(razaoSocial);
-            locatario.setCpf(cpf);
-            locatario.setCnpj(cnpj);
-            locatario.setInscricaoEstadual(ie);
-            locatario.setDataNascimento(dataNascimento);
-            locatario.setRua(rua);
-            locatario.setCep(cep);
-            locatario.setBairro(bairro);
-            locatario.setCidade(cidade);
-            locatario.setUf(uf);
-            locatario.setNumero(numero);
-
-            locatario.setTelefonePrincipal(telefonePrincipal);
-            locatario.setTelefone2(telefone2);
-            locatario.setEmailPrincipal(emailPrincipal);
-            locatario.setEmail2(email2);
-
-            locatario.setTipo(tipoLocatario);
-
-            
-            if(Main.getFuncionario()!=null){
+        } else {
+            if (Main.getFuncionario() != null) {
                 Main.getFuncionario().cadastrarLocatario(locatario);
-            }
-            else{
+            } else {
                 Persistencia.salvar(locatario);
             }
-            
+        }
 
-        
     }
     
     private void validarUF(String uf) throws UFInvalidaException {
@@ -872,9 +898,9 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
     private javax.swing.JSpinner jpAnoAdmissao;
     private javax.swing.JSpinner jpDiaAdmissao;
     private javax.swing.JSpinner jpMesAdmissao;
+    private javax.swing.JRadioButton rbConcessionaria;
     private javax.swing.JRadioButton rbFuncionario;
     private javax.swing.JRadioButton rbPFisica;
-    private javax.swing.JRadioButton rbPFisica1;
     private javax.swing.JRadioButton rbPJuridica;
     private javax.swing.JSpinner tfAnoNascimento;
     private javax.swing.JTextField tfBairro;
@@ -900,21 +926,31 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
     private void carregarDadosLocatario() {
+            if(this.locatarioEdicao.getTipo() == TipoLocatario.FISICA){
+                this.rbPFisica.setSelected(true);
+            }
+            else if(this.locatarioEdicao.getTipo() == TipoLocatario.JURIDICA){
+                this.rbPJuridica.setSelected(true);
+            }
+            
             tfNome.setText(this.locatarioEdicao.getNome());
             this.tfRazaoSocial.setText(this.locatarioEdicao.getRazaoSocial());
             this.tfCPF.setText(this.locatarioEdicao.getCpf());
             this.tfCNPJ.setText(this.locatarioEdicao.getCnpj());
             this.tfIE.setText(this.locatarioEdicao.getInscricaoEstadual());
             
-            DateFormat diaNascFormato = new SimpleDateFormat("dd");
-            DateFormat mesNascFormato = new SimpleDateFormat("MM");
-            DateFormat anoNascFormato = new SimpleDateFormat("yyyy");
-            
-            Date dataNascimento = this.locatarioEdicao.getDataNascimento();  
-            this.tfDiaNascimento.setValue(diaNascFormato.format(dataNascimento));
-            this.tfMesNascimento.setValue(mesNascFormato.format(dataNascimento));
-            this.tfAnoNascimento.setValue(anoNascFormato.format(dataNascimento));
-            
+            Date dataNascimento = this.locatarioEdicao.getDataNascimento(); 
+            Calendar cal = Calendar.getInstance();
+            if(dataNascimento!=null){
+                cal.setTime(dataNascimento);
+                int diaNasc = cal.get(Calendar.YEAR);
+                int mesNasc = cal.get(Calendar.MONTH);
+                int anoNasc = cal.get(Calendar.DAY_OF_MONTH);
+
+                this.tfDiaNascimento.setValue(diaNasc);
+                this.tfMesNascimento.setValue(mesNasc);
+                this.tfAnoNascimento.setValue(anoNasc);
+            }
             this.tfRua.setText(this.locatarioEdicao.getRua());
             tfCEP.setText(this.locatarioEdicao.getCep());
             tfBairro.setText(this.locatarioEdicao.getBairro());
@@ -932,66 +968,82 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
     }
 
     private void carregarDadosFuncionario() {
-            Funcionario funcionario = (Funcionario)this.locatarioEdicao;
-            tfNome.setText(funcionario.getNome());
-            this.tfRazaoSocial.setText(funcionario.getRazaoSocial());
-            this.tfCPF.setText(funcionario.getCpf());
-            this.tfCNPJ.setText(funcionario.getCnpj());
-            this.tfIE.setText(funcionario.getInscricaoEstadual());
-            
-            DateFormat diaNascFormato = new SimpleDateFormat("dd");
-            DateFormat mesNascFormato = new SimpleDateFormat("MM");
-            DateFormat anoNascFormato = new SimpleDateFormat("yyyy");
-            
-            Date dataNascimento = funcionario.getDataNascimento();  
-            this.tfDiaNascimento.setValue(diaNascFormato.format(dataNascimento));
-            this.tfMesNascimento.setValue(mesNascFormato.format(dataNascimento));
-            this.tfAnoNascimento.setValue(anoNascFormato.format(dataNascimento));
-            
-            this.tfRua.setText(funcionario.getRua());
-            tfCEP.setText(funcionario.getCep());
-            tfBairro.setText(funcionario.getBairro());
-            tfCidade.setText(funcionario.getCidade());
-            tfUF.setText(funcionario.getUf());
-            
-            tfNumero.setText(String.valueOf(funcionario.getNumero()));
-            
-            //dados de contato
-            this.tfTelefonePrincipal.setText(funcionario.getTelefonePrincipal());
-            this.tfTelefone2.setText(funcionario.getTelefone2());
-            
-            this.tfEmailPrincipal.setText(funcionario.getEmailPrincipal());
-            this.tfEmail2.setText(funcionario.getEmail2());
-            
-            this.tfNIS.setText(funcionario.getNis());
-            
-            Date dataAdmissao = funcionario.getDataAdmissao();  
-            this.jpDiaAdmissao.setValue(diaNascFormato.format(dataAdmissao));
-            this.jpMesAdmissao.setValue(mesNascFormato.format(dataAdmissao));
-            this.jpAnoAdmissao.setValue(anoNascFormato.format(dataAdmissao));
-            
-            this.tfSalario.setText(String.valueOf(funcionario.getSalario()));
-            
+
+        this.rbFuncionario.setSelected(true);
+
+        Funcionario funcionario = (Funcionario) this.locatarioEdicao;
+        tfNome.setText(funcionario.getNome());
+        this.tfRazaoSocial.setText(funcionario.getRazaoSocial());
+        this.tfCPF.setText(funcionario.getCpf());
+        this.tfCNPJ.setText(funcionario.getCnpj());
+        this.tfIE.setText(funcionario.getInscricaoEstadual());
+
+        Calendar cal = Calendar.getInstance();
+
+        Date dataNascimento = funcionario.getDataNascimento();
+        if (dataNascimento != null) {
+
+            cal.setTime(dataNascimento);
+            int diaNasc = cal.get(Calendar.YEAR);
+            int mesNasc = cal.get(Calendar.MONTH);
+            int anoNasc = cal.get(Calendar.DAY_OF_MONTH);
+
+            this.tfDiaNascimento.setValue(diaNasc);
+            this.tfMesNascimento.setValue(mesNasc);
+            this.tfAnoNascimento.setValue(anoNasc);
+        }
+        this.tfRua.setText(funcionario.getRua());
+        tfCEP.setText(funcionario.getCep());
+        tfBairro.setText(funcionario.getBairro());
+        tfCidade.setText(funcionario.getCidade());
+        tfUF.setText(funcionario.getUf());
+
+        tfNumero.setText(String.valueOf(funcionario.getNumero()));
+
+        //dados de contato
+        this.tfTelefonePrincipal.setText(funcionario.getTelefonePrincipal());
+        this.tfTelefone2.setText(funcionario.getTelefone2());
+
+        this.tfEmailPrincipal.setText(funcionario.getEmailPrincipal());
+        this.tfEmail2.setText(funcionario.getEmail2());
+
+        this.tfNIS.setText(funcionario.getNis());
+
+        Date dataAdmissao = funcionario.getDataAdmissao();
+        if (dataAdmissao != null) {
+            cal.setTime(dataAdmissao);
+            int diaAdmissao = cal.get(Calendar.YEAR);
+            int mesAdmissao = cal.get(Calendar.MONTH);
+            int anoAdmissao = cal.get(Calendar.DAY_OF_MONTH);
+            this.jpDiaAdmissao.setValue(diaAdmissao);
+            this.jpMesAdmissao.setValue(mesAdmissao);
+            this.jpAnoAdmissao.setValue(anoAdmissao);
+        }
+        this.tfSalario.setText(String.valueOf(funcionario.getSalario()));
+
     }
 
     private void carregarDadosConcessionaria() {
-        
-            Concessionaria concessionaria = (Concessionaria) this.locatarioEdicao;
+            this.rbConcessionaria.setSelected(true);
+            Concessionaria concessionaria = (Concessionaria)this.locatarioEdicao;
             tfNome.setText(concessionaria.getNome());
             this.tfRazaoSocial.setText(concessionaria.getRazaoSocial());
             this.tfCPF.setText(concessionaria.getCpf());
             this.tfCNPJ.setText(concessionaria.getCnpj());
             this.tfIE.setText(concessionaria.getInscricaoEstadual());
             
-            DateFormat diaNascFormato = new SimpleDateFormat("dd");
-            DateFormat mesNascFormato = new SimpleDateFormat("MM");
-            DateFormat anoNascFormato = new SimpleDateFormat("yyyy");
-            
-            Date dataNascimento = concessionaria.getDataNascimento();  
-            this.tfDiaNascimento.setValue(diaNascFormato.format(dataNascimento));
-            this.tfMesNascimento.setValue(mesNascFormato.format(dataNascimento));
-            this.tfAnoNascimento.setValue(anoNascFormato.format(dataNascimento));
-            
+            Date dataNascimento = concessionaria.getDataNascimento(); 
+            Calendar cal = Calendar.getInstance();
+            if (dataNascimento != null) {
+                cal.setTime(dataNascimento);
+                int diaNasc = cal.get(Calendar.YEAR);
+                int mesNasc = cal.get(Calendar.MONTH);
+                int anoNasc = cal.get(Calendar.DAY_OF_MONTH);
+
+                this.tfDiaNascimento.setValue(diaNasc);
+                this.tfMesNascimento.setValue(mesNasc);
+                this.tfAnoNascimento.setValue(anoNasc);
+            }
             this.tfRua.setText(concessionaria.getRua());
             tfCEP.setText(concessionaria.getCep());
             tfBairro.setText(concessionaria.getBairro());
@@ -1008,5 +1060,6 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
             this.tfEmail2.setText(concessionaria.getEmail2());
             
             this.tfNomeResponsavel.setText(concessionaria.getNomeResponsavel());
+            
     }
 }
