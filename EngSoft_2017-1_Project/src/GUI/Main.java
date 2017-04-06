@@ -8,7 +8,6 @@ package GUI;
 import Classes.Funcionario;
 
 import Database.Persistencia;
-import Excecoes.ParametrosInsuficientesException;
 import java.awt.Frame;
 import java.util.List;
 import java.util.logging.Level;
@@ -35,7 +34,7 @@ public class Main {
         Main.funcionario = funcionario;
     }
     private static int falhasConexao= 0;
-    public static void main(String[] args) throws ParametrosInsuficientesException {
+    public static void main(String[] args)  {
          
          
         try {

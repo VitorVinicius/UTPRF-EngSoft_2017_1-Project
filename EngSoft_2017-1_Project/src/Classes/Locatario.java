@@ -7,10 +7,8 @@ package Classes;
 
 
 import java.util.Date;
-import Excecoes.HistoricoNaoObtidoException;
 import java.io.Serializable;
 import java.util.Set;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -227,7 +225,7 @@ public class Locatario implements Serializable{
         this.uf = uf;
     }
 
-    public Set<Historico> getHistoricos() throws HistoricoNaoObtidoException {
+    public Set<Historico> getHistoricos() {
         return historicosRelacionados;
     }
     
