@@ -9,6 +9,8 @@ import Classes.Locatario;
 import Database.Entidades;
 import Database.Persistencia;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -111,6 +113,7 @@ public class TelaVisualizarClientes extends javax.swing.JFrame {
             
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.toString(), "Erro ao obter clientes", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event_CarregarClientes
@@ -119,7 +122,16 @@ public class TelaVisualizarClientes extends javax.swing.JFrame {
         int column = 0;
         int row = jTable1.getSelectedRow();
         Locatario locatario = (Locatario) jTable1.getModel().getValueAt(row, column);
-        new TelaCadastroCliente(this,true,locatario).setVisible(true);
+        TelaCadastroCliente telaCadastro = new TelaCadastroCliente(this,true,locatario);
+        try{
+            telaCadastro.carregarDadosLocatarioEdicao();
+            telaCadastro.setVisible(true);
+        }
+        catch(Exception ex){
+             JOptionPane.showMessageDialog(null, ex.toString(), "Erro ao carregar cadastro.", JOptionPane.ERROR_MESSAGE);
+             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

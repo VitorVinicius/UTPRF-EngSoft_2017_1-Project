@@ -40,7 +40,9 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         this.locatarioEdicao = locatario;
-        carregarDadosLocatarioEdicao();
+        
+       
+        
     }
     private boolean logarFuncionarioAoCadastrar;
 
@@ -920,19 +922,91 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
             tfUF.setText(this.locatarioEdicao.getUf());
             
             tfNumero.setText(String.valueOf(this.locatarioEdicao.getNumero()));
-
+            
             //dados de contato
-            String telefonePrincipal = this.tfTelefonePrincipal.getText();
-            String telefone2 = this.tfTelefone2.getText();
-            String emailPrincipal = this.tfEmailPrincipal.getText();
-            String email2 = this.tfEmail2.getText();
+            this.tfTelefonePrincipal.setText(this.locatarioEdicao.getTelefonePrincipal());
+            this.tfTelefone2.setText(this.locatarioEdicao.getTelefone2());
+            
+            this.tfEmailPrincipal.setText(this.locatarioEdicao.getEmailPrincipal());
+            this.tfEmail2.setText(this.locatarioEdicao.getEmail2());
     }
 
     private void carregarDadosFuncionario() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            Funcionario funcionario = (Funcionario)this.locatarioEdicao;
+            tfNome.setText(funcionario.getNome());
+            this.tfRazaoSocial.setText(funcionario.getRazaoSocial());
+            this.tfCPF.setText(funcionario.getCpf());
+            this.tfCNPJ.setText(funcionario.getCnpj());
+            this.tfIE.setText(funcionario.getInscricaoEstadual());
+            
+            DateFormat diaNascFormato = new SimpleDateFormat("dd");
+            DateFormat mesNascFormato = new SimpleDateFormat("MM");
+            DateFormat anoNascFormato = new SimpleDateFormat("yyyy");
+            
+            Date dataNascimento = funcionario.getDataNascimento();  
+            this.tfDiaNascimento.setValue(diaNascFormato.format(dataNascimento));
+            this.tfMesNascimento.setValue(mesNascFormato.format(dataNascimento));
+            this.tfAnoNascimento.setValue(anoNascFormato.format(dataNascimento));
+            
+            this.tfRua.setText(funcionario.getRua());
+            tfCEP.setText(funcionario.getCep());
+            tfBairro.setText(funcionario.getBairro());
+            tfCidade.setText(funcionario.getCidade());
+            tfUF.setText(funcionario.getUf());
+            
+            tfNumero.setText(String.valueOf(funcionario.getNumero()));
+            
+            //dados de contato
+            this.tfTelefonePrincipal.setText(funcionario.getTelefonePrincipal());
+            this.tfTelefone2.setText(funcionario.getTelefone2());
+            
+            this.tfEmailPrincipal.setText(funcionario.getEmailPrincipal());
+            this.tfEmail2.setText(funcionario.getEmail2());
+            
+            this.tfNIS.setText(funcionario.getNis());
+            
+            Date dataAdmissao = funcionario.getDataAdmissao();  
+            this.jpDiaAdmissao.setValue(diaNascFormato.format(dataAdmissao));
+            this.jpMesAdmissao.setValue(mesNascFormato.format(dataAdmissao));
+            this.jpAnoAdmissao.setValue(anoNascFormato.format(dataAdmissao));
+            
+            this.tfSalario.setText(String.valueOf(funcionario.getSalario()));
+            
     }
 
     private void carregarDadosConcessionaria() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+            Concessionaria concessionaria = (Concessionaria) this.locatarioEdicao;
+            tfNome.setText(concessionaria.getNome());
+            this.tfRazaoSocial.setText(concessionaria.getRazaoSocial());
+            this.tfCPF.setText(concessionaria.getCpf());
+            this.tfCNPJ.setText(concessionaria.getCnpj());
+            this.tfIE.setText(concessionaria.getInscricaoEstadual());
+            
+            DateFormat diaNascFormato = new SimpleDateFormat("dd");
+            DateFormat mesNascFormato = new SimpleDateFormat("MM");
+            DateFormat anoNascFormato = new SimpleDateFormat("yyyy");
+            
+            Date dataNascimento = concessionaria.getDataNascimento();  
+            this.tfDiaNascimento.setValue(diaNascFormato.format(dataNascimento));
+            this.tfMesNascimento.setValue(mesNascFormato.format(dataNascimento));
+            this.tfAnoNascimento.setValue(anoNascFormato.format(dataNascimento));
+            
+            this.tfRua.setText(concessionaria.getRua());
+            tfCEP.setText(concessionaria.getCep());
+            tfBairro.setText(concessionaria.getBairro());
+            tfCidade.setText(concessionaria.getCidade());
+            tfUF.setText(concessionaria.getUf());
+            
+            tfNumero.setText(String.valueOf(concessionaria.getNumero()));
+            
+            //dados de contato
+            this.tfTelefonePrincipal.setText(concessionaria.getTelefonePrincipal());
+            this.tfTelefone2.setText(concessionaria.getTelefone2());
+            
+            this.tfEmailPrincipal.setText(concessionaria.getEmailPrincipal());
+            this.tfEmail2.setText(concessionaria.getEmail2());
+            
+            this.tfNomeResponsavel.setText(concessionaria.getNomeResponsavel());
     }
 }
