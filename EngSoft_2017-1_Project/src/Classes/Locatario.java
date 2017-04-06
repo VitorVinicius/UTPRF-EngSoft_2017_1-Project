@@ -163,7 +163,7 @@ public class Locatario implements Serializable{
     }
     
     
-     public long getId() {
+    public long getId() {
         return id;
     }
 
