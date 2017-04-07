@@ -30,7 +30,8 @@ public class PersistenciaTest {
     }
     
     @AfterClass
-    public static void tearDownClass() {
+    public static void tearDownClass() throws Exception  {
+        Persistencia.encerrarConexao();
     }
     
     @Before
