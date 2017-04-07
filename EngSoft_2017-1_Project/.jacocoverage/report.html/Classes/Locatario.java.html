@@ -60,7 +60,7 @@ import javax.persistence.Temporal;
     private String email2;
 
     public String getTelefonePrincipal() {
-<span class="fc" id="L63">        return telefonePrincipal;</span>
+<span class="nc" id="L63">        return telefonePrincipal;</span>
     }
 
     public void setTelefonePrincipal(String telefonePrincipal) {
@@ -68,7 +68,7 @@ import javax.persistence.Temporal;
 <span class="nc" id="L68">    }</span>
 
     public String getTelefone2() {
-<span class="fc" id="L71">        return telefone2;</span>
+<span class="nc" id="L71">        return telefone2;</span>
     }
 
     public void setTelefone2(String telefone2) {
@@ -76,7 +76,7 @@ import javax.persistence.Temporal;
 <span class="nc" id="L76">    }</span>
 
     public String getEmailPrincipal() {
-<span class="fc" id="L79">        return emailPrincipal;</span>
+<span class="nc" id="L79">        return emailPrincipal;</span>
     }
 
     public void setEmailPrincipal(String emailPrincipal) {
@@ -84,7 +84,7 @@ import javax.persistence.Temporal;
 <span class="nc" id="L84">    }</span>
 
     public String getEmail2() {
-<span class="fc" id="L87">        return email2;</span>
+<span class="nc" id="L87">        return email2;</span>
     }
 
     public void setEmail2(String email2) {
@@ -97,7 +97,7 @@ import javax.persistence.Temporal;
     
 
     public TipoLocatario getTipo() {
-<span class="fc" id="L100">        return tipo;</span>
+<span class="nc" id="L100">        return tipo;</span>
     }
 
     public void setTipo(TipoLocatario tipo) {
@@ -107,7 +107,7 @@ import javax.persistence.Temporal;
     @OneToMany
     private Set&lt;Pagamento&gt; pagamentosRelacionados;
     public String getCpf() {
-<span class="fc" id="L110">        return cpf;</span>
+<span class="nc" id="L110">        return cpf;</span>
     }
 
     public void setCpf(String cpf) {
@@ -115,7 +115,7 @@ import javax.persistence.Temporal;
 <span class="nc" id="L115">    }</span>
 
     public Date getDataNascimento() {
-<span class="fc" id="L118">        return dataNascimento;</span>
+<span class="nc" id="L118">        return dataNascimento;</span>
     }
 
     public void setDataNascimento(Date dataNascimento) {
@@ -137,7 +137,7 @@ import javax.persistence.Temporal;
 <span class="nc" id="L137">        this.pagamentosRelacionados = pagamentos;</span>
 <span class="nc" id="L138">    }</span>
     public String getRazaoSocial() {
-<span class="fc" id="L140">        return razaoSocial;</span>
+<span class="nc" id="L140">        return razaoSocial;</span>
     }
 
     public void setRazaoSocial(String razaoSocial) {
@@ -145,7 +145,7 @@ import javax.persistence.Temporal;
 <span class="nc" id="L145">    }</span>
 
     public String getCnpj() {
-<span class="fc" id="L148">        return cnpj;</span>
+<span class="nc" id="L148">        return cnpj;</span>
     }
 
     public void setCnpj(String cnpj) {
@@ -153,7 +153,7 @@ import javax.persistence.Temporal;
 <span class="nc" id="L153">    }</span>
 
     public String getInscricaoEstadual() {
-<span class="fc" id="L156">        return inscricaoEstadual;</span>
+<span class="nc" id="L156">        return inscricaoEstadual;</span>
     }
 
     public void setInscricaoEstadual(String inscricaoEstadual) {
@@ -174,11 +174,11 @@ import javax.persistence.Temporal;
     }
 
     public void setNome(String nome) {
-<span class="nc" id="L177">        this.nome = nome;</span>
-<span class="nc" id="L178">    }</span>
+<span class="fc" id="L177">        this.nome = nome;</span>
+<span class="fc" id="L178">    }</span>
 
     public String getRua() {
-<span class="fc" id="L181">        return rua;</span>
+<span class="nc" id="L181">        return rua;</span>
     }
 
     public void setRua(String rua) {
@@ -186,7 +186,7 @@ import javax.persistence.Temporal;
 <span class="nc" id="L186">    }</span>
 
     public int getNumero() {
-<span class="fc" id="L189">        return numero;</span>
+<span class="nc" id="L189">        return numero;</span>
     }
 
     public void setNumero(int numero) {
@@ -194,7 +194,7 @@ import javax.persistence.Temporal;
 <span class="nc" id="L194">    }</span>
 
     public String getCep() {
-<span class="fc" id="L197">        return cep;</span>
+<span class="nc" id="L197">        return cep;</span>
     }
 
     public void setCep(String cep) {
@@ -202,7 +202,7 @@ import javax.persistence.Temporal;
 <span class="nc" id="L202">    }</span>
 
     public String getBairro() {
-<span class="fc" id="L205">        return bairro;</span>
+<span class="nc" id="L205">        return bairro;</span>
     }
 
     public void setBairro(String bairro) {
@@ -210,7 +210,7 @@ import javax.persistence.Temporal;
 <span class="nc" id="L210">    }</span>
 
     public String getCidade() {
-<span class="fc" id="L213">        return cidade;</span>
+<span class="nc" id="L213">        return cidade;</span>
     }
 
     public void setCidade(String cidade) {
@@ -218,7 +218,7 @@ import javax.persistence.Temporal;
 <span class="nc" id="L218">    }</span>
 
     public String getUf() {
-<span class="fc" id="L221">        return uf;</span>
+<span class="nc" id="L221">        return uf;</span>
     }
 
     public void setUf(String uf) {
@@ -235,7 +235,7 @@ import javax.persistence.Temporal;
     
     @Override
     public String toString(){
-<span class="fc" id="L238">        return Long.toString(id);</span>
+<span class="nc" id="L238">        return Long.toString(id);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

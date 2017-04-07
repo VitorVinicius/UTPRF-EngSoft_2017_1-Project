@@ -18,7 +18,7 @@ import javax.persistence.Persistence;
     private static EntityManagerFactory factory;
     private static EntityManager manager;
     public static EntityManager getManager() {
-<span class="nc" id="L21">        return manager;</span>
+<span class="fc" id="L21">        return manager;</span>
     }
 
     public static void estabelecerConexao() throws Exception{
@@ -26,32 +26,32 @@ import javax.persistence.Persistence;
 <span class="fc" id="L26">        manager = factory.createEntityManager();</span>
 <span class="fc" id="L27">    }</span>
     public static Object salvar(Object objeto) throws Exception{
-<span class="nc" id="L29">         manager.getTransaction().begin();</span>
-<span class="nc" id="L30">         manager.persist(objeto);</span>
-<span class="nc" id="L31">         manager.flush();</span>
-<span class="nc" id="L32">         manager.getTransaction().commit();</span>
-<span class="nc" id="L33">         return objeto;</span>
+<span class="fc" id="L29">         getManager().getTransaction().begin();</span>
+<span class="fc" id="L30">         getManager().persist(objeto);</span>
+<span class="fc" id="L31">         getManager().flush();</span>
+<span class="fc" id="L32">         getManager().getTransaction().commit();</span>
+<span class="fc" id="L33">         return objeto;</span>
     }
     public static void atualizar(Object objeto) throws Exception{
-<span class="nc" id="L36">         manager.getTransaction().begin();</span>
-<span class="nc" id="L37">         manager.merge(objeto);</span>
-<span class="nc" id="L38">         manager.getTransaction().commit();</span>
-<span class="nc" id="L39">    }</span>
+<span class="fc" id="L36">         getManager().getTransaction().begin();</span>
+<span class="fc" id="L37">         getManager().merge(objeto);</span>
+<span class="fc" id="L38">         getManager().getTransaction().commit();</span>
+<span class="fc" id="L39">    }</span>
     public static void remover(Object objeto) throws Exception{
-<span class="nc" id="L41">         manager.getTransaction().begin();</span>
-<span class="nc" id="L42">         manager.remove(objeto);</span>
-<span class="nc" id="L43">         manager.getTransaction().commit();</span>
-<span class="nc" id="L44">    }</span>
+<span class="fc" id="L41">         getManager().getTransaction().begin();</span>
+<span class="fc" id="L42">         getManager().remove(objeto);</span>
+<span class="fc" id="L43">         getManager().getTransaction().commit();</span>
+<span class="fc" id="L44">    }</span>
     public static Object buscar( Class tipo,long id) throws Exception{
-<span class="nc" id="L46">        Object encontrado = manager.find(tipo, id);</span>
-<span class="nc" id="L47">        return encontrado;</span>
+<span class="fc" id="L46">        Object encontrado = getManager().find(tipo, id);</span>
+<span class="fc" id="L47">        return encontrado;</span>
     }
     public static List&lt;Object&gt; buscar( String consulta) throws Exception{
-<span class="fc" id="L50">        List&lt;Object&gt; encontrados = manager.createQuery(consulta).getResultList();</span>
+<span class="fc" id="L50">        List&lt;Object&gt; encontrados = getManager().createQuery(consulta).getResultList();</span>
 <span class="fc" id="L51">        return encontrados;</span>
     }
     public static void encerrarConexao() throws Exception{
-<span class="fc" id="L54">        manager.close();</span>
+<span class="fc" id="L54">        getManager().close();</span>
 <span class="fc" id="L55">        factory.close();</span>
 <span class="fc" id="L56">    }</span>
 }

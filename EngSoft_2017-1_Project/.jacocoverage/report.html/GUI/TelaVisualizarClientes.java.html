@@ -22,9 +22,9 @@ public class TelaVisualizarClientes extends javax.swing.JFrame {
     /**
      * Creates new form TelaVisualizarClientes
      */
-<span class="fc" id="L25">    public TelaVisualizarClientes() {</span>
-<span class="fc" id="L26">        initComponents();</span>
-<span class="fc" id="L27">    }</span>
+<span class="nc" id="L25">    public TelaVisualizarClientes() {</span>
+<span class="nc" id="L26">        initComponents();</span>
+<span class="nc" id="L27">    }</span>
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -35,97 +35,153 @@ public class TelaVisualizarClientes extends javax.swing.JFrame {
     // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;Generated Code&quot;&gt;//GEN-BEGIN:initComponents
     private void initComponents() {
 
-<span class="fc" id="L38">        jScrollPane1 = new javax.swing.JScrollPane();</span>
-<span class="fc" id="L39">        jTable1 = new javax.swing.JTable();</span>
-<span class="fc" id="L40">        jButton1 = new javax.swing.JButton();</span>
-<span class="fc" id="L41">        jButton2 = new javax.swing.JButton();</span>
+<span class="nc" id="L38">        jScrollPane1 = new javax.swing.JScrollPane();</span>
+<span class="nc" id="L39">        jTable1 = new javax.swing.JTable();</span>
+<span class="nc" id="L40">        jButton1 = new javax.swing.JButton();</span>
+<span class="nc" id="L41">        jButton2 = new javax.swing.JButton();</span>
+<span class="nc" id="L42">        jLabel1 = new javax.swing.JLabel();</span>
+<span class="nc" id="L43">        jTextField1 = new javax.swing.JTextField();</span>
+<span class="nc" id="L44">        jButton3 = new javax.swing.JButton();</span>
+<span class="nc" id="L45">        jLabel2 = new javax.swing.JLabel();</span>
+<span class="nc" id="L46">        jTextField2 = new javax.swing.JTextField();</span>
+<span class="nc" id="L47">        jButton4 = new javax.swing.JButton();</span>
 
-<span class="fc" id="L43">        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);</span>
-<span class="fc" id="L44">        addWindowListener(new java.awt.event.WindowAdapter() {</span>
+<span class="nc" id="L49">        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);</span>
+<span class="nc" id="L50">        addWindowListener(new java.awt.event.WindowAdapter() {</span>
             public void windowOpened(java.awt.event.WindowEvent evt) {
-<span class="fc" id="L46">                CarregarClientes(evt);</span>
-<span class="fc" id="L47">            }</span>
+<span class="nc" id="L52">                CarregarClientes(evt);</span>
+<span class="nc" id="L53">            }</span>
         });
 
-<span class="fc" id="L50">        jTable1.setModel(new javax.swing.table.DefaultTableModel(</span>
+<span class="nc" id="L56">        jTable1.setModel(new javax.swing.table.DefaultTableModel(</span>
             new Object [][] {
 
             },
             new String [] {
                 &quot;Id&quot;, &quot;Nome&quot;, &quot;Tipo&quot;, &quot;Documento&quot;
             }
-<span class="fc" id="L57">        ) {</span>
-<span class="fc" id="L58">            boolean[] canEdit = new boolean [] {</span>
+<span class="nc" id="L63">        ) {</span>
+<span class="nc" id="L64">            boolean[] canEdit = new boolean [] {</span>
                 false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
-<span class="fc" id="L63">                return canEdit [columnIndex];</span>
+<span class="nc" id="L69">                return canEdit [columnIndex];</span>
             }
         });
-<span class="fc" id="L66">        jScrollPane1.setViewportView(jTable1);</span>
+<span class="nc" id="L72">        jScrollPane1.setViewportView(jTable1);</span>
 
-<span class="fc" id="L68">        jButton1.setText(&quot;Editar Seleção&quot;);</span>
-<span class="fc" id="L69">        jButton1.addActionListener(new java.awt.event.ActionListener() {</span>
+<span class="nc" id="L74">        jButton1.setText(&quot;Editar Seleção&quot;);</span>
+<span class="nc" id="L75">        jButton1.addActionListener(new java.awt.event.ActionListener() {</span>
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-<span class="fc" id="L71">                jButton1ActionPerformed(evt);</span>
-<span class="fc" id="L72">            }</span>
+<span class="nc" id="L77">                jButton1ActionPerformed(evt);</span>
+<span class="nc" id="L78">            }</span>
         });
 
-<span class="fc" id="L75">        jButton2.setText(&quot;Novo&quot;);</span>
-<span class="fc" id="L76">        jButton2.addActionListener(new java.awt.event.ActionListener() {</span>
+<span class="nc" id="L81">        jButton2.setText(&quot;Novo&quot;);</span>
+<span class="nc" id="L82">        jButton2.addActionListener(new java.awt.event.ActionListener() {</span>
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-<span class="nc" id="L78">                jButton2ActionPerformed(evt);</span>
-<span class="nc" id="L79">            }</span>
+<span class="nc" id="L84">                jButton2ActionPerformed(evt);</span>
+<span class="nc" id="L85">            }</span>
         });
 
-<span class="fc" id="L82">        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());</span>
-<span class="fc" id="L83">        getContentPane().setLayout(layout);</span>
-<span class="fc" id="L84">        layout.setHorizontalGroup(</span>
-<span class="fc" id="L85">            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
-<span class="fc" id="L86">            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 567, Short.MAX_VALUE)</span>
-<span class="fc" id="L87">            .addGroup(layout.createSequentialGroup()</span>
-<span class="fc" id="L88">                .addComponent(jButton2)</span>
-<span class="fc" id="L89">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
-<span class="fc" id="L90">                .addComponent(jButton1))</span>
+<span class="nc" id="L88">        jLabel1.setText(&quot;Buscar pelo CPF/CNPJ:&quot;);</span>
+
+<span class="nc" id="L90">        jButton3.setText(&quot;Buscar&quot;);</span>
+<span class="nc" id="L91">        jButton3.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L93">                jButton3ActionPerformed(evt);</span>
+<span class="nc" id="L94">            }</span>
+        });
+
+<span class="nc" id="L97">        jLabel2.setText(&quot;Buscar pelo Id:&quot;);</span>
+
+<span class="nc" id="L99">        jButton4.setText(&quot;Buscar&quot;);</span>
+<span class="nc" id="L100">        jButton4.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L102">                jButton4ActionPerformed(evt);</span>
+<span class="nc" id="L103">            }</span>
+        });
+
+<span class="nc" id="L106">        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());</span>
+<span class="nc" id="L107">        getContentPane().setLayout(layout);</span>
+<span class="nc" id="L108">        layout.setHorizontalGroup(</span>
+<span class="nc" id="L109">            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L110">            .addComponent(jScrollPane1)</span>
+<span class="nc" id="L111">            .addGroup(layout.createSequentialGroup()</span>
+<span class="nc" id="L112">                .addComponent(jButton2)</span>
+<span class="nc" id="L113">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+<span class="nc" id="L114">                .addComponent(jButton1))</span>
+<span class="nc" id="L115">            .addGroup(layout.createSequentialGroup()</span>
+<span class="nc" id="L116">                .addContainerGap()</span>
+<span class="nc" id="L117">                .addComponent(jLabel1)</span>
+<span class="nc" id="L118">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L119">                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L120">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L121">                .addComponent(jButton3)</span>
+<span class="nc" id="L122">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)</span>
+<span class="nc" id="L123">                .addComponent(jLabel2)</span>
+<span class="nc" id="L124">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L125">                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L126">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L127">                .addComponent(jButton4)</span>
+<span class="nc" id="L128">                .addContainerGap())</span>
         );
-<span class="fc" id="L92">        layout.setVerticalGroup(</span>
-<span class="fc" id="L93">            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
-<span class="fc" id="L94">            .addGroup(layout.createSequentialGroup()</span>
-<span class="fc" id="L95">                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
-<span class="fc" id="L96">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
-<span class="fc" id="L97">                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
-<span class="fc" id="L98">                    .addComponent(jButton1)</span>
-<span class="fc" id="L99">                    .addComponent(jButton2)))</span>
+<span class="nc" id="L130">        layout.setVerticalGroup(</span>
+<span class="nc" id="L131">            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L132">            .addGroup(layout.createSequentialGroup()</span>
+<span class="nc" id="L133">                .addGap(2, 2, 2)</span>
+<span class="nc" id="L134">                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L135">                    .addComponent(jLabel1)</span>
+<span class="nc" id="L136">                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L137">                    .addComponent(jButton3)</span>
+<span class="nc" id="L138">                    .addComponent(jLabel2)</span>
+<span class="nc" id="L139">                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L140">                    .addComponent(jButton4))</span>
+<span class="nc" id="L141">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L142">                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L143">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+<span class="nc" id="L144">                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L145">                    .addComponent(jButton1)</span>
+<span class="nc" id="L146">                    .addComponent(jButton2)))</span>
         );
 
-<span class="fc" id="L102">        pack();</span>
-<span class="fc" id="L103">    }// &lt;/editor-fold&gt;//GEN-END:initComponents</span>
+<span class="nc" id="L149">        pack();</span>
+<span class="nc" id="L150">    }// &lt;/editor-fold&gt;//GEN-END:initComponents</span>
 
     private void CarregarClientes(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_CarregarClientes
-<span class="fc" id="L106">      carregarLocatarios();</span>
-<span class="fc" id="L107">    }//GEN-LAST:event_CarregarClientes</span>
+<span class="nc" id="L153">      carregarLocatarios();</span>
+<span class="nc" id="L154">    }//GEN-LAST:event_CarregarClientes</span>
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-<span class="fc" id="L110">        int column = 0;</span>
-<span class="fc" id="L111">        int row = jTable1.getSelectedRow();</span>
-<span class="fc" id="L112">        Locatario locatario = (Locatario) jTable1.getModel().getValueAt(row, column);</span>
-<span class="fc" id="L113">        TelaCadastroCliente telaCadastro = new TelaCadastroCliente(this,true,locatario);</span>
+<span class="nc" id="L157">        int column = 0;</span>
+<span class="nc" id="L158">        int row = jTable1.getSelectedRow();</span>
+<span class="nc" id="L159">        Locatario locatario = (Locatario) jTable1.getModel().getValueAt(row, column);</span>
+<span class="nc" id="L160">        TelaCadastroCliente telaCadastro = new TelaCadastroCliente(this,true,locatario);</span>
         try{
-<span class="fc" id="L115">            telaCadastro.carregarDadosLocatarioEdicao();</span>
-<span class="fc" id="L116">            telaCadastro.setVisible(true);</span>
-<span class="fc" id="L117">            carregarLocatarios();</span>
+<span class="nc" id="L162">            telaCadastro.carregarDadosLocatarioEdicao();</span>
+<span class="nc" id="L163">            telaCadastro.setVisible(true);</span>
+<span class="nc" id="L164">            carregarLocatarios();</span>
         }
-<span class="nc" id="L119">        catch(Exception ex){</span>
-<span class="nc" id="L120">             JOptionPane.showMessageDialog(null, ex.toString(), &quot;Erro ao carregar cadastro.&quot;, JOptionPane.ERROR_MESSAGE);</span>
-<span class="nc" id="L121">             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);</span>
-<span class="fc" id="L122">        }</span>
+<span class="nc" id="L166">        catch(Exception ex){</span>
+<span class="nc" id="L167">             JOptionPane.showMessageDialog(null, ex.toString(), &quot;Erro ao carregar cadastro.&quot;, JOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L168">             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L169">        }</span>
         
-<span class="fc" id="L124">    }//GEN-LAST:event_jButton1ActionPerformed</span>
+<span class="nc" id="L171">    }//GEN-LAST:event_jButton1ActionPerformed</span>
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-<span class="nc" id="L127">        new TelaCadastroCliente(this,true).setVisible(true);</span>
-<span class="nc" id="L128">    }//GEN-LAST:event_jButton2ActionPerformed</span>
+<span class="nc" id="L174">        new TelaCadastroCliente(this,true).setVisible(true);</span>
+<span class="nc" id="L175">        carregarLocatarios();</span>
+<span class="nc" id="L176">    }//GEN-LAST:event_jButton2ActionPerformed</span>
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+<span class="nc" id="L179">        carregarLocatariosPorDocumento();</span>
+<span class="nc" id="L180">    }//GEN-LAST:event_jButton3ActionPerformed</span>
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+<span class="nc" id="L183">       carregarLocatariosPorId();</span>
+<span class="nc" id="L184">    }//GEN-LAST:event_jButton4ActionPerformed</span>
 
     /**
      * @param args the command line arguments
@@ -137,61 +193,115 @@ public class TelaVisualizarClientes extends javax.swing.JFrame {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-<span class="nc bnc" id="L140" title="All 2 branches missed.">            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {</span>
-<span class="nc bnc" id="L141" title="All 2 branches missed.">                if (&quot;Nimbus&quot;.equals(info.getName())) {</span>
-<span class="nc" id="L142">                    javax.swing.UIManager.setLookAndFeel(info.getClassName());</span>
-<span class="nc" id="L143">                    break;</span>
+<span class="nc bnc" id="L196" title="All 2 branches missed.">            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {</span>
+<span class="nc bnc" id="L197" title="All 2 branches missed.">                if (&quot;Nimbus&quot;.equals(info.getName())) {</span>
+<span class="nc" id="L198">                    javax.swing.UIManager.setLookAndFeel(info.getClassName());</span>
+<span class="nc" id="L199">                    break;</span>
                 }
             }
-<span class="nc" id="L146">        } catch (ClassNotFoundException ex) {</span>
-<span class="nc" id="L147">            java.util.logging.Logger.getLogger(TelaVisualizarClientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
-<span class="nc" id="L148">        } catch (InstantiationException ex) {</span>
-<span class="nc" id="L149">            java.util.logging.Logger.getLogger(TelaVisualizarClientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
-<span class="nc" id="L150">        } catch (IllegalAccessException ex) {</span>
-<span class="nc" id="L151">            java.util.logging.Logger.getLogger(TelaVisualizarClientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
-<span class="nc" id="L152">        } catch (javax.swing.UnsupportedLookAndFeelException ex) {</span>
-<span class="nc" id="L153">            java.util.logging.Logger.getLogger(TelaVisualizarClientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
-<span class="nc" id="L154">        }</span>
+<span class="nc" id="L202">        } catch (ClassNotFoundException ex) {</span>
+<span class="nc" id="L203">            java.util.logging.Logger.getLogger(TelaVisualizarClientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L204">        } catch (InstantiationException ex) {</span>
+<span class="nc" id="L205">            java.util.logging.Logger.getLogger(TelaVisualizarClientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L206">        } catch (IllegalAccessException ex) {</span>
+<span class="nc" id="L207">            java.util.logging.Logger.getLogger(TelaVisualizarClientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L208">        } catch (javax.swing.UnsupportedLookAndFeelException ex) {</span>
+<span class="nc" id="L209">            java.util.logging.Logger.getLogger(TelaVisualizarClientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L210">        }</span>
         //&lt;/editor-fold&gt;
 
         /* Create and display the form */
-<span class="nc" id="L158">        java.awt.EventQueue.invokeLater(new Runnable() {</span>
+<span class="nc" id="L214">        java.awt.EventQueue.invokeLater(new Runnable() {</span>
             public void run() {
-<span class="nc" id="L160">                new TelaVisualizarClientes().setVisible(true);</span>
-<span class="nc" id="L161">            }</span>
+<span class="nc" id="L216">                new TelaVisualizarClientes().setVisible(true);</span>
+<span class="nc" id="L217">            }</span>
         });
-<span class="nc" id="L163">    }</span>
+<span class="nc" id="L219">    }</span>
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
 
     private void carregarLocatarios() {
         
-<span class="fc" id="L174">        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();</span>
-<span class="fc" id="L175">        model.setRowCount(0);</span>
+<span class="nc" id="L236">        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();</span>
+<span class="nc" id="L237">        model.setRowCount(0);</span>
         try {
-<span class="fc" id="L177">            List&lt;Object&gt; locatarios = Persistencia.buscar(&quot;select t from Locatario as t&quot;);</span>
-<span class="fc bfc" id="L178" title="All 2 branches covered.">             for(int i=0; i&lt; locatarios.size();i++){</span>
-<span class="fc" id="L179">                    Locatario locatario = (Locatario)locatarios.get(i);</span>
-<span class="fc" id="L180">                    Object[] linha = new Object[]{</span>
+<span class="nc" id="L239">            List&lt;Object&gt; locatarios = Persistencia.buscar(&quot;select t from Locatario as t&quot;);</span>
+<span class="nc bnc" id="L240" title="All 2 branches missed.">             for(int i=0; i&lt; locatarios.size();i++){</span>
+<span class="nc" id="L241">                    Locatario locatario = (Locatario)locatarios.get(i);</span>
+<span class="nc" id="L242">                    Object[] linha = new Object[]{</span>
                                 locatario,
-<span class="fc" id="L182">                                locatario.getNome(),</span>
-<span class="fc" id="L183">                                locatario.getTipo(),</span>
-<span class="fc" id="L184">                                locatario.getCpf() +&quot; &quot;+  locatario.getCnpj()</span>
+<span class="nc" id="L244">                                locatario.getNome(),</span>
+<span class="nc" id="L245">                                locatario.getTipo(),</span>
+<span class="nc" id="L246">                                locatario.getCpf() +&quot; &quot;+  locatario.getCnpj()</span>
                             };
-<span class="fc" id="L186">                   model.addRow(linha);</span>
+<span class="nc" id="L248">                   model.addRow(linha);</span>
             }
             
             
             
-<span class="nc" id="L191">        } catch (Exception ex) {</span>
-<span class="nc" id="L192">            JOptionPane.showMessageDialog(null, ex.toString(), &quot;Erro ao obter clientes&quot;, JOptionPane.ERROR_MESSAGE);</span>
-<span class="nc" id="L193">            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);</span>
-<span class="fc" id="L194">        }</span>
-<span class="fc" id="L195">    }</span>
+<span class="nc" id="L253">        } catch (Exception ex) {</span>
+<span class="nc" id="L254">            JOptionPane.showMessageDialog(null, ex.toString(), &quot;Erro ao obter clientes&quot;, JOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L255">            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L256">        }</span>
+<span class="nc" id="L257">    }</span>
+    private void carregarLocatariosPorDocumento() {
+        
+<span class="nc" id="L260">        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();</span>
+<span class="nc" id="L261">        model.setRowCount(0);</span>
+        try {
+<span class="nc" id="L263">            List&lt;Object&gt; locatarios = Persistencia.buscar(&quot;select t from Locatario as t where cpf = '&quot;+jTextField1.getText()+&quot;' or cnpj = '&quot;+jTextField1.getText()+&quot;'&quot;);</span>
+<span class="nc bnc" id="L264" title="All 2 branches missed.">             for(int i=0; i&lt; locatarios.size();i++){</span>
+<span class="nc" id="L265">                    Locatario locatario = (Locatario)locatarios.get(i);</span>
+<span class="nc" id="L266">                    Object[] linha = new Object[]{</span>
+                                locatario,
+<span class="nc" id="L268">                                locatario.getNome(),</span>
+<span class="nc" id="L269">                                locatario.getTipo(),</span>
+<span class="nc" id="L270">                                locatario.getCpf() +&quot; &quot;+  locatario.getCnpj()</span>
+                            };
+<span class="nc" id="L272">                   model.addRow(linha);</span>
+            }
+            
+            
+            
+<span class="nc" id="L277">        } catch (Exception ex) {</span>
+<span class="nc" id="L278">            JOptionPane.showMessageDialog(null, ex.toString(), &quot;Erro ao obter clientes&quot;, JOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L279">            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L280">        }</span>
+<span class="nc" id="L281">    }</span>
+    private void carregarLocatariosPorId() {
+        
+<span class="nc" id="L284">        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();</span>
+<span class="nc" id="L285">        model.setRowCount(0);</span>
+        try {
+<span class="nc" id="L287">            List&lt;Object&gt; locatarios = Persistencia.buscar(&quot;select t from Locatario as t where id = '&quot;+jTextField2.getText()+&quot;'&quot;);</span>
+<span class="nc bnc" id="L288" title="All 2 branches missed.">             for(int i=0; i&lt; locatarios.size();i++){</span>
+<span class="nc" id="L289">                    Locatario locatario = (Locatario)locatarios.get(i);</span>
+<span class="nc" id="L290">                    Object[] linha = new Object[]{</span>
+                                locatario,
+<span class="nc" id="L292">                                locatario.getNome(),</span>
+<span class="nc" id="L293">                                locatario.getTipo(),</span>
+<span class="nc" id="L294">                                locatario.getCpf() +&quot; &quot;+  locatario.getCnpj()</span>
+                            };
+<span class="nc" id="L296">                   model.addRow(linha);</span>
+            }
+            
+            
+            
+<span class="nc" id="L301">        } catch (Exception ex) {</span>
+<span class="nc" id="L302">            JOptionPane.showMessageDialog(null, ex.toString(), &quot;Erro ao obter clientes&quot;, JOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L303">            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L304">        }</span>
+<span class="nc" id="L305">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

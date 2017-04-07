@@ -20,8 +20,9 @@ import static org.junit.Assert.*;
  * @author Marcos Felipe
  */
 public class PersistenciaTest {
-    
+    Persistencia persistencia;
     public PersistenciaTest() {
+        persistencia = new Persistencia();
     }
     
     @BeforeClass
