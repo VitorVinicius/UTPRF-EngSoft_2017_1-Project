@@ -26,21 +26,36 @@ public final class Persistencia {
         manager = factory.createEntityManager();
     }
     public static Object salvar(Object objeto) throws Exception{
-         getManager().getTransaction().begin();
-         getManager().persist(objeto);
-         getManager().flush();
-         getManager().getTransaction().commit();
-         return objeto;
+         try {
+            getManager().getTransaction().begin();
+            getManager().persist(objeto);
+            getManager().flush();
+            getManager().getTransaction().commit();
+        } catch (Exception ex) {
+            getManager().getTransaction().rollback();
+            throw ex;
+        }
+        return objeto;
     }
     public static void atualizar(Object objeto) throws Exception{
-         getManager().getTransaction().begin();
-         getManager().merge(objeto);
-         getManager().getTransaction().commit();
+        try {
+            getManager().getTransaction().begin();
+            getManager().merge(objeto);
+            getManager().getTransaction().commit();
+        } catch (Exception ex) {
+            getManager().getTransaction().rollback();
+            throw ex;
+        }
     }
     public static void remover(Object objeto) throws Exception{
-         getManager().getTransaction().begin();
-         getManager().remove(objeto);
-         getManager().getTransaction().commit();
+        try {
+            getManager().getTransaction().begin();
+            getManager().remove(objeto);
+            getManager().getTransaction().commit();
+        } catch (Exception ex) {
+            getManager().getTransaction().rollback();
+            throw ex;
+        }
     }
     public static Object buscar( Class tipo,long id) throws Exception{
         Object encontrado = getManager().find(tipo, id);

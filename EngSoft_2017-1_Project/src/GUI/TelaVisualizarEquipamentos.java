@@ -5,6 +5,7 @@
  */
 package GUI;
 
+import Classes.Equipamento;
 import Classes.Locatario;
 import Database.Persistencia;
 import java.util.List;
@@ -17,12 +18,12 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Vitor
  */
-public class TelaVisualizarClientes extends javax.swing.JFrame {
+public class TelaVisualizarEquipamentos extends javax.swing.JFrame {
 
     /**
-     * Creates new form TelaVisualizarClientes
+     * Creates new form TelaVisualizarEquipamentos
      */
-    public TelaVisualizarClientes() {
+    public TelaVisualizarEquipamentos() {
         initComponents();
     }
 
@@ -49,7 +50,7 @@ public class TelaVisualizarClientes extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
-                CarregarClientes(evt);
+                formWindowOpened(evt);
             }
         });
 
@@ -58,18 +59,30 @@ public class TelaVisualizarClientes extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Id", "Nome", "Tipo", "Documento"
+                "Id", "Nome", "Categoria", "Diária (R$)", "Status"
             }
         ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
         jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setMinWidth(75);
+            jTable1.getColumnModel().getColumn(0).setPreferredWidth(75);
+            jTable1.getColumnModel().getColumn(0).setMaxWidth(100);
+        }
 
         jButton1.setText("Editar Seleção");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -85,7 +98,7 @@ public class TelaVisualizarClientes extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("Buscar pelo CPF/CNPJ:");
+        jLabel1.setText("Buscar pelo Nome:");
 
         jButton3.setText("Buscar");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -94,7 +107,7 @@ public class TelaVisualizarClientes extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setText("Buscar pelo Id:");
+        jLabel2.setText("Buscar pelo Id/Cód. Barras:");
 
         jButton4.setText("Buscar");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -107,40 +120,44 @@ public class TelaVisualizarClientes extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 580, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jButton2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton1))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton4)
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jTextField1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton3)))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton4))
+                    .addComponent(jLabel2))
+                .addGap(8, 8, 8))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(2, 2, 2)
+                .addGap(6, 6, 6)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton3)
-                    .addComponent(jLabel2)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2)))
@@ -150,39 +167,41 @@ public class TelaVisualizarClientes extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void CarregarClientes(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_CarregarClientes
-      carregarLocatarios();
-    }//GEN-LAST:event_CarregarClientes
-
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if(jTable1.getSelectedRowCount() == 0) return;
+        
         int column = 0;
         int row = jTable1.getSelectedRow();
-        Locatario locatario = (Locatario) jTable1.getModel().getValueAt(row, column);
-        TelaCadastroCliente telaCadastro = new TelaCadastroCliente(this,true,locatario);
+        Equipamento equipamento = (Equipamento) jTable1.getModel().getValueAt(row, column);
+        TelaCadastroEquipamento telaCadastro = new TelaCadastroEquipamento(this,true,equipamento);
         try{
-            telaCadastro.carregarDadosLocatarioEdicao();
+            telaCadastro.carregarDadosEquipamentoEdicao();
             telaCadastro.setVisible(true);
-            carregarLocatarios();
+            carregarEquipamentos(null);
         }
         catch(Exception ex){
-             JOptionPane.showMessageDialog(null, ex.toString(), "Erro ao carregar cadastro.", JOptionPane.ERROR_MESSAGE);
-             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex.toString(), "Erro ao carregar cadastro.", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        new TelaCadastroCliente(this,true).setVisible(true);
-        carregarLocatarios();
+        new TelaCadastroEquipamento(this,true).setVisible(true);
+        carregarEquipamentos(null);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        carregarLocatariosPorDocumento();
+        carregarEquipamentosPorNome();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-       carregarLocatariosPorId();
+        carregarEquipamentosPorIdOuEAN();
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        this.carregarEquipamentos("");
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments
@@ -201,24 +220,59 @@ public class TelaVisualizarClientes extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TelaVisualizarClientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaVisualizarEquipamentos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TelaVisualizarClientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaVisualizarEquipamentos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TelaVisualizarClientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaVisualizarEquipamentos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TelaVisualizarClientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaVisualizarEquipamentos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TelaVisualizarClientes().setVisible(true);
+                new TelaVisualizarEquipamentos().setVisible(true);
             }
         });
     }
-
+    
+    private void carregarEquipamentos(String condicoes) {
+        if(condicoes == null){
+            condicoes = "";
+        }
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
+        try {
+            List<Object> equipamentos = Persistencia.buscar("select t from Equipamento as t " + condicoes);
+             for(int i=0; i< equipamentos.size();i++){
+                    Equipamento equipamento = (Equipamento)equipamentos.get(i);
+                    Object[] linha = new Object[]{
+                                equipamento,
+                                equipamento.getNome(),
+                                equipamento.getCategoria(),
+                                equipamento.getValorDiaria(),
+                                equipamento.getStatus().name()
+                            };
+                   model.addRow(linha);
+            }
+            
+            
+            
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.toString(), "Erro ao obter clientes", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void carregarEquipamentosPorNome() {
+       carregarEquipamentos("where nome like '%"+jTextField1.getText()+"%'");
+    }
+    private void carregarEquipamentosPorIdOuEAN() {
+        carregarEquipamentos("where ean like '%"+jTextField2.getText()+"%' or id = '"+ jTextField2.getText()+"'");
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -231,77 +285,4 @@ public class TelaVisualizarClientes extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
-
-    private void carregarLocatarios() {
-        
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        model.setRowCount(0);
-        try {
-            List<Object> locatarios = Persistencia.buscar("select t from Locatario as t");
-             for(int i=0; i< locatarios.size();i++){
-                    Locatario locatario = (Locatario)locatarios.get(i);
-                    Object[] linha = new Object[]{
-                                locatario,
-                                locatario.getNome(),
-                                locatario.getTipo(),
-                                locatario.getCpf() +" "+  locatario.getCnpj()
-                            };
-                   model.addRow(linha);
-            }
-            
-            
-            
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, ex.toString(), "Erro ao obter clientes", JOptionPane.ERROR_MESSAGE);
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    private void carregarLocatariosPorDocumento() {
-        
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        model.setRowCount(0);
-        try {
-            List<Object> locatarios = Persistencia.buscar("select t from Locatario as t where cpf = '"+jTextField1.getText()+"' or cnpj = '"+jTextField1.getText()+"'");
-             for(int i=0; i< locatarios.size();i++){
-                    Locatario locatario = (Locatario)locatarios.get(i);
-                    Object[] linha = new Object[]{
-                                locatario,
-                                locatario.getNome(),
-                                locatario.getTipo(),
-                                locatario.getCpf() +" "+  locatario.getCnpj()
-                            };
-                   model.addRow(linha);
-            }
-            
-            
-            
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, ex.toString(), "Erro ao obter clientes", JOptionPane.ERROR_MESSAGE);
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    private void carregarLocatariosPorId() {
-        
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        model.setRowCount(0);
-        try {
-            List<Object> locatarios = Persistencia.buscar("select t from Locatario as t where id = '"+jTextField2.getText()+"'");
-             for(int i=0; i< locatarios.size();i++){
-                    Locatario locatario = (Locatario)locatarios.get(i);
-                    Object[] linha = new Object[]{
-                                locatario,
-                                locatario.getNome(),
-                                locatario.getTipo(),
-                                locatario.getCpf() +" "+  locatario.getCnpj()
-                            };
-                   model.addRow(linha);
-            }
-            
-            
-            
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, ex.toString(), "Erro ao obter clientes", JOptionPane.ERROR_MESSAGE);
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
 }

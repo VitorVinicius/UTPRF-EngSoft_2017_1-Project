@@ -21,17 +21,34 @@ import javax.persistence.Temporal;
  * @author Vitor
  */
 @Entity
-public class Equipamento implements Serializable  {
+public class Equipamento implements Serializable {
+
     @Id
     @GeneratedValue
     private long id;
-    
+
+    @Column(nullable=false) 
     private String nome;
-    
+
     private String descricao;
     @OneToOne
     private Concessionaria concessionaria;
+    
+    @Column(nullable=false) 
+    private String ean;
+    private String categoria;
 
+    @OneToMany
+    private Set<Historico> historicos;
+    @Column(nullable=false) 
+    private StatusEquipamento status;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date proximaRevisao;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date dataCompra;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date validade;
+    
     public Concessionaria getConcessionaria() {
         return concessionaria;
     }
@@ -39,6 +56,7 @@ public class Equipamento implements Serializable  {
     public void setConcessionaria(Concessionaria concessionaria) {
         this.concessionaria = concessionaria;
     }
+
     public String getDescricao() {
         return descricao;
     }
@@ -46,11 +64,11 @@ public class Equipamento implements Serializable  {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
-    
+
     private String fabricante;
-    
+
     private float valorDiaria;
-    
+
     private float valorPatrimonio;
     @OneToOne
     private Funcionario funcionario;
@@ -62,7 +80,7 @@ public class Equipamento implements Serializable  {
     public void setFuncionario(Funcionario funcionario) {
         this.funcionario = funcionario;
     }
-    
+
     public String getEan() {
         return ean;
     }
@@ -78,19 +96,8 @@ public class Equipamento implements Serializable  {
     public void setCategoria(String categoria) {
         this.categoria = categoria;
     }
-    private String ean;
-    private String categoria;
     
-    @OneToMany
-    private Set<Historico> historicos;
-    private StatusEquipamento status;
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date proximaRevisao;
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date dataCompra;
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date validade;
-    
+
     public long getId() {
         return id;
     }
@@ -98,7 +105,7 @@ public class Equipamento implements Serializable  {
     public void setId(long id) {
         this.id = id;
     }
-    
+
     public String getNome() {
         return nome;
     }
@@ -170,18 +177,24 @@ public class Equipamento implements Serializable  {
     public void setValidade(Date validade) {
         this.validade = validade;
     }
-    
-    
-    public boolean verificarDisponibilidade() throws Exception{
+
+    public boolean verificarDisponibilidade() throws Exception {
         throw new Exception("Método ainda não implementado.");
     }
-    public StatusEquipamento consultarEstado() throws Exception{
+
+    public StatusEquipamento consultarEstado() throws Exception {
         throw new Exception("Método ainda não implementado.");
     }
-    public boolean consultarValidade() throws Exception{
+
+    public boolean consultarValidade() throws Exception {
         throw new Exception("Método ainda não implementado.");
     }
-    public boolean consultarEstoque() throws Exception{
+
+    public boolean consultarEstoque() throws Exception {
         throw new Exception("Método ainda não implementado.");
+    }
+    @Override
+    public String toString(){
+        return Long.toString(id);
     }
 }

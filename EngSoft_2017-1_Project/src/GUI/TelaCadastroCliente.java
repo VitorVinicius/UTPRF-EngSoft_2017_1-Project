@@ -136,6 +136,7 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
         jPanel4 = new javax.swing.JPanel();
         tfNomeResponsavel = new javax.swing.JTextField();
         jLabel21 = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
         jbCadastar = new javax.swing.JButton();
         jbRemover = new javax.swing.JButton();
 
@@ -500,6 +501,19 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
 
         jTabbedPane1.addTab("Dados de Concessionária", jPanel4);
 
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 530, Short.MAX_VALUE)
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 354, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("Histórico", jPanel5);
+
         jbCadastar.setText("Salvar");
         jbCadastar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -536,6 +550,7 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void tfDiaNascimentoStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tfDiaNascimentoStateChanged
@@ -931,6 +946,7 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JButton jbCadastar;
     private javax.swing.JButton jbRemover;
