@@ -264,11 +264,30 @@ public class Locatario implements Serializable {
         }
         return locacoes;
     }
+    
+    public List<Locacao> getLocacoesAtrasadas() throws Exception {
+        
+        Query query = Persistencia.getManager().createQuery("select t from Locacao as t where t.locatario = ? and t.status <> ? and (t.status = ? or t.dataDevolucao < ?) order by t.id asc");
+        query.setParameter(1, this);
+        query.setParameter(2, StatusLocacao.Apagada);
+        query.setParameter(3, StatusLocacao.Atrasada);
+        query.setParameter(4, new Date());
+        List<Locacao> locacoes = new ArrayList<>();
+        List<Object> locacoesRegistradas = Persistencia.buscar(query);
+        for (int i = 0; i < locacoesRegistradas.size(); i++) {
+            Locacao locacao = (Locacao) locacoesRegistradas.get(i);
+            locacao.setStatus(StatusLocacao.Atrasada);
+            locacoes.add(locacao);
+            Persistencia.atualizar(locacao);
+        }
+        return locacoes;
+    }
 
     public List<Locacao> getLocacoesAbertas() throws Exception {
-         Query query = Persistencia.getManager().createQuery("select t from Locacao as t where t.locatario = ? and t.status = ? order by t.id asc");
+         Query query = Persistencia.getManager().createQuery("select t from Locacao as t where t.locatario = ? and (t.status = ? or t.status = ?) order by t.id asc");
         query.setParameter(1, this);
         query.setParameter(2, StatusLocacao.Aberta);
+        query.setParameter(3, StatusLocacao.RequerAtencao);
         List<Locacao> locacoes = new ArrayList<>();
         List<Object> locacoesRegistradas = Persistencia.buscar(query);
         for (int i = 0; i < locacoesRegistradas.size(); i++) {

@@ -12,6 +12,7 @@ import java.awt.Frame;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.Query;
 import javax.swing.JOptionPane;
 
 /**
@@ -39,20 +40,18 @@ public class Main {
          
         try {
             Persistencia.estabelecerConexao();
-            List<Object> funcionarios =  Persistencia.buscar("select t from Locatario as t where DTYPE = 'Funcionario'");
-            if(funcionarios!=null && !funcionarios.isEmpty()){
-                funcionario =(Funcionario) funcionarios.get(0);
-            }
-            else{
+            
+            Query query = Persistencia.getManager().createQuery("select count(*) from Funcionario as t");
+           
+            long contagem = (long) query.getSingleResult();
+            
+            if(contagem==0){
               JOptionPane.showMessageDialog(null, "Cadastre um funcionario para continuar.", "Nenhum Funcionario Presente", JOptionPane.INFORMATION_MESSAGE);
               TelaCadastroCliente telaCadastro = new TelaCadastroCliente((Frame)null,true);
               telaCadastro.setLogarFuncionarioAoCadastrar(true);
               telaCadastro.setVisible(true);
-              
-                
-            }
-            if(funcionario!=null){
-               new TelaPrincipal().setVisible(true);
+            }else{
+                new TelaLogin().setVisible(true);
             }
         } catch (Exception ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);

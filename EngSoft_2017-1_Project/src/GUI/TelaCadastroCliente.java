@@ -121,6 +121,8 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
         tfCNPJ = new javax.swing.JFormattedTextField();
         tfCEP = new javax.swing.JFormattedTextField();
         tfUF = new javax.swing.JSpinner();
+        jLabel23 = new javax.swing.JLabel();
+        jpfSenha = new javax.swing.JPasswordField();
         jPanel3 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         tfTelefonePrincipal = new javax.swing.JTextField();
@@ -155,6 +157,11 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
 
         buttonGroup1.add(rbFuncionario);
         rbFuncionario.setText("Funcionário");
+        rbFuncionario.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                rbFuncionarioStateChanged(evt);
+            }
+        });
 
         buttonGroup1.add(rbPFisica);
         rbPFisica.setSelected(true);
@@ -222,6 +229,10 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
 
         tfUF.setModel(new javax.swing.SpinnerListModel(new String[] {"AC", "AL", "AM", "AP", "BA", "CE", "DF", "ES", "GO", "MA", "MG", "MS", "MT", "PA", "PB", "PE", "PI", "PR", "RJ", "RN", "RO", "RR", "RS", "SC", "SE", "SP", "TO"}));
 
+        jLabel23.setText("Senha:");
+
+        jpfSenha.setEnabled(false);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -286,36 +297,40 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
                                     .addComponent(tfNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(tfCidade, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel6))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel7)
+                                    .addComponent(tfUF, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(56, 351, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel10)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(tfCidade, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel6))
+                                        .addComponent(tfDiaNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(tfMesNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(tfAnoNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(52, 52, 52)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(1, 1, 1)
+                                        .addComponent(rbPFisica)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel7)
-                                            .addComponent(tfUF, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(rbPJuridica)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(rbConcessionaria)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(rbFuncionario))
+                                    .addComponent(jLabel14))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel10)
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addComponent(tfDiaNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(tfMesNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(tfAnoNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                        .addGap(52, 52, 52)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel14)
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addGap(1, 1, 1)
-                                                .addComponent(rbPFisica)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(rbPJuridica)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(rbConcessionaria)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(rbFuncionario)))))
-                                .addGap(0, 173, Short.MAX_VALUE)))
+                                        .addComponent(jLabel23)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addComponent(jpfSenha))))
                         .addContainerGap())))
         );
         jPanel1Layout.setVerticalGroup(
@@ -346,7 +361,8 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
-                    .addComponent(jLabel14))
+                    .addComponent(jLabel14)
+                    .addComponent(jLabel23))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tfDiaNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -355,7 +371,8 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
                     .addComponent(rbPFisica)
                     .addComponent(rbPJuridica)
                     .addComponent(rbConcessionaria)
-                    .addComponent(rbFuncionario))
+                    .addComponent(rbFuncionario)
+                    .addComponent(jpfSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -683,6 +700,10 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_jbRemoverActionPerformed
 
+    private void rbFuncionarioStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_rbFuncionarioStateChanged
+        this.jpfSenha.setEnabled(this.rbFuncionario.isSelected());
+    }//GEN-LAST:event_rbFuncionarioStateChanged
+
     public void cadastrarConcessionaria() throws UFInvalidaException, ParseException, Exception{
         TipoLocatario tipoLocatario = TipoLocatario.CONCESSIONARIA;
 
@@ -826,6 +847,10 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
         funcionario.setDataAdmissao(dataAdmissao);
         funcionario.setSalario(salario);
         
+        
+        String senha = String.valueOf( this.jpfSenha.getPassword());
+        funcionario.setSenha(senha);
+        
         Set<Historico> historicos = funcionario.getHistoricos();
         
         if(historicos == null){
@@ -834,8 +859,6 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
         }
         Historico historico = new Historico();
         historico.setDataOcorrencia(new Date());
-        
-        
         
         if (this.locatarioEdicao != null) {
             historico.setDescricao("Alteracao de cadastro realizada por " + (Main.getFuncionario()==null?" desconhecido":Main.getFuncionario().getNome()));
@@ -1062,6 +1085,7 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1082,6 +1106,7 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
     private javax.swing.JSpinner jpAnoAdmissao;
     private javax.swing.JSpinner jpDiaAdmissao;
     private javax.swing.JSpinner jpMesAdmissao;
+    private javax.swing.JPasswordField jpfSenha;
     private javax.swing.JRadioButton rbConcessionaria;
     private javax.swing.JRadioButton rbFuncionario;
     private javax.swing.JRadioButton rbPFisica;
@@ -1168,7 +1193,7 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
         this.tfCPF.setText(funcionario.getCpf());
         this.tfCNPJ.setText(funcionario.getCnpj());
         this.tfIE.setText(funcionario.getInscricaoEstadual());
-
+        this.jpfSenha.setText(funcionario.getSenha());
         Calendar cal = Calendar.getInstance();
 
         Date dataNascimento = funcionario.getDataNascimento();

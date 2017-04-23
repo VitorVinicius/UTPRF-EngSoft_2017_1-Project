@@ -21,8 +21,11 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.Query;
@@ -34,22 +37,39 @@ import javax.swing.JOptionPane;
  * @author Vitor
  */
 public class TelaPrincipal extends javax.swing.JFrame {
-
+    Timer timer = new Timer();
     private List<Locacao> locacoes;
-    private Equipamento equipamento;
     private Locatario locatario;
     SimpleDateFormat formatoDataCompleta = new SimpleDateFormat("dd/MM/yyyy HH:mm"); 
     SimpleDateFormat formatoDataSimples= new SimpleDateFormat("dd/MM/yyyy"); 
+    SimpleDateFormat formatoHora= new SimpleDateFormat("HH:mm:ss");
+    private Equipamento equipamento;
     /**
      * Creates new form TelaPrincipal
      */
+    
     public TelaPrincipal() {
         initComponents();
         getContentPane().setBackground(new Color(168,209,252)); 
         if(Main.getFuncionario()!=null)
             NOME_OPERADOR.setText(Main.getFuncionario().getNome());
-    }
+        
+            int delay = 0;   // delay de 5 seg.
+            int interval = 1000;  // intervalo de 1 seg.
+            
 
+            timer.scheduleAtFixedRate(new TimerTask() {
+                    public void run() {
+                        mostrarHora();
+                    }
+                }, delay, interval);
+    }
+    
+    private void mostrarHora() {
+        Date data = new Date();
+             jLabel6.setText(this.formatoDataSimples.format(data));
+             jLabel7.setText(this.formatoHora.format(data));
+            }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -62,6 +82,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         NOME_EQUIPAMENTO = new javax.swing.JLabel();
         jPanel34 = new javax.swing.JPanel();
@@ -82,7 +106,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         ID = new javax.swing.JFormattedTextField();
         jPanel10 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
-        CODIGO_EAN = new javax.swing.JFormattedTextField();
+        ENTRADA_NOME_EQUIPAMENTO = new javax.swing.JFormattedTextField();
         jPanel12 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jSpinner1 = new javax.swing.JSpinner();
@@ -130,6 +154,19 @@ public class TelaPrincipal extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("Autorizar Todas");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setText("Autorizar");
+
+        jButton5.setText("Locações");
+
+        jButton6.setText("Cancelar");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -138,7 +175,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton4)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -146,7 +190,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 .addGap(0, 5, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
-                    .addComponent(jButton4)))
+                    .addComponent(jButton4)
+                    .addComponent(jButton1)
+                    .addComponent(jButton3)
+                    .addComponent(jButton5)
+                    .addComponent(jButton6)))
         );
 
         jPanel2.setBackground(new java.awt.Color(83, 165, 252));
@@ -299,11 +347,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(jLabel8)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(ID))
-                .addContainerGap())
+                    .addComponent(jLabel8)
+                    .addComponent(ID, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -320,11 +366,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel9.setText("Código:");
+        jLabel9.setText("Nome:");
 
-        CODIGO_EAN.addActionListener(new java.awt.event.ActionListener() {
+        ENTRADA_NOME_EQUIPAMENTO.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CODIGO_EANActionPerformed(evt);
+                ENTRADA_NOME_EQUIPAMENTOActionPerformed(evt);
             }
         });
 
@@ -335,11 +381,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addComponent(jLabel9)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(CODIGO_EAN))
-                .addContainerGap())
+                    .addComponent(jLabel9)
+                    .addComponent(ENTRADA_NOME_EQUIPAMENTO, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -347,7 +391,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jLabel9)
                 .addGap(0, 0, 0)
-                .addComponent(CODIGO_EAN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(ENTRADA_NOME_EQUIPAMENTO, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(5, 5, 5))
         );
 
@@ -372,11 +416,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
             .addGroup(jPanel12Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel12Layout.createSequentialGroup()
-                        .addComponent(jLabel11)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jSpinner1))
-                .addContainerGap())
+                    .addComponent(jLabel11)
+                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel12Layout.setVerticalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -409,11 +451,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
             .addGroup(jPanel13Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel13Layout.createSequentialGroup()
-                        .addComponent(jLabel12)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jSpinner2))
-                .addContainerGap())
+                    .addComponent(jLabel12)
+                    .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel13Layout.setVerticalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -441,11 +481,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
             .addGroup(jPanel14Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel14Layout.createSequentialGroup()
-                        .addComponent(jLabel13)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(VALOR_DIARIA))
-                .addContainerGap())
+                    .addComponent(jLabel13)
+                    .addComponent(VALOR_DIARIA, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel14Layout.setVerticalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -473,11 +511,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
             .addGroup(jPanel15Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel15Layout.createSequentialGroup()
-                        .addComponent(jLabel14)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(TOTAL_EQUIPAMENTO))
-                .addContainerGap())
+                    .addComponent(jLabel14)
+                    .addComponent(TOTAL_EQUIPAMENTO, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel15Layout.setVerticalGroup(
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -520,7 +556,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
             .addGroup(jPanel16Layout.createSequentialGroup()
                 .addGap(32, 32, 32)
                 .addComponent(jLabel16)
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel16Layout.setVerticalGroup(
             jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -567,7 +603,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         );
 
         jPanel8.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(null, "Relação de Locações", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11)))); // NOI18N
+        jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(null, "Relação de Locações Abertas", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11)))); // NOI18N
 
         jTextArea1.setEditable(false);
         jTextArea1.setColumns(20);
@@ -727,27 +763,33 @@ public class TelaPrincipal extends javax.swing.JFrame {
         Query query = Persistencia.getManager().createQuery("select t from Equipamento as t where t.id = ? and t.status <> ?  order by t.id desc");
         query.setParameter(1, Long.parseLong(ID.getText()));
         query.setParameter(2, StatusEquipamento.Apagado);
+        query.setMaxResults(1);
         List<Object> equipamentos = Persistencia.buscar(query);
         if (equipamentos != null && !equipamentos.isEmpty()) {
 
             for (Object obj : equipamentos) {
-                Equipamento equipamento = (Equipamento) obj;
-                carregarEquipamento(equipamento);
+                this.equipamento = (Equipamento) obj;
+                carregarEquipamento();
             }
         } else {
             NOME_EQUIPAMENTO.setText("NÃO ENCONTRADO");
         }
+        Date dt = new Date();
+        Calendar c = Calendar.getInstance(); 
+        c.setTime(dt); 
+        c.add(Calendar.DATE, 1);
+        this.jSpinner1.setValue(new Date());
+        this.jSpinner2.setValue(c.getTime());
     }//GEN-LAST:event_IDActionPerformed
-    public void carregarEquipamento(Equipamento equipamento){
-        this.equipamento = equipamento;
-        if(equipamento.getStatus() == StatusEquipamento.Locado){
-            
-            JOptionPane.showMessageDialog(null, "O equipamento de id '"+equipamento.getId()+"' já está locado para outro locatário.", "Equipamento locado.", JOptionPane.ERROR_MESSAGE);
+    public void carregarEquipamento(){
+        if(equipamento.getStatus() != StatusEquipamento.Disponivel){
+            JOptionPane.showMessageDialog(null, "O equipamento de id '"+equipamento.getId()+"' e código '"+equipamento.getSerie()+"' não está disponível.", "Equipamento Indiponível.", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        ID.setText(String.valueOf(equipamento.getId()));
         NOME_EQUIPAMENTO.setText(equipamento.getNome());
         VALOR_DIARIA.setText(String.valueOf(equipamento.getValorDiaria()));
-        CODIGO_EAN.setText(equipamento.getEan());
+        ENTRADA_NOME_EQUIPAMENTO.setText(equipamento.getNome());
         DESCRICAO_EQUIPAMENTO.setText(equipamento.getDescricao());
         try {
                 BufferedImage bImageFromConvert = equipamento.obterImagem();
@@ -765,22 +807,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
     
     
     
-    private void CODIGO_EANActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CODIGO_EANActionPerformed
-        Query query = Persistencia.getManager().createQuery("select t from Equipamento as t where t.ean = ? and t.status <> ?  order by t.id desc");
-        query.setParameter(1, CODIGO_EAN.getText());
-        query.setParameter(2, StatusEquipamento.Apagado);
-        List<Object> equipamentos = Persistencia.buscar(query);
-        if (equipamentos != null && !equipamentos.isEmpty()) {
-
-            for (Object obj : equipamentos) {
-                Equipamento equipamento = (Equipamento) obj;
-                carregarEquipamento(equipamento);
-            }
-        } else {
-            NOME_EQUIPAMENTO.setText("NÃO ENCONTRADO");
-        }
-    }//GEN-LAST:event_CODIGO_EANActionPerformed
-
     private void jPanel16MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel16MouseEntered
        jPanel16.setBackground(new Color(153,201,252));
     }//GEN-LAST:event_jPanel16MouseEntered
@@ -804,15 +830,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
         }
         try {
             adicionarLocacao();
-            ID.setText("");
-            CODIGO_EAN.setText("");
-            jSpinner1.setValue(new Date());
-            jSpinner2.setValue(new Date());
-            VALOR_DIARIA.setText("0.00");
-            TOTAL_EQUIPAMENTO.setText("0.00");
-            IMAGEM_EQUIPAMENTO.setIcon(null);
-            DESCRICAO_EQUIPAMENTO.setText("");
-            this.equipamento = null;
+            carregarCliente();
+            
             
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.toString(), "Erro ao tentar processar locação", JOptionPane.ERROR_MESSAGE);
@@ -822,7 +841,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void calcularDiarias(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_calcularDiarias
         try {
-            
+            if(VALOR_DIARIA.getText().isEmpty()) return;
             Date dataLocacao = (Date)jSpinner1.getValue();
             Date dataDevolucao = (Date)jSpinner2.getValue();
             float diferenca = dataDevolucao.getTime() - dataLocacao.getTime();
@@ -839,41 +858,48 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_calcularDiarias
 
     private void CPF_CNPJActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CPF_CNPJActionPerformed
-        try {
-            jFormattedTextField1.setText("0.00");
-            if(locacoes!=null)
-                locacoes.clear();
-            this.equipamento = null;
-            
-            Query query = Persistencia.getManager().createQuery("select t from Locatario as t where (t.cpf like ?  or t.cnpj like ? or t.id = ?) and t.status <> ? order by t.id desc");
-            query.setParameter(1,String.valueOf(Long.parseLong(CPF_CNPJ.getText())));
-            query.setParameter(2, String.valueOf(Long.parseLong(CPF_CNPJ.getText())));
-            query.setParameter(3, Long.parseLong(CPF_CNPJ.getText()));
-            query.setParameter(4, StatusLocatario.Apagado);
-            query.setMaxResults(1);
-            List<Object> locatarios = Persistencia.buscar(query);
-             for(int i=0; i< locatarios.size();i++){
-                    this.locatario = (Locatario)locatarios.get(i);
-            }
-            if(this.locatario!=null){
-                
-                String data = formatoDataCompleta.format(new Date()); 
-                
-                String texto = "Recibo de Locações\nCliente: "+ this.locatario.getNome()+"\nDoc.: "
-                        + this.locatario.getCpf() + " " + this.locatario.getCnpj()
-                        + "\nData: "+ data;
-                jTextArea1.setText(texto);
-                carregarLocacoes(this.locatario);
-            }else{
-                jTextArea1.setText("");
-                JOptionPane.showMessageDialog(null, "Cliente não encontrado.", "Cliente", JOptionPane.ERROR_MESSAGE);
-            
-            }
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, ex.toString(), "Erro ao obter cliente", JOptionPane.ERROR_MESSAGE);
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        carregarCliente();
     }//GEN-LAST:event_CPF_CNPJActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if(locacoes == null) return;
+
+        int dialogButton = JOptionPane.showConfirmDialog (null, "Deseja realmente autorizar todas as locações abertas deste locatário?","Autorizar Locações", JOptionPane.YES_NO_OPTION);
+        if(dialogButton  == JOptionPane.YES_OPTION){
+            for(Locacao locacao : locacoes){
+                if(locacao.getDataDevolucao().getTime()>=new Date().getTime()){
+                    locacao.setStatus(StatusLocacao.EmDia);
+                }
+                else{
+                    locacao.setStatus(StatusLocacao.RequerAtencao);
+                }
+                try {
+                    Main.getFuncionario().atualizarLocacao(locacao);
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null,"Erro ao obter cliente: "+ ex.getMessage(), "", JOptionPane.ERROR_MESSAGE);
+                    Logger.getLogger(TelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            limparTela();
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void ENTRADA_NOME_EQUIPAMENTOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ENTRADA_NOME_EQUIPAMENTOActionPerformed
+        Query query = Persistencia.getManager().createQuery("select t from Equipamento as t where t.nome like ? and t.status = ? order by t.id desc");
+        query.setParameter(1, "%"+ENTRADA_NOME_EQUIPAMENTO.getText()+"%");
+        query.setParameter(2, StatusEquipamento.Disponivel);
+        query.setMaxResults(1);
+        List<Object> equipamentos = Persistencia.buscar(query);
+        if (equipamentos != null && !equipamentos.isEmpty()) {
+
+            for (Object obj : equipamentos) {
+                equipamento = (Equipamento) obj;
+                carregarEquipamento();
+            }
+        } else {
+            NOME_EQUIPAMENTO.setText("NÃO ENCONTRADO OU INDISPONÍVEL NO ESTOQUE");
+        }
+    }//GEN-LAST:event_ENTRADA_NOME_EQUIPAMENTOActionPerformed
 
     /**
      * @param args the command line arguments
@@ -911,17 +937,21 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JFormattedTextField CODIGO_EAN;
     private javax.swing.JTextField CPF_CNPJ;
     private javax.swing.JTextArea DESCRICAO_EQUIPAMENTO;
+    private javax.swing.JFormattedTextField ENTRADA_NOME_EQUIPAMENTO;
     private javax.swing.JFormattedTextField ID;
     private javax.swing.JLabel IMAGEM_EQUIPAMENTO;
     private javax.swing.JLabel NOME_EQUIPAMENTO;
     private javax.swing.JLabel NOME_OPERADOR;
     private javax.swing.JFormattedTextField TOTAL_EQUIPAMENTO;
     private javax.swing.JFormattedTextField VALOR_DIARIA;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -962,9 +992,15 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void adicionarLocacao() throws ParseException, Exception {
        
+        if(equipamento == null){
+            JOptionPane.showMessageDialog(null, "Selecione um equipamento primeiro", "Nenhum equipamento selecionado", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
        if(locacoes == null){
            locacoes = new ArrayList<>();
        }
+       
       
        Locacao locacao = new Locacao();
        locacao.setFuncionario(Main.getFuncionario());
@@ -990,24 +1026,112 @@ public class TelaPrincipal extends javax.swing.JFrame {
         Equipamento equip = locacao.getEquipamento();
        String texto = jTextArea1.getText();
        texto += "\n\nID Locação: "+locacao.getId()+"\n";
+       
+       if(locacao.getStatus() == StatusLocacao.Atrasada)
+       {   
+           texto += "[ATRASO DETECTADO]\n";
+       }
+       else
+       if(locacao.getStatus() == StatusLocacao.RequerAtencao){
+           texto += "[REQUER ATENÇÃO]\n";
+       }
+       
        texto += ">"+ equip.getNome() + "\n";
-       texto +="ID:"+ equip.getId() + " Cód." + locacao.getEquipamento().getEan();
+       texto +="ID:"+ equip.getId() + " Série:" + locacao.getEquipamento().getSerie();
        texto += "\n"+equip.getFabricante();
        texto +="\nLocação: "+  this.formatoDataCompleta.format(locacao.getDataLocacao());
        texto +="\nDevolução: "+  this.formatoDataCompleta.format(locacao.getDataDevolucao());
-       texto +="\nTotal da Locação: "+  locacao.getTotalLocacao();
+       texto +="\nDiária: "+  locacao.getValorDiaria();
+       texto +="\nTotal: "+  locacao.getTotalLocacao();
+       
        jTextArea1.setText(texto);
     }
-    private void carregarLocacoes(Locatario locatario) {
+    private void carregarLocacoesAbertas(Locatario locatario) {
         try {
-            List<Locacao> locacoes =locatario.getLocacoesAbertas();
+            this.locacoes =locatario.getLocacoesAbertas();
             for(Locacao locacao : locacoes){
                 jFormattedTextField1.setText(String.valueOf(Float.parseFloat(jFormattedTextField1.getText()) + locacao.getTotalLocacao()));
                 descreverLocacao(locacao);
             }
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, ex.toString(), "Erro ao obter locações do cliente", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, ex.toString(), "Erro ao obter locações abertas do cliente", JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(TelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void carregarLocacoesAtrasadas(Locatario locatario) {
+        try {
+            List<Locacao> atrasadas = locatario.getLocacoesAtrasadas();
+            
+            jTextArea1.setText(jTextArea1.getText()+"\n\n>Locações Atrasadas: "+ atrasadas.size());
+            if(!atrasadas.isEmpty()){
+                for(Locacao locacao : atrasadas){
+                descreverLocacao(locacao);
+            }
+            }
+            
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.toString(), "Erro ao obter locações abertas do cliente", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(TelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void limparTela() {
+        this.equipamento = null;
+        this.locatario =null;
+        jTextArea1.setText("");
+        jFormattedTextField1.setText("0.00");
+        ID.setText("");
+        ENTRADA_NOME_EQUIPAMENTO.setText("");
+        Date dt = new Date();
+        Calendar c = Calendar.getInstance(); 
+        c.setTime(dt); 
+        c.add(Calendar.DATE, 1);
+        this.jSpinner1.setValue(new Date());
+        this.jSpinner2.setValue(c.getTime());
+        VALOR_DIARIA.setText("0.00");
+        TOTAL_EQUIPAMENTO.setText("0.00");
+        IMAGEM_EQUIPAMENTO.setIcon(null);
+        DESCRICAO_EQUIPAMENTO.setText("");
+        NOME_EQUIPAMENTO.setText("TERMINAL ABERTO");
+    }
+
+    private void carregarCliente() {
+        try {
+            limparTela();
+            if(locacoes!=null)
+                locacoes.clear();
+            
+            
+            Query query = Persistencia.getManager().createQuery("select t from Locatario as t where (t.cpf like ?  or t.cnpj like ? or t.id = ?) and t.status <> ? order by t.id desc");
+            query.setParameter(1,String.valueOf(Long.parseLong(CPF_CNPJ.getText())));
+            query.setParameter(2, String.valueOf(Long.parseLong(CPF_CNPJ.getText())));
+            query.setParameter(3, Long.parseLong(CPF_CNPJ.getText()));
+            query.setParameter(4, StatusLocatario.Apagado);
+            query.setMaxResults(1);
+            List<Object> locatarios = Persistencia.buscar(query);
+             for(int i=0; i< locatarios.size();i++){
+                    this.locatario = (Locatario)locatarios.get(i);
+            }
+            if(this.locatario!=null){
+                
+                String data = formatoDataCompleta.format(new Date()); 
+                
+                String texto = "Recibo de Locações\nCliente: "+ this.locatario.getNome()+"\nDoc.: "
+                        + this.locatario.getCpf() + " " + this.locatario.getCnpj()
+                        + "\nData: "+ data
+                        + "\n>Locações Abertas";
+                jTextArea1.setText(texto);
+                carregarLocacoesAbertas(this.locatario);
+                carregarLocacoesAtrasadas(this.locatario);
+            }else{
+                jTextArea1.setText("");
+                JOptionPane.showMessageDialog(null, "Cliente não encontrado.", "Cliente", JOptionPane.ERROR_MESSAGE);
+            
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.toString(), "Erro ao obter cliente", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

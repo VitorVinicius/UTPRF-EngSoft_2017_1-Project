@@ -59,20 +59,20 @@ public class Equipamento implements Serializable {
         this.imagemBase64 = imagemBase64;
     }
     @Column(nullable=false) 
-    private String ean;
+    private String serie;
     private String categoria;
 
     @OneToMany(cascade = {CascadeType.ALL})
     private Set<Historico> historicos;
     @Column(nullable=false) 
     private StatusEquipamento status = StatusEquipamento.Disponivel;
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date proximaRevisao = new Date();
     
     @Column(nullable=false) 
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date dataCompra = new Date();
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date validade = new Date();
     
     public Concessionaria getConcessionaria() {
@@ -109,12 +109,12 @@ public class Equipamento implements Serializable {
         this.funcionario = funcionario;
     }
 
-    public String getEan() {
-        return ean;
+    public String getSerie() {
+        return serie;
     }
 
-    public void setEan(String ean) {
-        this.ean = ean;
+    public void setSerie(String serie) {
+        this.serie = serie;
     }
 
     public String getCategoria() {
@@ -234,7 +234,7 @@ public class Equipamento implements Serializable {
         clone.setConcessionaria(concessionaria);
         clone.setDataCompra(dataCompra);
         clone.setDescricao(descricao);
-        clone.setEan(ean);
+        clone.setSerie(serie);
         clone.setFabricante(fabricante);
         clone.setFuncionario(funcionario);
         clone.setHistoricos(new HashSet<>());
@@ -251,6 +251,7 @@ public class Equipamento implements Serializable {
         clone.setValidade(validade);
         clone.setValorDiaria(valorDiaria);
         clone.setValorPatrimonio(valorPatrimonio);
+        clone.setImagemBase64(imagemBase64);
         return clone;
     }
     public BufferedImage obterImagem() throws IOException {

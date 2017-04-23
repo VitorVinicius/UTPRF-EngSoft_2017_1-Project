@@ -35,7 +35,7 @@ public class Pagamento implements Serializable {
     
     private boolean pendente;
     
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date dataPagamento;
 
     public int getParcela() {

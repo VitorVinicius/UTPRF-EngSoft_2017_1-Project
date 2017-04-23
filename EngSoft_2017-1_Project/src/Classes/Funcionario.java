@@ -20,7 +20,7 @@ import javax.persistence.Temporal;
  */
 @Entity
 public class Funcionario extends Locatario {
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date dataAdmissao;
     
     private String nis;
@@ -160,6 +160,18 @@ public class Funcionario extends Locatario {
          Persistencia.atualizar(equipamento);
          
          return locacao;
+    }
+
+    public void atualizarLocacao(Locacao locacao) throws Exception {
+        
+        Persistencia.atualizar(locacao);
+        Historico historicoFuncionario = new Historico();
+         historicoFuncionario.setDescricao("Atualizou a locação com id: " + locacao.getId());
+         historicoFuncionario.setTipoOcorrencia(TipoOcorrencia.Locacao);
+         historicoFuncionario.setDataOcorrencia(new Date());
+         this.getHistoricos().add(historicoFuncionario);
+         Persistencia.atualizar(this);
+         
     }
     
     

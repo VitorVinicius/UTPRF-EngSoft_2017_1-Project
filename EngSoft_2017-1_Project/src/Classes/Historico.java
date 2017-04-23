@@ -29,7 +29,7 @@ public class Historico implements Serializable {
     
     private TipoOcorrencia tipoOcorrencia;
 
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date dataOcorrencia;
 
     public Date getDataOcorrencia() {

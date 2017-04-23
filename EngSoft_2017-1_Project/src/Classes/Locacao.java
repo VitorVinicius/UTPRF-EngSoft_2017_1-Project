@@ -31,11 +31,11 @@ public class Locacao implements Serializable {
     private Locatario locatario;
     @OneToOne
     private Equipamento equipamento;
-    @Temporal(javax.persistence.TemporalType.DATE)
     
+    
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date dataLocacao;
-    @Temporal(javax.persistence.TemporalType.DATE)
-    
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date dataDevolucao;
     
     private StatusLocacao status;
