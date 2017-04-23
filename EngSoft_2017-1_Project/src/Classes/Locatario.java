@@ -5,58 +5,66 @@
  */
 package Classes;
 
-
+import Database.Persistencia;
+import GUI.Main;
 import java.util.Date;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Query;
 import javax.persistence.Temporal;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Vitor
  */
-
-
 @Entity
-public class Locatario implements Serializable{
-    
+public class Locatario implements Serializable {
+
     private String cpf;
-    
+
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dataNascimento;
     private String razaoSocial;
     private String cnpj;
-    
-    private String  inscricaoEstadual;
-   
+
+    private String inscricaoEstadual;
+
     @Id
     @GeneratedValue
     private long id;
-    
+
     private String nome;
-    
+
     private String rua;
-    
+
     private int numero;
-    
+
     private String cep;
-    
+
     private String bairro;
-    
+
     private String cidade;
-    
+
     private String uf;
-    
+
+    private StatusLocatario status = StatusLocatario.Normal;
+
     private String telefonePrincipal;
-    
+
     private String telefone2;
-    
+
     private String emailPrincipal;
-    
+
     private String email2;
 
     public String getTelefonePrincipal() {
@@ -75,6 +83,14 @@ public class Locatario implements Serializable{
         this.telefone2 = telefone2;
     }
 
+    public StatusLocatario getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusLocatario status) {
+        this.status = status;
+    }
+
     public String getEmailPrincipal() {
         return emailPrincipal;
     }
@@ -90,11 +106,10 @@ public class Locatario implements Serializable{
     public void setEmail2(String email2) {
         this.email2 = email2;
     }
-    
-    @OneToMany
+
+    @OneToMany(cascade = {CascadeType.ALL})
     private Set<Historico> historicosRelacionados;
     private TipoLocatario tipo;
-    
 
     public TipoLocatario getTipo() {
         return tipo;
@@ -103,9 +118,10 @@ public class Locatario implements Serializable{
     public void setTipo(TipoLocatario tipo) {
         this.tipo = tipo;
     }
-    
+
     @OneToMany
     private Set<Pagamento> pagamentosRelacionados;
+
     public String getCpf() {
         return cpf;
     }
@@ -125,9 +141,6 @@ public class Locatario implements Serializable{
     public Set<Pagamento> ObterPagamentos() {
         return pagamentosRelacionados;
     }
-    
-  
-
 
     public Set<Pagamento> getPagamentos() {
         return pagamentosRelacionados;
@@ -136,6 +149,7 @@ public class Locatario implements Serializable{
     public void setPagamentos(Set<Pagamento> pagamentos) {
         this.pagamentosRelacionados = pagamentos;
     }
+
     public String getRazaoSocial() {
         return razaoSocial;
     }
@@ -159,16 +173,15 @@ public class Locatario implements Serializable{
     public void setInscricaoEstadual(String inscricaoEstadual) {
         this.inscricaoEstadual = inscricaoEstadual;
     }
-    
-    
-     public long getId() {
+
+    public long getId() {
         return id;
     }
 
     public void setId(long id) {
         this.id = id;
     }
-    
+
     public String getNome() {
         return nome;
     }
@@ -228,13 +241,40 @@ public class Locatario implements Serializable{
     public Set<Historico> getHistoricos() {
         return historicosRelacionados;
     }
-    
+
     public void setHistoricos(Set<Historico> historicos) {
         this.historicosRelacionados = historicos;
     }
-    
+
     @Override
-    public String toString(){
+    public String toString() {
         return Long.toString(id);
+    }
+
+    public List<Locacao> getLocacoes() throws Exception {
+        
+        Query query = Persistencia.getManager().createQuery("select t from Locacao as t where t.locatario = ? and t.status <> ? order by t.id asc");
+        query.setParameter(1, this);
+        query.setParameter(2, StatusLocacao.Apagada);
+        List<Locacao> locacoes = new ArrayList<>();
+        List<Object> locacoesRegistradas = Persistencia.buscar(query);
+        for (int i = 0; i < locacoesRegistradas.size(); i++) {
+            Locacao locacao = (Locacao) locacoesRegistradas.get(i);
+            locacoes.add(locacao);
+        }
+        return locacoes;
+    }
+
+    public List<Locacao> getLocacoesAbertas() throws Exception {
+         Query query = Persistencia.getManager().createQuery("select t from Locacao as t where t.locatario = ? and t.status = ? order by t.id asc");
+        query.setParameter(1, this);
+        query.setParameter(2, StatusLocacao.Aberta);
+        List<Locacao> locacoes = new ArrayList<>();
+        List<Object> locacoesRegistradas = Persistencia.buscar(query);
+        for (int i = 0; i < locacoesRegistradas.size(); i++) {
+            Locacao locacao = (Locacao) locacoesRegistradas.get(i);
+            locacoes.add(locacao);
+        }
+        return locacoes;
     }
 }

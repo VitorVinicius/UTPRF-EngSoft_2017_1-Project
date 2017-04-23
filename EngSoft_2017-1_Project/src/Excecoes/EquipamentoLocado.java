@@ -3,12 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Classes;
+package Excecoes;
 
 /**
  *
  * @author Vitor
  */
-public enum StatusEquipamento {
-    Locado,Disponivel,EmManutencao,Avariado,Apagado
+public class EquipamentoLocado extends Exception {
+    public EquipamentoLocado(String msg){
+        super(msg);
+    }
 }

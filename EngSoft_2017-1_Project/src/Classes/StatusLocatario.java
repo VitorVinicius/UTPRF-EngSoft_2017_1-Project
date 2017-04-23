@@ -9,6 +9,6 @@ package Classes;
  *
  * @author Vitor
  */
-public enum StatusEquipamento {
-    Locado,Disponivel,EmManutencao,Avariado,Apagado
+public enum StatusLocatario {
+    Normal,Bloqueado,Apagado
 }

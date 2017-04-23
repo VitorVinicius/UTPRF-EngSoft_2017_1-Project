@@ -7,10 +7,12 @@ package GUI;
 
 import Classes.Equipamento;
 import Classes.Locatario;
+import Classes.StatusEquipamento;
 import Database.Persistencia;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.Query;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -200,7 +202,7 @@ public class TelaVisualizarEquipamentos extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        this.carregarEquipamentos("");
+        this.carregarEquipamentos(null);
     }//GEN-LAST:event_formWindowOpened
 
     /**
@@ -238,14 +240,16 @@ public class TelaVisualizarEquipamentos extends javax.swing.JFrame {
         });
     }
     
-    private void carregarEquipamentos(String condicoes) {
-        if(condicoes == null){
-            condicoes = "";
+    private void carregarEquipamentos(Query consulta) {
+        if(consulta == null){
+             consulta = Persistencia.getManager().createQuery("select t from Equipamento as t where t.status <> ?  order by t.id desc");
+             consulta.setParameter(1, StatusEquipamento.Apagado);
         }
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0);
         try {
-            List<Object> equipamentos = Persistencia.buscar("select t from Equipamento as t " + condicoes);
+            
+            List<Object> equipamentos = Persistencia.buscar(consulta);
              for(int i=0; i< equipamentos.size();i++){
                     Equipamento equipamento = (Equipamento)equipamentos.get(i);
                     Object[] linha = new Object[]{
@@ -267,10 +271,20 @@ public class TelaVisualizarEquipamentos extends javax.swing.JFrame {
     }
     
     private void carregarEquipamentosPorNome() {
-       carregarEquipamentos("where nome like '%"+jTextField1.getText()+"%'");
+        Query query = Persistencia.getManager().createQuery("select t from Equipamento as t where t.nome like ? and t.status <> ? order by t.id desc");
+        query.setParameter(1, jTextField1.getText());
+        query.setParameter(2, StatusEquipamento.Apagado);
+        carregarEquipamentos(query);
     }
     private void carregarEquipamentosPorIdOuEAN() {
-        carregarEquipamentos("where ean like '%"+jTextField2.getText()+"%' or id = '"+ jTextField2.getText()+"'");
+        
+        
+        Query query = Persistencia.getManager().createQuery("select t from Equipamento as t where (ean like ? or id = ?) and t.status <> ?  order by t.id desc");
+        query.setParameter(1, jTextField2.getText());
+        query.setParameter(2, jTextField2.getText());
+        query.setParameter(3, StatusEquipamento.Apagado);
+        carregarEquipamentos(query);
+        
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -10,5 +10,5 @@ package Classes;
  * @author Vitor
  */
 public enum TipoOcorrencia {
-    Locacao,Venda,Compra,Atraso,Saida,Entrada,Sinistro,Perda
+    Locacao,Venda,Compra,Atraso,Saida,Entrada,Sinistro,Perda, Cadastro, AlteracaoCadastro
 }

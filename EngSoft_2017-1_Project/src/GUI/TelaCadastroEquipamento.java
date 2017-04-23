@@ -7,12 +7,41 @@ package GUI;
 
 import Classes.Concessionaria;
 import Classes.Equipamento;
+import Classes.Historico;
+import Classes.ImageUtils;
 import Classes.StatusEquipamento;
+import Classes.TipoOcorrencia;
 import Database.Persistencia;
 import java.awt.Frame;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.Format;
 import java.text.SimpleDateFormat;
+import java.util.Base64;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JSpinner;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.xml.bind.DatatypeConverter;
 
 /**
  *
@@ -22,21 +51,30 @@ public class TelaCadastroEquipamento extends javax.swing.JDialog {
 
     /**
      * Creates new form TelaCadastroEquipamentoJD
+     *
      * @param parent
      * @param modal
      */
+    private Equipamento equipamentoEdicao;
+    BufferedImage img = null;
+    //Create a file chooser
+    final JFileChooser fc = new JFileChooser();
+
     public TelaCadastroEquipamento(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+
     }
-    private Equipamento equipamentoEdicao;
 
     TelaCadastroEquipamento(TelaVisualizarEquipamentos parent, boolean modal, Equipamento equipamento) {
         super(parent, modal);
         initComponents();
         this.equipamentoEdicao = equipamento;
         this.jbRemover.setEnabled(true);
+        jpReplicas.setEnabled(false);
+
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -51,13 +89,11 @@ public class TelaCadastroEquipamento extends javax.swing.JDialog {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jtfEAN = new javax.swing.JTextField();
-        jtfValidade = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jtfCategoria = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jtfFabricante = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jtfDataCompra = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
@@ -69,7 +105,6 @@ public class TelaCadastroEquipamento extends javax.swing.JDialog {
         jtfValorDiaria = new javax.swing.JTextField();
         jtfValorPatrimonio = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jtfDataProxRevisao = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jtfConcessionaria = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
@@ -78,7 +113,18 @@ public class TelaCadastroEquipamento extends javax.swing.JDialog {
         jtfNome = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtaDescricao = new javax.swing.JTextArea();
+        jspValidade = new javax.swing.JSpinner();
+        jspDataProxRevisao = new javax.swing.JSpinner();
+        jspDataCompra = new javax.swing.JSpinner();
+        jLabel16 = new javax.swing.JLabel();
+        jlImagem = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jLabel14 = new javax.swing.JLabel();
+        jpReplicas = new javax.swing.JSpinner();
+        jLabel15 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastro de Equipamento");
@@ -92,16 +138,16 @@ public class TelaCadastroEquipamento extends javax.swing.JDialog {
         });
 
         jbRemover.setText("Remover");
+        jbRemover.setEnabled(false);
+        jbRemover.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbRemoverActionPerformed(evt);
+            }
+        });
 
         jtfEAN.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jtfEANFocusLost(evt);
-            }
-        });
-
-        jtfValidade.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                jtfValidadeFocusLost(evt);
             }
         });
 
@@ -122,12 +168,6 @@ public class TelaCadastroEquipamento extends javax.swing.JDialog {
         });
 
         jLabel3.setText("EAN/Cód. Barras:");
-
-        jtfDataCompra.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                jtfDataCompraFocusLost(evt);
-            }
-        });
 
         jLabel8.setText("Data da Compra:");
 
@@ -159,12 +199,6 @@ public class TelaCadastroEquipamento extends javax.swing.JDialog {
 
         jLabel4.setText("Concessionária:");
 
-        jtfDataProxRevisao.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                jtfDataProxRevisaoFocusLost(evt);
-            }
-        });
-
         jLabel5.setText("Descrição:");
 
         jtfConcessionaria.setEditable(false);
@@ -195,6 +229,47 @@ public class TelaCadastroEquipamento extends javax.swing.JDialog {
         });
         jScrollPane1.setViewportView(jtaDescricao);
 
+        jspValidade.setModel(new javax.swing.SpinnerDateModel());
+        JSpinner.DateEditor d = new JSpinner.DateEditor(jspValidade, "dd/MM/yyyy");
+        jspValidade.setEditor(d);
+        jspValidade.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jspValidadeFocusLost(evt);
+            }
+        });
+
+        jspDataProxRevisao.setModel(new javax.swing.SpinnerDateModel());
+        JSpinner.DateEditor jspDataProxRevisaoD = new JSpinner.DateEditor(jspDataProxRevisao, "dd/MM/yyyy");
+        jspDataProxRevisao.setEditor(jspDataProxRevisaoD);
+        jspDataProxRevisao.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jspDataProxRevisaoFocusLost(evt);
+            }
+        });
+
+        jspDataCompra.setModel(new javax.swing.SpinnerDateModel());
+        JSpinner.DateEditor jspDataCompraD = new JSpinner.DateEditor(jspDataCompra, "dd/MM/yyyy");
+        jspDataCompra.setEditor(jspDataCompraD);
+        jspDataCompra.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jspDataCompraStateChanged(evt);
+            }
+        });
+
+        jLabel16.setText("Imagem:");
+
+        jlImagem.setBackground(new java.awt.Color(235, 210, 210));
+        jlImagem.setAutoscrolls(true);
+        jlImagem.setMaximumSize(new java.awt.Dimension(267, 122));
+        jlImagem.setMinimumSize(new java.awt.Dimension(267, 122));
+
+        jButton3.setText("Escolher");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -202,17 +277,6 @@ public class TelaCadastroEquipamento extends javax.swing.JDialog {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jtfCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel8))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(jtfFabricante))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(48, 48, 48)
-                                .addComponent(jLabel9))))
                     .addComponent(jScrollPane1)
                     .addComponent(jtfNome)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -237,35 +301,46 @@ public class TelaCadastroEquipamento extends javax.swing.JDialog {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel10)
-                                .addGap(90, 90, 90))
-                            .addComponent(jtfValidade)))
+                                .addGap(90, 92, Short.MAX_VALUE))
+                            .addComponent(jspValidade)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6)
+                            .addComponent(jtfCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8)
+                            .addComponent(jspDataCompra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jtfFabricante)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jspDataProxRevisao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel9))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jtfConcessionaria, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jButton1))))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel7)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jtfValorDiaria, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(2, 2, 2)
-                                .addComponent(jLabel11)))
-                        .addGap(18, 18, 18)
+                                .addComponent(jLabel11))
+                            .addComponent(jLabel12)
+                            .addComponent(jtfValorPatrimonio, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(14, 14, 14)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jtfValorPatrimonio, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel12))
-                                .addGap(222, 222, 222))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jtfDataCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jtfDataProxRevisao, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel4)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jtfConcessionaria, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton1)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                            .addComponent(jLabel16)
+                            .addComponent(jButton3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jlImagem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -282,7 +357,7 @@ public class TelaCadastroEquipamento extends javax.swing.JDialog {
                     .addComponent(jtfId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jtfStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jtfEAN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jtfValidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jspValidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
                 .addGap(2, 2, 2)
@@ -296,48 +371,87 @@ public class TelaCadastroEquipamento extends javax.swing.JDialog {
                     .addComponent(jLabel6)
                     .addComponent(jLabel7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jtfCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jtfFabricante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel9))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jtfDataCompra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jtfDataProxRevisao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jtfConcessionaria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel11)
-                    .addComponent(jLabel12))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jtfValorDiaria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jtfValorPatrimonio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jtfCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jtfFabricante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel9))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jspDataProxRevisao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jspDataCompra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jtfConcessionaria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton1))))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel11)
+                            .addComponent(jLabel16))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jtfValorDiaria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton3))
+                        .addGap(7, 7, 7)
+                        .addComponent(jLabel12)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jtfValorPatrimonio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 32, Short.MAX_VALUE))
+                    .addComponent(jlImagem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
         jTabbedPane1.addTab("Dados Cadastrais", jPanel1);
 
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Id", "Descrição", "Tipo", "Data"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setMinWidth(75);
+            jTable1.getColumnModel().getColumn(0).setPreferredWidth(75);
+            jTable1.getColumnModel().getColumn(0).setMaxWidth(100);
+        }
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 498, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 498, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 411, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 451, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Histórico", jPanel2);
+
+        jLabel14.setText("Replicar:");
+
+        jpReplicas.setModel(new javax.swing.SpinnerNumberModel(0, 0, 1000, 1));
+
+        jLabel15.setText("X o cadastro");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -345,7 +459,13 @@ public class TelaCadastroEquipamento extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jbRemover, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(183, 183, 183)
+                .addComponent(jLabel14)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jpReplicas, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
@@ -357,9 +477,14 @@ public class TelaCadastroEquipamento extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jbRemover)
-                    .addComponent(jButton2)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel14)
+                        .addComponent(jpReplicas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel15))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jbRemover)
+                        .addComponent(jButton2))))
         );
 
         pack();
@@ -388,15 +513,45 @@ public class TelaCadastroEquipamento extends javax.swing.JDialog {
             return;
         }
         try {
+
+            Set<Historico> historicos = equipamentoEdicao.getHistoricos();
+
+            if (historicos == null) {
+                historicos = new HashSet<>();
+                equipamentoEdicao.setHistoricos(historicos);
+            }
+            Historico historico = new Historico();
+            historico.setDataOcorrencia(new Date());
+
             if (equipamentoEdicao.getId() == 0) {
                 equipamentoEdicao.setStatus(StatusEquipamento.Disponivel);
-                equipamentoEdicao = (Equipamento)Persistencia.salvar(equipamentoEdicao);
-                jtfId.setText(String.valueOf(equipamentoEdicao.getId()));
-                jtfStatus.setText(equipamentoEdicao.getStatus().name());
+                historico.setDescricao("Cadastro realizado por " + (Main.getFuncionario() == null ? " desconhecido" : Main.getFuncionario().getNome()));
+                historico.setTipoOcorrencia(TipoOcorrencia.Cadastro);
+                equipamentoEdicao.getHistoricos().add(historico);
 
+                int replicas = (int) jpReplicas.getValue() + 1;
+
+                for (int i = 0; i < replicas; i++) {
+
+                    if (i > 0) {
+                        equipamentoEdicao = equipamentoEdicao.clone();
+                    }
+                    if (Main.getFuncionario() == null) {
+                        Persistencia.salvar(equipamentoEdicao);
+                    } else {
+                        Main.getFuncionario().cadastrarEquipamento(equipamentoEdicao);
+                    }
+                }
             } else {
+                historico.setDescricao("Alteracao de Cadastro realizada por " + (Main.getFuncionario() == null ? " desconhecido" : Main.getFuncionario().getNome()));
+                historico.setTipoOcorrencia(TipoOcorrencia.AlteracaoCadastro);
+                equipamentoEdicao.getHistoricos().add(historico);
 
-                Persistencia.atualizar(equipamentoEdicao);
+                if (Main.getFuncionario() == null) {
+                    Persistencia.atualizar(equipamentoEdicao);
+                } else {
+                    Main.getFuncionario().atualizarEquipamento(equipamentoEdicao);
+                }
             }
             this.dispose();
         } catch (Exception ex) {
@@ -405,14 +560,13 @@ public class TelaCadastroEquipamento extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jtaDescricaoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtaDescricaoFocusLost
-        if(equipamentoEdicao== null){
+        if (equipamentoEdicao == null) {
             equipamentoEdicao = new Equipamento();
         }
-        try{
+        try {
             equipamentoEdicao.setDescricao(this.jtaDescricao.getText());
-        }
-        catch(Exception ex){
-            JOptionPane.showMessageDialog(null, ex.toString(), "Validação", JOptionPane.ERROR_MESSAGE);           
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.toString(), "Validação", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jtaDescricaoFocusLost
 
@@ -427,102 +581,152 @@ public class TelaCadastroEquipamento extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_jtfEANFocusLost
 
-    private void jtfValidadeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtfValidadeFocusLost
-        if (equipamentoEdicao == null) {
-                equipamentoEdicao = new Equipamento();
-            }
-        try {
-            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-java.sql.Date data = new java.sql.Date(format.parse(jtfValidade.getText()).getTime());
-            equipamentoEdicao.setValidade(data);
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, ex.toString(), "Validação", JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_jtfValidadeFocusLost
-
     private void jtfNomeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtfNomeFocusLost
-        if(equipamentoEdicao== null){
+        if (equipamentoEdicao == null) {
             equipamentoEdicao = new Equipamento();
         }
-        try{
+        try {
             equipamentoEdicao.setNome(jtfNome.getText());
-        }
-        catch(Exception ex){
-            JOptionPane.showMessageDialog(null, ex.toString(), "Validação", JOptionPane.ERROR_MESSAGE);           
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.toString(), "Validação", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jtfNomeFocusLost
 
     private void jtfCategoriaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtfCategoriaFocusLost
-        if(equipamentoEdicao== null){
+        if (equipamentoEdicao == null) {
             equipamentoEdicao = new Equipamento();
         }
-        try{
+        try {
             equipamentoEdicao.setCategoria(this.jtfCategoria.getText());
-        }
-        catch(Exception ex){
-            JOptionPane.showMessageDialog(null, ex.toString(), "Validação", JOptionPane.ERROR_MESSAGE);           
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.toString(), "Validação", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jtfCategoriaFocusLost
 
     private void jtfFabricanteFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtfFabricanteFocusLost
-         if(equipamentoEdicao== null){
+        if (equipamentoEdicao == null) {
             equipamentoEdicao = new Equipamento();
         }
-        try{
+        try {
             equipamentoEdicao.setFabricante(this.jtfFabricante.getText());
-        }
-        catch(Exception ex){
-            JOptionPane.showMessageDialog(null, ex.toString(), "Validação", JOptionPane.ERROR_MESSAGE);           
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.toString(), "Validação", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jtfFabricanteFocusLost
 
-    private void jtfDataCompraFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtfDataCompraFocusLost
-        if (equipamentoEdicao == null) {
-            equipamentoEdicao = new Equipamento();
-        }
-        try {
-            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-            java.sql.Date data = new java.sql.Date(format.parse(jtfDataCompra.getText()).getTime());
-            equipamentoEdicao.setDataCompra(data);
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, ex.toString(), "Validação", JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_jtfDataCompraFocusLost
-
-    private void jtfDataProxRevisaoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtfDataProxRevisaoFocusLost
-       if (equipamentoEdicao == null) {
-            equipamentoEdicao = new Equipamento();
-        }
-        try {
-            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-            java.sql.Date data = new java.sql.Date(format.parse(jtfDataProxRevisao.getText()).getTime());
-            equipamentoEdicao.setProximaRevisao(data);
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, ex.toString(), "Validação", JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_jtfDataProxRevisaoFocusLost
-
     private void jtfValorDiariaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtfValorDiariaFocusLost
         if (equipamentoEdicao == null) {
-                equipamentoEdicao = new Equipamento();
-            }
-            try {
-                equipamentoEdicao.setValorDiaria(Float.parseFloat(jtfValorDiaria.getText()));
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, ex.toString(), "Validação", JOptionPane.ERROR_MESSAGE);
-            }
+            equipamentoEdicao = new Equipamento();
+        }
+        try {
+            equipamentoEdicao.setValorDiaria(Float.parseFloat(jtfValorDiaria.getText()));
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.toString(), "Validação", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jtfValorDiariaFocusLost
 
     private void jtfValorPatrimonioFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtfValorPatrimonioFocusLost
-       if (equipamentoEdicao == null) {
-                equipamentoEdicao = new Equipamento();
-            }
+        if (equipamentoEdicao == null) {
+            equipamentoEdicao = new Equipamento();
+        }
         try {
             equipamentoEdicao.setValorPatrimonio(Float.parseFloat(jtfValorPatrimonio.getText()));
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.toString(), "Validação", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jtfValorPatrimonioFocusLost
+
+    private void jspValidadeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jspValidadeFocusLost
+        if (equipamentoEdicao == null) {
+            equipamentoEdicao = new Equipamento();
+        }
+        try {
+            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+            Date data = new Date(format.parse(jspValidade.getValue().toString()).getTime());
+            equipamentoEdicao.setValidade(data);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.toString(), "Validação", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jspValidadeFocusLost
+
+    private void jspDataProxRevisaoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jspDataProxRevisaoFocusLost
+        if (equipamentoEdicao == null) {
+            equipamentoEdicao = new Equipamento();
+        }
+        try {
+            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+            Date data = new Date(format.parse(jspDataProxRevisao.getValue().toString()).getTime());
+            equipamentoEdicao.setProximaRevisao(data);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.toString(), "Validação", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jspDataProxRevisaoFocusLost
+
+    private void jspDataCompraStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jspDataCompraStateChanged
+        if (equipamentoEdicao == null) {
+            equipamentoEdicao = new Equipamento();
+        }
+        try {
+            equipamentoEdicao.setDataCompra((Date) jspDataCompra.getValue());
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.toString(), "Validação", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jspDataCompraStateChanged
+
+    private void jbRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRemoverActionPerformed
+        try {
+            if (this.equipamentoEdicao != null) {
+                this.equipamentoEdicao.setStatus(StatusEquipamento.Apagado);
+                if (Main.getFuncionario() != null) {
+
+                    Main.getFuncionario().atualizarEquipamento(equipamentoEdicao);
+                } else {
+                    Persistencia.atualizar(equipamentoEdicao);
+                }
+                this.dispose();
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.toString(), "Erro ao remover equipamento", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jbRemoverActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        FileFilter filter = new FileNameExtensionFilter("JPG File", "jpg");
+        fc.setFileFilter(filter);
+        int returnVal = fc.showOpenDialog(this);
+
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File file = fc.getSelectedFile();
+
+            try {
+                String path = file.getAbsolutePath();
+                img = ImageIO.read(new File(path));
+
+                ImageIcon imageIcon = new ImageIcon(ImageUtils.resize(img, 267, 122));
+                jlImagem.setIcon(imageIcon);
+                ByteArrayOutputStream output = new ByteArrayOutputStream();
+                ImageIO.write(img, "jpg", output);
+                String printBase64Binary = DatatypeConverter.printBase64Binary(output.toByteArray());
+
+                if (equipamentoEdicao == null) {
+                    equipamentoEdicao = new Equipamento();
+                }
+                try {
+                    equipamentoEdicao.setImagemBase64(printBase64Binary);
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, ex.toString(), "Validação", JOptionPane.ERROR_MESSAGE);
+                }
+
+            } catch (IOException ex) {
+
+                JOptionPane.showMessageDialog(null, ex.toString(), "Erro abrir imagem", JOptionPane.ERROR_MESSAGE);
+
+            }
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    
 
     /**
      * @param args the command line arguments
@@ -570,11 +774,15 @@ java.sql.Date data = new java.sql.Date(format.parse(jtfValidade.getText()).getTi
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -586,42 +794,81 @@ java.sql.Date data = new java.sql.Date(format.parse(jtfValidade.getText()).getTi
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTable jTable1;
     private javax.swing.JButton jbRemover;
+    private javax.swing.JLabel jlImagem;
+    private javax.swing.JSpinner jpReplicas;
+    private javax.swing.JSpinner jspDataCompra;
+    private javax.swing.JSpinner jspDataProxRevisao;
+    private javax.swing.JSpinner jspValidade;
     private javax.swing.JTextArea jtaDescricao;
     private javax.swing.JTextField jtfCategoria;
     private javax.swing.JTextField jtfConcessionaria;
-    private javax.swing.JTextField jtfDataCompra;
-    private javax.swing.JTextField jtfDataProxRevisao;
     private javax.swing.JTextField jtfEAN;
     private javax.swing.JTextField jtfFabricante;
     private javax.swing.JTextField jtfId;
     private javax.swing.JTextField jtfNome;
     private javax.swing.JTextField jtfStatus;
-    private javax.swing.JTextField jtfValidade;
     private javax.swing.JTextField jtfValorDiaria;
     private javax.swing.JTextField jtfValorPatrimonio;
     // End of variables declaration//GEN-END:variables
 
-   public void carregarDadosEquipamentoEdicao() {
-        
+    public void carregarDadosEquipamentoEdicao() {
+
         jtfId.setText(String.valueOf(equipamentoEdicao.getId()));
         jtfStatus.setText(equipamentoEdicao.getStatus().name());
         jtfEAN.setText(equipamentoEdicao.getEan());
-        Format formatter = new SimpleDateFormat("dd/MM/yyyy");
-        String data = formatter.format(equipamentoEdicao.getValidade());
-        jtfValidade.setText(data);
+        
+        jspValidade.setValue(equipamentoEdicao.getValidade());
         jtfNome.setText(equipamentoEdicao.getNome());
         jtaDescricao.setText(equipamentoEdicao.getDescricao());
         jtfCategoria.setText(equipamentoEdicao.getCategoria());
         jtfFabricante.setText(equipamentoEdicao.getFabricante());
-        data = formatter.format(equipamentoEdicao.getDataCompra());
-        jtfDataCompra.setText(data);
-        data = formatter.format(equipamentoEdicao.getProximaRevisao());
-        jtfDataProxRevisao.setText(data);
-        jtfConcessionaria.setText(equipamentoEdicao.getConcessionaria().getNome());
+
+        jspDataCompra.setValue(equipamentoEdicao.getDataCompra());
+
+        jspDataProxRevisao.setValue(equipamentoEdicao.getProximaRevisao());
+        if (equipamentoEdicao.getConcessionaria() != null) {
+            jtfConcessionaria.setText(equipamentoEdicao.getConcessionaria().getNome());
+        } else {
+            jtfConcessionaria.setText("N/A");
+        }
         jtfValorDiaria.setText(String.valueOf(equipamentoEdicao.getValorDiaria()));
         jtfValorPatrimonio.setText(String.valueOf(equipamentoEdicao.getValorPatrimonio()));
+
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
+        try {
+            Set<Historico> historicos = equipamentoEdicao.getHistoricos();
+            SimpleDateFormat out = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            for (Historico historico : historicos) {
+                Object[] linha = new Object[]{
+                    historico,
+                    historico.getDescricao(),
+                    historico.getTipoOcorrencia(),
+                    out.format(historico.getDataOcorrencia())
+                };
+                model.addRow(linha);
+            }
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.toString(), "Erro ao obter clientes", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+            try {
+                BufferedImage bImageFromConvert = equipamentoEdicao.obterImagem();
+                ImageIcon imageIcon = new ImageIcon(ImageUtils.resize(bImageFromConvert, 267, 122));
+                jlImagem.setIcon(imageIcon);
+
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(null, ex.toString(), "Erro ao carregar imagem do equipamento", JOptionPane.ERROR_MESSAGE);
+
+                Logger.getLogger(TelaCadastroEquipamento.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            catch(Exception ex){}
         
     }
 }

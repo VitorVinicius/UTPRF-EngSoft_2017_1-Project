@@ -5,10 +5,15 @@
  */
 package Database;
 
+import GUI.Main;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -32,7 +37,8 @@ public final class Persistencia {
             getManager().flush();
             getManager().getTransaction().commit();
         } catch (Exception ex) {
-            getManager().getTransaction().rollback();
+            if(getManager().getTransaction().isActive())
+                getManager().getTransaction().rollback();
             throw ex;
         }
         return objeto;
@@ -43,8 +49,17 @@ public final class Persistencia {
             getManager().merge(objeto);
             getManager().getTransaction().commit();
         } catch (Exception ex) {
-            getManager().getTransaction().rollback();
+            if(getManager().getTransaction().isActive())
+                getManager().getTransaction().rollback();
             throw ex;
+        }
+    }
+    public static void detach(Object obj){
+        try{
+            getManager().detach(obj);
+        }
+        catch(Exception ex){
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     public static void remover(Object objeto) throws Exception{
@@ -53,7 +68,8 @@ public final class Persistencia {
             getManager().remove(objeto);
             getManager().getTransaction().commit();
         } catch (Exception ex) {
-            getManager().getTransaction().rollback();
+            if(getManager().getTransaction().isActive())
+                getManager().getTransaction().rollback();
             throw ex;
         }
     }
@@ -68,5 +84,16 @@ public final class Persistencia {
     public static void encerrarConexao() throws Exception{
         getManager().close();
         factory.close();
+    }
+
+    public static List<Object> buscar(String consulta, int limite) {
+        Query query = getManager().createQuery(consulta);
+        query.setMaxResults(limite);
+        List<Object> encontrados = query.getResultList();
+        return encontrados;
+    }
+    public static List<Object> buscar(Query query ) {
+        List<Object> encontrados = query.getResultList();
+        return encontrados;
     }
 }

@@ -6,10 +6,13 @@
 package Classes;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.Temporal;
 
 
 /**
@@ -21,11 +24,22 @@ public class Historico implements Serializable {
     @Id
     @GeneratedValue
     private long id;
-    
+    @Lob
     private String descricao;
     
     private TipoOcorrencia tipoOcorrencia;
 
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date dataOcorrencia;
+
+    public Date getDataOcorrencia() {
+        return dataOcorrencia;
+    }
+
+    public void setDataOcorrencia(Date dataOcorrencia) {
+        this.dataOcorrencia = dataOcorrencia;
+    }
+    
     public long getId() {
         return id;
     }
@@ -50,5 +64,9 @@ public class Historico implements Serializable {
         this.tipoOcorrencia = tipoOcorrencia;
     }
    
+    @Override
+    public String toString(){
+        return String.valueOf(id);
+    }
     
 }
