@@ -7,8 +7,11 @@ package GUI;
 
 import Classes.Concessionaria;
 import Classes.Funcionario;
+import Classes.Historico;
 import Classes.Locatario;
+import Classes.StatusLocatario;
 import Classes.TipoLocatario;
+import Classes.TipoOcorrencia;
 import Classes.UF;
 import Database.Persistencia;
 import Excecoes.UFInvalidaException;
@@ -17,10 +20,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -33,43 +39,43 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
      */
     private Locatario locatarioEdicao;
     public TelaCadastroCliente(java.awt.Frame parent, boolean modal) {
-<span class="nc" id="L36">        super(parent, modal);</span>
-<span class="nc" id="L37">        initComponents();</span>
-<span class="nc" id="L38">    }</span>
+<span class="nc" id="L42">        super(parent, modal);</span>
+<span class="nc" id="L43">        initComponents();</span>
+<span class="nc" id="L44">    }</span>
     public TelaCadastroCliente(java.awt.Frame parent, boolean modal, Locatario locatario) {
-<span class="nc" id="L40">        super(parent, modal);</span>
-<span class="nc" id="L41">        initComponents();</span>
-<span class="nc" id="L42">        this.locatarioEdicao = locatario;</span>
-<span class="nc" id="L43">        this.jbRemover.setEnabled(true);</span>
+<span class="nc" id="L46">        super(parent, modal);</span>
+<span class="nc" id="L47">        initComponents();</span>
+<span class="nc" id="L48">        this.locatarioEdicao = locatario;</span>
+<span class="nc" id="L49">        this.jbRemover.setEnabled(true);</span>
        
         
-<span class="nc" id="L46">    }</span>
+<span class="nc" id="L52">    }</span>
     private boolean logarFuncionarioAoCadastrar;
 
     public boolean isLogarFuncionarioAoCadastrar() {
-<span class="nc" id="L50">        return logarFuncionarioAoCadastrar;</span>
+<span class="nc" id="L56">        return logarFuncionarioAoCadastrar;</span>
     }
 
     public void setLogarFuncionarioAoCadastrar(boolean logarFuncionarioAoCadastrar) {
-<span class="nc" id="L54">        this.logarFuncionarioAoCadastrar = logarFuncionarioAoCadastrar;</span>
-<span class="nc" id="L55">    }</span>
+<span class="nc" id="L60">        this.logarFuncionarioAoCadastrar = logarFuncionarioAoCadastrar;</span>
+<span class="nc" id="L61">    }</span>
     public void carregarDadosLocatarioEdicao(){
-<span class="nc bnc" id="L57" title="All 2 branches missed.">       if(locatarioEdicao.getClass().equals(Locatario.class)){</span>
-<span class="nc" id="L58">           carregarDadosLocatario();</span>
+<span class="nc bnc" id="L63" title="All 2 branches missed.">       if(locatarioEdicao.getClass().equals(Locatario.class)){</span>
+<span class="nc" id="L64">           carregarDadosLocatario();</span>
        }
-<span class="nc bnc" id="L60" title="All 2 branches missed.">       else if(locatarioEdicao.getClass().equals(Funcionario.class)){</span>
-<span class="nc" id="L61">           carregarDadosFuncionario();</span>
+<span class="nc bnc" id="L66" title="All 2 branches missed.">       else if(locatarioEdicao.getClass().equals(Funcionario.class)){</span>
+<span class="nc" id="L67">           carregarDadosFuncionario();</span>
        }
-<span class="nc bnc" id="L63" title="All 2 branches missed.">       else if(locatarioEdicao.getClass().equals(Concessionaria.class)){</span>
-<span class="nc" id="L64">           carregarDadosConcessionaria();</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">       else if(locatarioEdicao.getClass().equals(Concessionaria.class)){</span>
+<span class="nc" id="L70">           carregarDadosConcessionaria();</span>
        }
        
-<span class="nc" id="L67">       this.rbConcessionaria.setEnabled(false);</span>
-<span class="nc" id="L68">       this.rbFuncionario.setEnabled(false);</span>
-<span class="nc" id="L69">       this.rbPFisica.setEnabled(false);</span>
-<span class="nc" id="L70">       this.rbPJuridica.setEnabled(false);</span>
+<span class="nc" id="L73">       this.rbConcessionaria.setEnabled(false);</span>
+<span class="nc" id="L74">       this.rbFuncionario.setEnabled(false);</span>
+<span class="nc" id="L75">       this.rbPFisica.setEnabled(false);</span>
+<span class="nc" id="L76">       this.rbPJuridica.setEnabled(false);</span>
        
-<span class="nc" id="L72">    }</span>
+<span class="nc" id="L78">    }</span>
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -79,785 +85,944 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
     // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;Generated Code&quot;&gt;//GEN-BEGIN:initComponents
     private void initComponents() {
 
-<span class="nc" id="L82">        buttonGroup1 = new javax.swing.ButtonGroup();</span>
-<span class="nc" id="L83">        jTabbedPane1 = new javax.swing.JTabbedPane();</span>
-<span class="nc" id="L84">        jPanel1 = new javax.swing.JPanel();</span>
-<span class="nc" id="L85">        tfCidade = new javax.swing.JTextField();</span>
-<span class="nc" id="L86">        rbPJuridica = new javax.swing.JRadioButton();</span>
-<span class="nc" id="L87">        tfUF = new javax.swing.JTextField();</span>
-<span class="nc" id="L88">        rbFuncionario = new javax.swing.JRadioButton();</span>
-<span class="nc" id="L89">        tfNumero = new javax.swing.JTextField();</span>
-<span class="nc" id="L90">        rbPFisica = new javax.swing.JRadioButton();</span>
-<span class="nc" id="L91">        tfRua = new javax.swing.JTextField();</span>
-<span class="nc" id="L92">        tfNome = new javax.swing.JTextField();</span>
-<span class="nc" id="L93">        tfBairro = new javax.swing.JTextField();</span>
-<span class="nc" id="L94">        jLabel10 = new javax.swing.JLabel();</span>
-<span class="nc" id="L95">        tfDiaNascimento = new javax.swing.JSpinner();</span>
-<span class="nc" id="L96">        tfMesNascimento = new javax.swing.JSpinner();</span>
-<span class="nc" id="L97">        tfAnoNascimento = new javax.swing.JSpinner();</span>
-<span class="nc" id="L98">        tfRazaoSocial = new javax.swing.JTextField();</span>
-<span class="nc" id="L99">        jLabel9 = new javax.swing.JLabel();</span>
-<span class="nc" id="L100">        jLabel1 = new javax.swing.JLabel();</span>
-<span class="nc" id="L101">        jLabel2 = new javax.swing.JLabel();</span>
-<span class="nc" id="L102">        tfCPF = new javax.swing.JTextField();</span>
-<span class="nc" id="L103">        jLabel11 = new javax.swing.JLabel();</span>
-<span class="nc" id="L104">        jLabel3 = new javax.swing.JLabel();</span>
-<span class="nc" id="L105">        tfCNPJ = new javax.swing.JTextField();</span>
-<span class="nc" id="L106">        jLabel4 = new javax.swing.JLabel();</span>
-<span class="nc" id="L107">        jLabel12 = new javax.swing.JLabel();</span>
-<span class="nc" id="L108">        jLabel5 = new javax.swing.JLabel();</span>
-<span class="nc" id="L109">        tfIE = new javax.swing.JTextField();</span>
-<span class="nc" id="L110">        jLabel6 = new javax.swing.JLabel();</span>
-<span class="nc" id="L111">        jLabel13 = new javax.swing.JLabel();</span>
-<span class="nc" id="L112">        jLabel7 = new javax.swing.JLabel();</span>
-<span class="nc" id="L113">        jLabel14 = new javax.swing.JLabel();</span>
-<span class="nc" id="L114">        tfCEP = new javax.swing.JTextField();</span>
-<span class="nc" id="L115">        rbConcessionaria = new javax.swing.JRadioButton();</span>
-<span class="nc" id="L116">        jLabel22 = new javax.swing.JLabel();</span>
-<span class="nc" id="L117">        tfId = new javax.swing.JTextField();</span>
-<span class="nc" id="L118">        jPanel3 = new javax.swing.JPanel();</span>
-<span class="nc" id="L119">        jLabel8 = new javax.swing.JLabel();</span>
-<span class="nc" id="L120">        tfTelefonePrincipal = new javax.swing.JTextField();</span>
-<span class="nc" id="L121">        jLabel18 = new javax.swing.JLabel();</span>
-<span class="nc" id="L122">        tfTelefone2 = new javax.swing.JTextField();</span>
-<span class="nc" id="L123">        jLabel19 = new javax.swing.JLabel();</span>
-<span class="nc" id="L124">        tfEmailPrincipal = new javax.swing.JTextField();</span>
-<span class="nc" id="L125">        jLabel20 = new javax.swing.JLabel();</span>
-<span class="nc" id="L126">        tfEmail2 = new javax.swing.JTextField();</span>
-<span class="nc" id="L127">        jPanel2 = new javax.swing.JPanel();</span>
-<span class="nc" id="L128">        jLabel15 = new javax.swing.JLabel();</span>
-<span class="nc" id="L129">        tfNIS = new javax.swing.JTextField();</span>
-<span class="nc" id="L130">        jLabel16 = new javax.swing.JLabel();</span>
-<span class="nc" id="L131">        tfSalario = new javax.swing.JTextField();</span>
-<span class="nc" id="L132">        jLabel17 = new javax.swing.JLabel();</span>
-<span class="nc" id="L133">        jpDiaAdmissao = new javax.swing.JSpinner();</span>
-<span class="nc" id="L134">        jpMesAdmissao = new javax.swing.JSpinner();</span>
-<span class="nc" id="L135">        jpAnoAdmissao = new javax.swing.JSpinner();</span>
-<span class="nc" id="L136">        jPanel4 = new javax.swing.JPanel();</span>
-<span class="nc" id="L137">        tfNomeResponsavel = new javax.swing.JTextField();</span>
-<span class="nc" id="L138">        jLabel21 = new javax.swing.JLabel();</span>
-<span class="nc" id="L139">        jbCadastar = new javax.swing.JButton();</span>
-<span class="nc" id="L140">        jbRemover = new javax.swing.JButton();</span>
+<span class="nc" id="L88">        buttonGroup1 = new javax.swing.ButtonGroup();</span>
+<span class="nc" id="L89">        jTabbedPane1 = new javax.swing.JTabbedPane();</span>
+<span class="nc" id="L90">        jPanel1 = new javax.swing.JPanel();</span>
+<span class="nc" id="L91">        tfCidade = new javax.swing.JTextField();</span>
+<span class="nc" id="L92">        rbPJuridica = new javax.swing.JRadioButton();</span>
+<span class="nc" id="L93">        rbFuncionario = new javax.swing.JRadioButton();</span>
+<span class="nc" id="L94">        tfNumero = new javax.swing.JTextField();</span>
+<span class="nc" id="L95">        rbPFisica = new javax.swing.JRadioButton();</span>
+<span class="nc" id="L96">        tfRua = new javax.swing.JTextField();</span>
+<span class="nc" id="L97">        tfNome = new javax.swing.JTextField();</span>
+<span class="nc" id="L98">        tfBairro = new javax.swing.JTextField();</span>
+<span class="nc" id="L99">        jLabel10 = new javax.swing.JLabel();</span>
+<span class="nc" id="L100">        tfDiaNascimento = new javax.swing.JSpinner();</span>
+<span class="nc" id="L101">        tfMesNascimento = new javax.swing.JSpinner();</span>
+<span class="nc" id="L102">        tfAnoNascimento = new javax.swing.JSpinner();</span>
+<span class="nc" id="L103">        tfRazaoSocial = new javax.swing.JTextField();</span>
+<span class="nc" id="L104">        jLabel9 = new javax.swing.JLabel();</span>
+<span class="nc" id="L105">        jLabel1 = new javax.swing.JLabel();</span>
+<span class="nc" id="L106">        jLabel2 = new javax.swing.JLabel();</span>
+<span class="nc" id="L107">        jLabel11 = new javax.swing.JLabel();</span>
+<span class="nc" id="L108">        jLabel3 = new javax.swing.JLabel();</span>
+<span class="nc" id="L109">        jLabel4 = new javax.swing.JLabel();</span>
+<span class="nc" id="L110">        jLabel12 = new javax.swing.JLabel();</span>
+<span class="nc" id="L111">        jLabel5 = new javax.swing.JLabel();</span>
+<span class="nc" id="L112">        tfIE = new javax.swing.JTextField();</span>
+<span class="nc" id="L113">        jLabel6 = new javax.swing.JLabel();</span>
+<span class="nc" id="L114">        jLabel13 = new javax.swing.JLabel();</span>
+<span class="nc" id="L115">        jLabel7 = new javax.swing.JLabel();</span>
+<span class="nc" id="L116">        jLabel14 = new javax.swing.JLabel();</span>
+<span class="nc" id="L117">        rbConcessionaria = new javax.swing.JRadioButton();</span>
+<span class="nc" id="L118">        jLabel22 = new javax.swing.JLabel();</span>
+<span class="nc" id="L119">        tfId = new javax.swing.JTextField();</span>
+<span class="nc" id="L120">        tfCPF = new javax.swing.JFormattedTextField();</span>
+<span class="nc" id="L121">        tfCNPJ = new javax.swing.JFormattedTextField();</span>
+<span class="nc" id="L122">        tfCEP = new javax.swing.JFormattedTextField();</span>
+<span class="nc" id="L123">        tfUF = new javax.swing.JSpinner();</span>
+<span class="nc" id="L124">        jLabel23 = new javax.swing.JLabel();</span>
+<span class="nc" id="L125">        jpfSenha = new javax.swing.JPasswordField();</span>
+<span class="nc" id="L126">        jPanel3 = new javax.swing.JPanel();</span>
+<span class="nc" id="L127">        jLabel8 = new javax.swing.JLabel();</span>
+<span class="nc" id="L128">        tfTelefonePrincipal = new javax.swing.JTextField();</span>
+<span class="nc" id="L129">        jLabel18 = new javax.swing.JLabel();</span>
+<span class="nc" id="L130">        tfTelefone2 = new javax.swing.JTextField();</span>
+<span class="nc" id="L131">        jLabel19 = new javax.swing.JLabel();</span>
+<span class="nc" id="L132">        tfEmailPrincipal = new javax.swing.JTextField();</span>
+<span class="nc" id="L133">        jLabel20 = new javax.swing.JLabel();</span>
+<span class="nc" id="L134">        tfEmail2 = new javax.swing.JTextField();</span>
+<span class="nc" id="L135">        jPanel2 = new javax.swing.JPanel();</span>
+<span class="nc" id="L136">        jLabel15 = new javax.swing.JLabel();</span>
+<span class="nc" id="L137">        tfNIS = new javax.swing.JTextField();</span>
+<span class="nc" id="L138">        jLabel16 = new javax.swing.JLabel();</span>
+<span class="nc" id="L139">        tfSalario = new javax.swing.JTextField();</span>
+<span class="nc" id="L140">        jLabel17 = new javax.swing.JLabel();</span>
+<span class="nc" id="L141">        jpDiaAdmissao = new javax.swing.JSpinner();</span>
+<span class="nc" id="L142">        jpMesAdmissao = new javax.swing.JSpinner();</span>
+<span class="nc" id="L143">        jpAnoAdmissao = new javax.swing.JSpinner();</span>
+<span class="nc" id="L144">        jPanel4 = new javax.swing.JPanel();</span>
+<span class="nc" id="L145">        tfNomeResponsavel = new javax.swing.JTextField();</span>
+<span class="nc" id="L146">        jLabel21 = new javax.swing.JLabel();</span>
+<span class="nc" id="L147">        jPanel5 = new javax.swing.JPanel();</span>
+<span class="nc" id="L148">        jScrollPane2 = new javax.swing.JScrollPane();</span>
+<span class="nc" id="L149">        jTable1 = new javax.swing.JTable();</span>
+<span class="nc" id="L150">        jbCadastar = new javax.swing.JButton();</span>
+<span class="nc" id="L151">        jbRemover = new javax.swing.JButton();</span>
 
-<span class="nc" id="L142">        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);</span>
+<span class="nc" id="L153">        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);</span>
 
-<span class="nc" id="L144">        buttonGroup1.add(rbPJuridica);</span>
-<span class="nc" id="L145">        rbPJuridica.setText(&quot;Pessoa Jurídica&quot;);</span>
+<span class="nc" id="L155">        buttonGroup1.add(rbPJuridica);</span>
+<span class="nc" id="L156">        rbPJuridica.setText(&quot;Pessoa Jurídica&quot;);</span>
 
-<span class="nc" id="L147">        buttonGroup1.add(rbFuncionario);</span>
-<span class="nc" id="L148">        rbFuncionario.setText(&quot;Funcionário&quot;);</span>
-
-<span class="nc" id="L150">        buttonGroup1.add(rbPFisica);</span>
-<span class="nc" id="L151">        rbPFisica.setSelected(true);</span>
-<span class="nc" id="L152">        rbPFisica.setText(&quot;Pessoa Física&quot;);</span>
-
-<span class="nc" id="L154">        jLabel10.setText(&quot;Data de Nascimento/Fundação:&quot;);</span>
-
-<span class="nc" id="L156">        tfDiaNascimento.setValue(1);</span>
-<span class="nc" id="L157">        tfDiaNascimento.addChangeListener(new javax.swing.event.ChangeListener() {</span>
+<span class="nc" id="L158">        buttonGroup1.add(rbFuncionario);</span>
+<span class="nc" id="L159">        rbFuncionario.setText(&quot;Funcionário&quot;);</span>
+<span class="nc" id="L160">        rbFuncionario.addChangeListener(new javax.swing.event.ChangeListener() {</span>
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
-<span class="nc" id="L159">                tfDiaNascimentoStateChanged(evt);</span>
-<span class="nc" id="L160">            }</span>
+<span class="nc" id="L162">                rbFuncionarioStateChanged(evt);</span>
+<span class="nc" id="L163">            }</span>
         });
 
-<span class="nc" id="L163">        tfMesNascimento.setValue(1);</span>
-<span class="nc" id="L164">        tfMesNascimento.addChangeListener(new javax.swing.event.ChangeListener() {</span>
+<span class="nc" id="L166">        buttonGroup1.add(rbPFisica);</span>
+<span class="nc" id="L167">        rbPFisica.setSelected(true);</span>
+<span class="nc" id="L168">        rbPFisica.setText(&quot;Pessoa Física&quot;);</span>
+
+<span class="nc" id="L170">        jLabel10.setText(&quot;Data de Nascimento/Fundação:&quot;);</span>
+
+<span class="nc" id="L172">        tfDiaNascimento.setValue(1);</span>
+<span class="nc" id="L173">        tfDiaNascimento.addChangeListener(new javax.swing.event.ChangeListener() {</span>
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
-<span class="nc" id="L166">                tfMesNascimentojpDiaAdmissaoStateChanged(evt);</span>
-<span class="nc" id="L167">            }</span>
+<span class="nc" id="L175">                tfDiaNascimentoStateChanged(evt);</span>
+<span class="nc" id="L176">            }</span>
         });
 
-<span class="nc" id="L170">        tfAnoNascimento.setValue(1990);</span>
-<span class="nc" id="L171">        tfAnoNascimento.addChangeListener(new javax.swing.event.ChangeListener() {</span>
+<span class="nc" id="L179">        tfMesNascimento.setValue(1);</span>
+<span class="nc" id="L180">        tfMesNascimento.addChangeListener(new javax.swing.event.ChangeListener() {</span>
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
-<span class="nc" id="L173">                tfAnoNascimentojpDiaAdmissaoStateChanged(evt);</span>
-<span class="nc" id="L174">            }</span>
+<span class="nc" id="L182">                tfMesNascimentojpDiaAdmissaoStateChanged(evt);</span>
+<span class="nc" id="L183">            }</span>
         });
 
-<span class="nc" id="L177">        jLabel9.setText(&quot;Razão Social:&quot;);</span>
+<span class="nc" id="L186">        tfAnoNascimento.setValue(1990);</span>
+<span class="nc" id="L187">        tfAnoNascimento.addChangeListener(new javax.swing.event.ChangeListener() {</span>
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+<span class="nc" id="L189">                tfAnoNascimentojpDiaAdmissaoStateChanged(evt);</span>
+<span class="nc" id="L190">            }</span>
+        });
 
-<span class="nc" id="L179">        jLabel1.setText(&quot;Nome/Fantasia:&quot;);</span>
+<span class="nc" id="L193">        jLabel9.setText(&quot;Razão Social:&quot;);</span>
 
-<span class="nc" id="L181">        jLabel2.setText(&quot;Rua:&quot;);</span>
+<span class="nc" id="L195">        jLabel1.setText(&quot;Nome/Fantasia:&quot;);</span>
 
-<span class="nc" id="L183">        jLabel11.setText(&quot;CPF:&quot;);</span>
+<span class="nc" id="L197">        jLabel2.setText(&quot;Rua:&quot;);</span>
 
-<span class="nc" id="L185">        jLabel3.setText(&quot;Nº:&quot;);</span>
+<span class="nc" id="L199">        jLabel11.setText(&quot;CPF:&quot;);</span>
 
-<span class="nc" id="L187">        jLabel4.setText(&quot;Cep:&quot;);</span>
+<span class="nc" id="L201">        jLabel3.setText(&quot;Nº:&quot;);</span>
 
-<span class="nc" id="L189">        jLabel12.setText(&quot;CNPJ:&quot;);</span>
+<span class="nc" id="L203">        jLabel4.setText(&quot;Cep:&quot;);</span>
 
-<span class="nc" id="L191">        jLabel5.setText(&quot;Bairro:&quot;);</span>
+<span class="nc" id="L205">        jLabel12.setText(&quot;CNPJ:&quot;);</span>
 
-<span class="nc" id="L193">        jLabel6.setText(&quot;Cidade:&quot;);</span>
+<span class="nc" id="L207">        jLabel5.setText(&quot;Bairro:&quot;);</span>
 
-<span class="nc" id="L195">        jLabel13.setText(&quot;I.E.:&quot;);</span>
+<span class="nc" id="L209">        jLabel6.setText(&quot;Cidade:&quot;);</span>
 
-<span class="nc" id="L197">        jLabel7.setText(&quot;UF:&quot;);</span>
+<span class="nc" id="L211">        jLabel13.setText(&quot;I.E.:&quot;);</span>
 
-<span class="nc" id="L199">        jLabel14.setText(&quot;Tipo de Cadastro:&quot;);</span>
+<span class="nc" id="L213">        jLabel7.setText(&quot;UF:&quot;);</span>
 
-<span class="nc" id="L201">        buttonGroup1.add(rbConcessionaria);</span>
-<span class="nc" id="L202">        rbConcessionaria.setText(&quot;Concessionária&quot;);</span>
+<span class="nc" id="L215">        jLabel14.setText(&quot;Tipo de Cadastro:&quot;);</span>
 
-<span class="nc" id="L204">        jLabel22.setText(&quot;Id:&quot;);</span>
+<span class="nc" id="L217">        buttonGroup1.add(rbConcessionaria);</span>
+<span class="nc" id="L218">        rbConcessionaria.setText(&quot;Concessionária&quot;);</span>
 
-<span class="nc" id="L206">        tfId.setEditable(false);</span>
+<span class="nc" id="L220">        jLabel22.setText(&quot;Id:&quot;);</span>
 
-<span class="nc" id="L208">        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);</span>
-<span class="nc" id="L209">        jPanel1.setLayout(jPanel1Layout);</span>
-<span class="nc" id="L210">        jPanel1Layout.setHorizontalGroup(</span>
-<span class="nc" id="L211">            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
-<span class="nc" id="L212">            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()</span>
-<span class="nc" id="L213">                .addContainerGap(30, Short.MAX_VALUE)</span>
-<span class="nc" id="L214">                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
-<span class="nc" id="L215">                    .addComponent(jLabel14, javax.swing.GroupLayout.Alignment.TRAILING)</span>
-<span class="nc" id="L216">                    .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING)</span>
-<span class="nc" id="L217">                    .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING)</span>
-<span class="nc" id="L218">                    .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.TRAILING)</span>
-<span class="nc" id="L219">                    .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.TRAILING)</span>
-<span class="nc" id="L220">                    .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING)</span>
-<span class="nc" id="L221">                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)</span>
-<span class="nc" id="L222">                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)</span>
-<span class="nc" id="L223">                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)</span>
-<span class="nc" id="L224">                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING)</span>
-<span class="nc" id="L225">                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)</span>
-<span class="nc" id="L226">                    .addComponent(jLabel22, javax.swing.GroupLayout.Alignment.TRAILING))</span>
-<span class="nc" id="L227">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
-<span class="nc" id="L228">                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
-<span class="nc" id="L229">                    .addComponent(tfId, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
-<span class="nc" id="L230">                    .addGroup(jPanel1Layout.createSequentialGroup()</span>
-<span class="nc" id="L231">                        .addComponent(tfDiaNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
-<span class="nc" id="L232">                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
-<span class="nc" id="L233">                        .addComponent(tfMesNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
-<span class="nc" id="L234">                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
-<span class="nc" id="L235">                        .addComponent(tfAnoNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
-<span class="nc" id="L236">                    .addComponent(tfRazaoSocial, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
-<span class="nc" id="L237">                    .addComponent(tfNome, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
-<span class="nc" id="L238">                    .addGroup(jPanel1Layout.createSequentialGroup()</span>
-<span class="nc" id="L239">                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
-<span class="nc" id="L240">                            .addComponent(tfCEP, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
-<span class="nc" id="L241">                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)</span>
-<span class="nc" id="L242">                                .addComponent(tfCidade, javax.swing.GroupLayout.Alignment.LEADING)</span>
-<span class="nc" id="L243">                                .addComponent(tfBairro, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
-<span class="nc" id="L244">                            .addComponent(tfRua, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
-<span class="nc" id="L245">                            .addGroup(jPanel1Layout.createSequentialGroup()</span>
-<span class="nc" id="L246">                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
-<span class="nc" id="L247">                                    .addComponent(rbPJuridica)</span>
-<span class="nc" id="L248">                                    .addComponent(rbFuncionario))</span>
-<span class="nc" id="L249">                                .addGap(18, 18, 18)</span>
-<span class="nc" id="L250">                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
-<span class="nc" id="L251">                                    .addComponent(rbConcessionaria)</span>
-<span class="nc" id="L252">                                    .addComponent(rbPFisica))))</span>
-<span class="nc" id="L253">                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)</span>
-<span class="nc" id="L254">                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
-<span class="nc" id="L255">                            .addGroup(jPanel1Layout.createSequentialGroup()</span>
-<span class="nc" id="L256">                                .addComponent(jLabel3)</span>
-<span class="nc" id="L257">                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
-<span class="nc" id="L258">                                .addComponent(tfNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
-<span class="nc" id="L259">                            .addGroup(jPanel1Layout.createSequentialGroup()</span>
-<span class="nc" id="L260">                                .addComponent(jLabel7)</span>
-<span class="nc" id="L261">                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
-<span class="nc" id="L262">                                .addComponent(tfUF, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))))</span>
-<span class="nc" id="L263">                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)</span>
-<span class="nc" id="L264">                        .addComponent(tfIE, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE)</span>
-<span class="nc" id="L265">                        .addComponent(tfCNPJ, javax.swing.GroupLayout.Alignment.LEADING)</span>
-<span class="nc" id="L266">                        .addComponent(tfCPF, javax.swing.GroupLayout.Alignment.LEADING)))</span>
-<span class="nc" id="L267">                .addContainerGap())</span>
+<span class="nc" id="L222">        tfId.setEditable(false);</span>
+
+<span class="nc" id="L224">        tfCPF.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat(&quot;#0&quot;))));</span>
+
+<span class="nc" id="L226">        tfCNPJ.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat(&quot;#0&quot;))));</span>
+
+<span class="nc" id="L228">        tfCEP.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat(&quot;#0&quot;))));</span>
+
+<span class="nc" id="L230">        tfUF.setModel(new javax.swing.SpinnerListModel(new String[] {&quot;AC&quot;, &quot;AL&quot;, &quot;AM&quot;, &quot;AP&quot;, &quot;BA&quot;, &quot;CE&quot;, &quot;DF&quot;, &quot;ES&quot;, &quot;GO&quot;, &quot;MA&quot;, &quot;MG&quot;, &quot;MS&quot;, &quot;MT&quot;, &quot;PA&quot;, &quot;PB&quot;, &quot;PE&quot;, &quot;PI&quot;, &quot;PR&quot;, &quot;RJ&quot;, &quot;RN&quot;, &quot;RO&quot;, &quot;RR&quot;, &quot;RS&quot;, &quot;SC&quot;, &quot;SE&quot;, &quot;SP&quot;, &quot;TO&quot;}));</span>
+
+<span class="nc" id="L232">        jLabel23.setText(&quot;Senha:&quot;);</span>
+
+<span class="nc" id="L234">        jpfSenha.setEnabled(false);</span>
+
+<span class="nc" id="L236">        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);</span>
+<span class="nc" id="L237">        jPanel1.setLayout(jPanel1Layout);</span>
+<span class="nc" id="L238">        jPanel1Layout.setHorizontalGroup(</span>
+<span class="nc" id="L239">            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L240">            .addGroup(jPanel1Layout.createSequentialGroup()</span>
+<span class="nc" id="L241">                .addContainerGap()</span>
+<span class="nc" id="L242">                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L243">                    .addGroup(jPanel1Layout.createSequentialGroup()</span>
+<span class="nc" id="L244">                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L245">                            .addComponent(jLabel22)</span>
+<span class="nc" id="L246">                            .addComponent(tfId, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L247">                        .addGap(24, 24, 24)</span>
+<span class="nc" id="L248">                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L249">                            .addGroup(jPanel1Layout.createSequentialGroup()</span>
+<span class="nc" id="L250">                                .addComponent(jLabel1)</span>
+<span class="nc" id="L251">                                .addGap(302, 302, 302))</span>
+<span class="nc" id="L252">                            .addGroup(jPanel1Layout.createSequentialGroup()</span>
+<span class="nc" id="L253">                                .addComponent(tfNome)</span>
+<span class="nc" id="L254">                                .addContainerGap())))</span>
+<span class="nc" id="L255">                    .addGroup(jPanel1Layout.createSequentialGroup()</span>
+<span class="nc" id="L256">                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L257">                            .addComponent(jLabel4)</span>
+<span class="nc" id="L258">                            .addComponent(tfCEP, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L259">                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L260">                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L261">                            .addGroup(jPanel1Layout.createSequentialGroup()</span>
+<span class="nc" id="L262">                                .addComponent(jLabel5)</span>
+<span class="nc" id="L263">                                .addGap(0, 0, Short.MAX_VALUE))</span>
+<span class="nc" id="L264">                            .addGroup(jPanel1Layout.createSequentialGroup()</span>
+<span class="nc" id="L265">                                .addComponent(tfBairro)</span>
+<span class="nc" id="L266">                                .addContainerGap())))</span>
+<span class="nc" id="L267">                    .addGroup(jPanel1Layout.createSequentialGroup()</span>
+<span class="nc" id="L268">                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L269">                            .addComponent(tfRazaoSocial)</span>
+<span class="nc" id="L270">                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()</span>
+<span class="nc" id="L271">                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)</span>
+<span class="nc" id="L272">                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()</span>
+<span class="nc" id="L273">                                        .addComponent(jLabel9)</span>
+<span class="nc" id="L274">                                        .addGap(0, 0, Short.MAX_VALUE))</span>
+<span class="nc" id="L275">                                    .addGroup(jPanel1Layout.createSequentialGroup()</span>
+<span class="nc" id="L276">                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L277">                                            .addComponent(jLabel11)</span>
+<span class="nc" id="L278">                                            .addComponent(tfCPF))</span>
+<span class="nc" id="L279">                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)</span>
+<span class="nc" id="L280">                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L281">                                            .addComponent(tfCNPJ)</span>
+<span class="nc" id="L282">                                            .addComponent(jLabel12))))</span>
+<span class="nc" id="L283">                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)</span>
+<span class="nc" id="L284">                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L285">                                    .addComponent(jLabel13)</span>
+<span class="nc" id="L286">                                    .addComponent(tfIE, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L287">                                .addGap(173, 173, 173))</span>
+<span class="nc" id="L288">                            .addGroup(jPanel1Layout.createSequentialGroup()</span>
+<span class="nc" id="L289">                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L290">                                    .addGroup(jPanel1Layout.createSequentialGroup()</span>
+<span class="nc" id="L291">                                        .addComponent(jLabel2)</span>
+<span class="nc" id="L292">                                        .addGap(0, 0, Short.MAX_VALUE))</span>
+<span class="nc" id="L293">                                    .addComponent(tfRua))</span>
+<span class="nc" id="L294">                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L295">                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L296">                                    .addComponent(jLabel3)</span>
+<span class="nc" id="L297">                                    .addComponent(tfNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)))</span>
+<span class="nc" id="L298">                            .addGroup(jPanel1Layout.createSequentialGroup()</span>
+<span class="nc" id="L299">                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L300">                                    .addComponent(tfCidade, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L301">                                    .addComponent(jLabel6))</span>
+<span class="nc" id="L302">                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)</span>
+<span class="nc" id="L303">                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L304">                                    .addComponent(jLabel7)</span>
+<span class="nc" id="L305">                                    .addComponent(tfUF, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L306">                                .addGap(56, 351, Short.MAX_VALUE))</span>
+<span class="nc" id="L307">                            .addGroup(jPanel1Layout.createSequentialGroup()</span>
+<span class="nc" id="L308">                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L309">                                    .addComponent(jLabel10)</span>
+<span class="nc" id="L310">                                    .addGroup(jPanel1Layout.createSequentialGroup()</span>
+<span class="nc" id="L311">                                        .addComponent(tfDiaNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L312">                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L313">                                        .addComponent(tfMesNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L314">                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L315">                                        .addComponent(tfAnoNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))</span>
+<span class="nc" id="L316">                                .addGap(52, 52, 52)</span>
+<span class="nc" id="L317">                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L318">                                    .addGroup(jPanel1Layout.createSequentialGroup()</span>
+<span class="nc" id="L319">                                        .addGap(1, 1, 1)</span>
+<span class="nc" id="L320">                                        .addComponent(rbPFisica)</span>
+<span class="nc" id="L321">                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)</span>
+<span class="nc" id="L322">                                        .addComponent(rbPJuridica)</span>
+<span class="nc" id="L323">                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L324">                                        .addComponent(rbConcessionaria)</span>
+<span class="nc" id="L325">                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L326">                                        .addComponent(rbFuncionario))</span>
+<span class="nc" id="L327">                                    .addComponent(jLabel14))</span>
+<span class="nc" id="L328">                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)</span>
+<span class="nc" id="L329">                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L330">                                    .addGroup(jPanel1Layout.createSequentialGroup()</span>
+<span class="nc" id="L331">                                        .addComponent(jLabel23)</span>
+<span class="nc" id="L332">                                        .addGap(0, 0, Short.MAX_VALUE))</span>
+<span class="nc" id="L333">                                    .addComponent(jpfSenha))))</span>
+<span class="nc" id="L334">                        .addContainerGap())))</span>
         );
-<span class="nc" id="L269">        jPanel1Layout.setVerticalGroup(</span>
-<span class="nc" id="L270">            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
-<span class="nc" id="L271">            .addGroup(jPanel1Layout.createSequentialGroup()</span>
-<span class="nc" id="L272">                .addGap(4, 4, 4)</span>
-<span class="nc" id="L273">                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
-<span class="nc" id="L274">                    .addComponent(jLabel22)</span>
-<span class="nc" id="L275">                    .addComponent(tfId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
-<span class="nc" id="L276">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
-<span class="nc" id="L277">                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
-<span class="nc" id="L278">                    .addComponent(jLabel1)</span>
-<span class="nc" id="L279">                    .addComponent(tfNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
-<span class="nc" id="L280">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
-<span class="nc" id="L281">                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
-<span class="nc" id="L282">                    .addComponent(jLabel9)</span>
-<span class="nc" id="L283">                    .addComponent(tfRazaoSocial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
-<span class="nc" id="L284">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
-<span class="nc" id="L285">                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
-<span class="nc" id="L286">                    .addComponent(jLabel11)</span>
-<span class="nc" id="L287">                    .addComponent(tfCPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
-<span class="nc" id="L288">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
-<span class="nc" id="L289">                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
-<span class="nc" id="L290">                    .addComponent(jLabel12)</span>
-<span class="nc" id="L291">                    .addComponent(tfCNPJ, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
-<span class="nc" id="L292">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
-<span class="nc" id="L293">                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
-<span class="nc" id="L294">                    .addComponent(jLabel13)</span>
-<span class="nc" id="L295">                    .addComponent(tfIE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
-<span class="nc" id="L296">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
-<span class="nc" id="L297">                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
-<span class="nc" id="L298">                    .addComponent(jLabel10)</span>
-<span class="nc" id="L299">                    .addComponent(tfDiaNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
-<span class="nc" id="L300">                    .addComponent(tfMesNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
-<span class="nc" id="L301">                    .addComponent(tfAnoNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
-<span class="nc" id="L302">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
-<span class="nc" id="L303">                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
-<span class="nc" id="L304">                    .addGroup(jPanel1Layout.createSequentialGroup()</span>
-<span class="nc" id="L305">                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
-<span class="nc" id="L306">                            .addComponent(jLabel2)</span>
-<span class="nc" id="L307">                            .addComponent(tfRua, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
-<span class="nc" id="L308">                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
-<span class="nc" id="L309">                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
-<span class="nc" id="L310">                            .addComponent(tfCEP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
-<span class="nc" id="L311">                            .addComponent(jLabel4))</span>
-<span class="nc" id="L312">                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
-<span class="nc" id="L313">                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
-<span class="nc" id="L314">                            .addComponent(jLabel5)</span>
-<span class="nc" id="L315">                            .addComponent(tfBairro, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
-<span class="nc" id="L316">                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
-<span class="nc" id="L317">                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
-<span class="nc" id="L318">                            .addComponent(jLabel6)</span>
-<span class="nc" id="L319">                            .addComponent(tfCidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))</span>
-<span class="nc" id="L320">                    .addGroup(jPanel1Layout.createSequentialGroup()</span>
-<span class="nc" id="L321">                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
-<span class="nc" id="L322">                            .addComponent(jLabel3)</span>
-<span class="nc" id="L323">                            .addComponent(tfNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
-<span class="nc" id="L324">                        .addGap(58, 58, 58)</span>
-<span class="nc" id="L325">                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
-<span class="nc" id="L326">                            .addComponent(jLabel7)</span>
-<span class="nc" id="L327">                            .addComponent(tfUF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))</span>
-<span class="nc" id="L328">                .addGap(18, 18, 18)</span>
-<span class="nc" id="L329">                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
-<span class="nc" id="L330">                    .addComponent(jLabel14)</span>
-<span class="nc" id="L331">                    .addComponent(rbPJuridica)</span>
-<span class="nc" id="L332">                    .addComponent(rbPFisica))</span>
-<span class="nc" id="L333">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
-<span class="nc" id="L334">                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
-<span class="nc" id="L335">                    .addComponent(rbFuncionario)</span>
-<span class="nc" id="L336">                    .addComponent(rbConcessionaria))</span>
-<span class="nc" id="L337">                .addContainerGap())</span>
+<span class="nc" id="L336">        jPanel1Layout.setVerticalGroup(</span>
+<span class="nc" id="L337">            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L338">            .addGroup(jPanel1Layout.createSequentialGroup()</span>
+<span class="nc" id="L339">                .addGap(7, 7, 7)</span>
+<span class="nc" id="L340">                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L341">                    .addComponent(jLabel22)</span>
+<span class="nc" id="L342">                    .addComponent(jLabel1))</span>
+<span class="nc" id="L343">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L344">                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L345">                    .addComponent(tfNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L346">                    .addComponent(tfId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L347">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L348">                .addComponent(jLabel9)</span>
+<span class="nc" id="L349">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L350">                .addComponent(tfRazaoSocial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L351">                .addGap(12, 12, 12)</span>
+<span class="nc" id="L352">                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L353">                    .addComponent(jLabel11)</span>
+<span class="nc" id="L354">                    .addComponent(jLabel12)</span>
+<span class="nc" id="L355">                    .addComponent(jLabel13))</span>
+<span class="nc" id="L356">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L357">                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L358">                    .addComponent(tfCPF, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L359">                    .addComponent(tfCNPJ, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L360">                    .addComponent(tfIE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L361">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L362">                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L363">                    .addComponent(jLabel10)</span>
+<span class="nc" id="L364">                    .addComponent(jLabel14)</span>
+<span class="nc" id="L365">                    .addComponent(jLabel23))</span>
+<span class="nc" id="L366">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L367">                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L368">                    .addComponent(tfDiaNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L369">                    .addComponent(tfMesNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L370">                    .addComponent(tfAnoNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L371">                    .addComponent(rbPFisica)</span>
+<span class="nc" id="L372">                    .addComponent(rbPJuridica)</span>
+<span class="nc" id="L373">                    .addComponent(rbConcessionaria)</span>
+<span class="nc" id="L374">                    .addComponent(rbFuncionario)</span>
+<span class="nc" id="L375">                    .addComponent(jpfSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L376">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)</span>
+<span class="nc" id="L377">                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L378">                    .addComponent(jLabel2)</span>
+<span class="nc" id="L379">                    .addComponent(jLabel3))</span>
+<span class="nc" id="L380">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L381">                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L382">                    .addComponent(tfRua, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L383">                    .addComponent(tfNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L384">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L385">                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L386">                    .addComponent(jLabel4)</span>
+<span class="nc" id="L387">                    .addComponent(jLabel5))</span>
+<span class="nc" id="L388">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L389">                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L390">                    .addComponent(tfBairro, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L391">                    .addComponent(tfCEP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L392">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)</span>
+<span class="nc" id="L393">                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L394">                    .addComponent(jLabel6)</span>
+<span class="nc" id="L395">                    .addComponent(jLabel7))</span>
+<span class="nc" id="L396">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L397">                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L398">                    .addComponent(tfCidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L399">                    .addComponent(tfUF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L400">                .addContainerGap(39, Short.MAX_VALUE))</span>
         );
 
-<span class="nc" id="L340">        jTabbedPane1.addTab(&quot;Dados Genéricos&quot;, jPanel1);</span>
+<span class="nc" id="L403">        jTabbedPane1.addTab(&quot;Dados Genéricos&quot;, jPanel1);</span>
 
-<span class="nc" id="L342">        jLabel8.setText(&quot;Telefone Principal:&quot;);</span>
+<span class="nc" id="L405">        jLabel8.setText(&quot;Telefone Principal:&quot;);</span>
 
-<span class="nc" id="L344">        jLabel18.setText(&quot;Telefone 2:&quot;);</span>
+<span class="nc" id="L407">        jLabel18.setText(&quot;Telefone 2:&quot;);</span>
 
-<span class="nc" id="L346">        tfTelefone2.addActionListener(new java.awt.event.ActionListener() {</span>
+<span class="nc" id="L409">        tfTelefone2.addActionListener(new java.awt.event.ActionListener() {</span>
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-<span class="nc" id="L348">                tfTelefone2ActionPerformed(evt);</span>
-<span class="nc" id="L349">            }</span>
+<span class="nc" id="L411">                tfTelefone2ActionPerformed(evt);</span>
+<span class="nc" id="L412">            }</span>
         });
 
-<span class="nc" id="L352">        jLabel19.setText(&quot;Email Principal:&quot;);</span>
+<span class="nc" id="L415">        jLabel19.setText(&quot;Email Principal:&quot;);</span>
 
-<span class="nc" id="L354">        jLabel20.setText(&quot;Email 2:&quot;);</span>
+<span class="nc" id="L417">        jLabel20.setText(&quot;Email 2:&quot;);</span>
 
-<span class="nc" id="L356">        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);</span>
-<span class="nc" id="L357">        jPanel3.setLayout(jPanel3Layout);</span>
-<span class="nc" id="L358">        jPanel3Layout.setHorizontalGroup(</span>
-<span class="nc" id="L359">            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
-<span class="nc" id="L360">            .addGroup(jPanel3Layout.createSequentialGroup()</span>
-<span class="nc" id="L361">                .addContainerGap()</span>
-<span class="nc" id="L362">                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)</span>
-<span class="nc" id="L363">                    .addGroup(jPanel3Layout.createSequentialGroup()</span>
-<span class="nc" id="L364">                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)</span>
-<span class="nc" id="L365">                            .addComponent(jLabel18)</span>
-<span class="nc" id="L366">                            .addComponent(jLabel19)</span>
-<span class="nc" id="L367">                            .addComponent(jLabel8))</span>
-<span class="nc" id="L368">                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
-<span class="nc" id="L369">                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
-<span class="nc" id="L370">                            .addComponent(tfTelefone2, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
-<span class="nc" id="L371">                            .addComponent(tfTelefonePrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
-<span class="nc" id="L372">                            .addComponent(tfEmailPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)))</span>
-<span class="nc" id="L373">                    .addGroup(jPanel3Layout.createSequentialGroup()</span>
-<span class="nc" id="L374">                        .addGap(51, 51, 51)</span>
-<span class="nc" id="L375">                        .addComponent(jLabel20)</span>
-<span class="nc" id="L376">                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
-<span class="nc" id="L377">                        .addComponent(tfEmail2)))</span>
-<span class="nc" id="L378">                .addContainerGap(142, Short.MAX_VALUE))</span>
-        );
-<span class="nc" id="L380">        jPanel3Layout.setVerticalGroup(</span>
-<span class="nc" id="L381">            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
-<span class="nc" id="L382">            .addGroup(jPanel3Layout.createSequentialGroup()</span>
-<span class="nc" id="L383">                .addContainerGap()</span>
-<span class="nc" id="L384">                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
-<span class="nc" id="L385">                    .addComponent(jLabel8)</span>
-<span class="nc" id="L386">                    .addComponent(tfTelefonePrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
-<span class="nc" id="L387">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
-<span class="nc" id="L388">                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
-<span class="nc" id="L389">                    .addComponent(jLabel18)</span>
-<span class="nc" id="L390">                    .addComponent(tfTelefone2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
-<span class="nc" id="L391">                .addGap(33, 33, 33)</span>
-<span class="nc" id="L392">                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
-<span class="nc" id="L393">                    .addComponent(jLabel19)</span>
-<span class="nc" id="L394">                    .addComponent(tfEmailPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
-<span class="nc" id="L395">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
-<span class="nc" id="L396">                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
-<span class="nc" id="L397">                    .addComponent(tfEmail2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
-<span class="nc" id="L398">                    .addComponent(jLabel20))</span>
-<span class="nc" id="L399">                .addContainerGap(218, Short.MAX_VALUE))</span>
+<span class="nc" id="L419">        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);</span>
+<span class="nc" id="L420">        jPanel3.setLayout(jPanel3Layout);</span>
+<span class="nc" id="L421">        jPanel3Layout.setHorizontalGroup(</span>
+<span class="nc" id="L422">            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L423">            .addGroup(jPanel3Layout.createSequentialGroup()</span>
+<span class="nc" id="L424">                .addContainerGap()</span>
+<span class="nc" id="L425">                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L426">                    .addGroup(jPanel3Layout.createSequentialGroup()</span>
+<span class="nc" id="L427">                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L428">                            .addComponent(tfEmailPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L429">                            .addComponent(jLabel19))</span>
+<span class="nc" id="L430">                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)</span>
+<span class="nc" id="L431">                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L432">                            .addComponent(jLabel20)</span>
+<span class="nc" id="L433">                            .addComponent(tfEmail2, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))</span>
+<span class="nc" id="L434">                    .addGroup(jPanel3Layout.createSequentialGroup()</span>
+<span class="nc" id="L435">                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)</span>
+<span class="nc" id="L436">                            .addComponent(tfTelefonePrincipal)</span>
+<span class="nc" id="L437">                            .addComponent(jLabel8))</span>
+<span class="nc" id="L438">                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L439">                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L440">                            .addComponent(tfTelefone2, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L441">                            .addComponent(jLabel18))))</span>
+<span class="nc" id="L442">                .addGap(152, 152, 152))</span>
         );
 
-<span class="nc" id="L402">        jTabbedPane1.addTab(&quot;Dados de Contato&quot;, jPanel3);</span>
+<span class="nc" id="L445">        jPanel3Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {tfEmail2, tfEmailPrincipal, tfTelefone2, tfTelefonePrincipal});</span>
 
-<span class="nc" id="L404">        jLabel15.setText(&quot;NIS:&quot;);</span>
+<span class="nc" id="L447">        jPanel3Layout.setVerticalGroup(</span>
+<span class="nc" id="L448">            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L449">            .addGroup(jPanel3Layout.createSequentialGroup()</span>
+<span class="nc" id="L450">                .addContainerGap()</span>
+<span class="nc" id="L451">                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L452">                    .addComponent(jLabel8)</span>
+<span class="nc" id="L453">                    .addComponent(jLabel18))</span>
+<span class="nc" id="L454">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L455">                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L456">                    .addComponent(tfTelefonePrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L457">                    .addComponent(tfTelefone2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L458">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)</span>
+<span class="nc" id="L459">                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L460">                    .addComponent(jLabel19)</span>
+<span class="nc" id="L461">                    .addComponent(jLabel20))</span>
+<span class="nc" id="L462">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L463">                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L464">                    .addComponent(tfEmailPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L465">                    .addComponent(tfEmail2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L466">                .addContainerGap(276, Short.MAX_VALUE))</span>
+        );
 
-<span class="nc" id="L406">        jLabel16.setText(&quot;Data de Admissão:&quot;);</span>
+<span class="nc" id="L469">        jTabbedPane1.addTab(&quot;Dados de Contato&quot;, jPanel3);</span>
 
-<span class="nc" id="L408">        jLabel17.setText(&quot;Salário:&quot;);</span>
+<span class="nc" id="L471">        jLabel15.setText(&quot;NIS:&quot;);</span>
 
-<span class="nc" id="L410">        jpDiaAdmissao.setValue(1);</span>
-<span class="nc" id="L411">        jpDiaAdmissao.addChangeListener(new javax.swing.event.ChangeListener() {</span>
+<span class="nc" id="L473">        jLabel16.setText(&quot;Data de Admissão:&quot;);</span>
+
+<span class="nc" id="L475">        jLabel17.setText(&quot;Salário:&quot;);</span>
+
+<span class="nc" id="L477">        jpDiaAdmissao.setValue(1);</span>
+<span class="nc" id="L478">        jpDiaAdmissao.addChangeListener(new javax.swing.event.ChangeListener() {</span>
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
-<span class="nc" id="L413">                jpDiaAdmissaoStateChanged(evt);</span>
-<span class="nc" id="L414">            }</span>
+<span class="nc" id="L480">                jpDiaAdmissaoStateChanged(evt);</span>
+<span class="nc" id="L481">            }</span>
         });
 
-<span class="nc" id="L417">        jpMesAdmissao.setValue(1);</span>
-<span class="nc" id="L418">        jpMesAdmissao.addChangeListener(new javax.swing.event.ChangeListener() {</span>
+<span class="nc" id="L484">        jpMesAdmissao.setValue(1);</span>
+<span class="nc" id="L485">        jpMesAdmissao.addChangeListener(new javax.swing.event.ChangeListener() {</span>
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
-<span class="nc" id="L420">                jpMesAdmissaojpDiaAdmissaoStateChanged(evt);</span>
-<span class="nc" id="L421">            }</span>
+<span class="nc" id="L487">                jpMesAdmissaojpDiaAdmissaoStateChanged(evt);</span>
+<span class="nc" id="L488">            }</span>
         });
 
-<span class="nc" id="L424">        jpAnoAdmissao.setValue(1990);</span>
-<span class="nc" id="L425">        jpAnoAdmissao.addChangeListener(new javax.swing.event.ChangeListener() {</span>
+<span class="nc" id="L491">        jpAnoAdmissao.setValue(1990);</span>
+<span class="nc" id="L492">        jpAnoAdmissao.addChangeListener(new javax.swing.event.ChangeListener() {</span>
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
-<span class="nc" id="L427">                jpAnoAdmissaojpDiaAdmissaoStateChanged(evt);</span>
-<span class="nc" id="L428">            }</span>
+<span class="nc" id="L494">                jpAnoAdmissaojpDiaAdmissaoStateChanged(evt);</span>
+<span class="nc" id="L495">            }</span>
         });
 
-<span class="nc" id="L431">        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);</span>
-<span class="nc" id="L432">        jPanel2.setLayout(jPanel2Layout);</span>
-<span class="nc" id="L433">        jPanel2Layout.setHorizontalGroup(</span>
-<span class="nc" id="L434">            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
-<span class="nc" id="L435">            .addGroup(jPanel2Layout.createSequentialGroup()</span>
-<span class="nc" id="L436">                .addContainerGap()</span>
-<span class="nc" id="L437">                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)</span>
-<span class="nc" id="L438">                    .addGroup(jPanel2Layout.createSequentialGroup()</span>
-<span class="nc" id="L439">                        .addComponent(jLabel15)</span>
-<span class="nc" id="L440">                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)</span>
-<span class="nc" id="L441">                        .addComponent(tfNIS, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
-<span class="nc" id="L442">                    .addGroup(jPanel2Layout.createSequentialGroup()</span>
-<span class="nc" id="L443">                        .addComponent(jLabel17)</span>
-<span class="nc" id="L444">                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)</span>
-<span class="nc" id="L445">                        .addComponent(tfSalario, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
-<span class="nc" id="L446">                    .addGroup(jPanel2Layout.createSequentialGroup()</span>
-<span class="nc" id="L447">                        .addComponent(jLabel16)</span>
-<span class="nc" id="L448">                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)</span>
-<span class="nc" id="L449">                        .addComponent(jpDiaAdmissao, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
-<span class="nc" id="L450">                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
-<span class="nc" id="L451">                        .addComponent(jpMesAdmissao, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
-<span class="nc" id="L452">                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
-<span class="nc" id="L453">                        .addComponent(jpAnoAdmissao, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))</span>
-<span class="nc" id="L454">                .addContainerGap(264, Short.MAX_VALUE))</span>
+<span class="nc" id="L498">        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);</span>
+<span class="nc" id="L499">        jPanel2.setLayout(jPanel2Layout);</span>
+<span class="nc" id="L500">        jPanel2Layout.setHorizontalGroup(</span>
+<span class="nc" id="L501">            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L502">            .addGroup(jPanel2Layout.createSequentialGroup()</span>
+<span class="nc" id="L503">                .addContainerGap()</span>
+<span class="nc" id="L504">                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)</span>
+<span class="nc" id="L505">                    .addGroup(jPanel2Layout.createSequentialGroup()</span>
+<span class="nc" id="L506">                        .addComponent(jLabel15)</span>
+<span class="nc" id="L507">                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)</span>
+<span class="nc" id="L508">                        .addComponent(tfNIS, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L509">                    .addGroup(jPanel2Layout.createSequentialGroup()</span>
+<span class="nc" id="L510">                        .addComponent(jLabel17)</span>
+<span class="nc" id="L511">                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)</span>
+<span class="nc" id="L512">                        .addComponent(tfSalario, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L513">                    .addGroup(jPanel2Layout.createSequentialGroup()</span>
+<span class="nc" id="L514">                        .addComponent(jLabel16)</span>
+<span class="nc" id="L515">                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)</span>
+<span class="nc" id="L516">                        .addComponent(jpDiaAdmissao, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L517">                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L518">                        .addComponent(jpMesAdmissao, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L519">                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L520">                        .addComponent(jpAnoAdmissao, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))</span>
+<span class="nc" id="L521">                .addContainerGap(504, Short.MAX_VALUE))</span>
         );
-<span class="nc" id="L456">        jPanel2Layout.setVerticalGroup(</span>
-<span class="nc" id="L457">            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
-<span class="nc" id="L458">            .addGroup(jPanel2Layout.createSequentialGroup()</span>
-<span class="nc" id="L459">                .addContainerGap()</span>
-<span class="nc" id="L460">                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
-<span class="nc" id="L461">                    .addComponent(tfNIS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
-<span class="nc" id="L462">                    .addComponent(jLabel15))</span>
-<span class="nc" id="L463">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
-<span class="nc" id="L464">                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
-<span class="nc" id="L465">                    .addComponent(jLabel16)</span>
-<span class="nc" id="L466">                    .addComponent(jpDiaAdmissao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
-<span class="nc" id="L467">                    .addComponent(jpMesAdmissao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
-<span class="nc" id="L468">                    .addComponent(jpAnoAdmissao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
-<span class="nc" id="L469">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
-<span class="nc" id="L470">                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
-<span class="nc" id="L471">                    .addComponent(tfSalario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
-<span class="nc" id="L472">                    .addComponent(jLabel17))</span>
-<span class="nc" id="L473">                .addContainerGap(271, Short.MAX_VALUE))</span>
-        );
-
-<span class="nc" id="L476">        jTabbedPane1.addTab(&quot;Dados Funcionais&quot;, jPanel2);</span>
-
-<span class="nc" id="L478">        jLabel21.setText(&quot;Nome do Reponsável:&quot;);</span>
-
-<span class="nc" id="L480">        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);</span>
-<span class="nc" id="L481">        jPanel4.setLayout(jPanel4Layout);</span>
-<span class="nc" id="L482">        jPanel4Layout.setHorizontalGroup(</span>
-<span class="nc" id="L483">            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
-<span class="nc" id="L484">            .addGroup(jPanel4Layout.createSequentialGroup()</span>
-<span class="nc" id="L485">                .addContainerGap()</span>
-<span class="nc" id="L486">                .addComponent(jLabel21)</span>
-<span class="nc" id="L487">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
-<span class="nc" id="L488">                .addComponent(tfNomeResponsavel, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
-<span class="nc" id="L489">                .addContainerGap(189, Short.MAX_VALUE))</span>
-        );
-<span class="nc" id="L491">        jPanel4Layout.setVerticalGroup(</span>
-<span class="nc" id="L492">            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
-<span class="nc" id="L493">            .addGroup(jPanel4Layout.createSequentialGroup()</span>
-<span class="nc" id="L494">                .addContainerGap()</span>
-<span class="nc" id="L495">                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
-<span class="nc" id="L496">                    .addComponent(jLabel21)</span>
-<span class="nc" id="L497">                    .addComponent(tfNomeResponsavel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
-<span class="nc" id="L498">                .addContainerGap(323, Short.MAX_VALUE))</span>
+<span class="nc" id="L523">        jPanel2Layout.setVerticalGroup(</span>
+<span class="nc" id="L524">            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L525">            .addGroup(jPanel2Layout.createSequentialGroup()</span>
+<span class="nc" id="L526">                .addContainerGap()</span>
+<span class="nc" id="L527">                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L528">                    .addComponent(tfNIS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L529">                    .addComponent(jLabel15))</span>
+<span class="nc" id="L530">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L531">                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L532">                    .addComponent(jLabel16)</span>
+<span class="nc" id="L533">                    .addComponent(jpDiaAdmissao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L534">                    .addComponent(jpMesAdmissao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L535">                    .addComponent(jpAnoAdmissao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L536">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L537">                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L538">                    .addComponent(tfSalario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L539">                    .addComponent(jLabel17))</span>
+<span class="nc" id="L540">                .addContainerGap(295, Short.MAX_VALUE))</span>
         );
 
-<span class="nc" id="L501">        jTabbedPane1.addTab(&quot;Dados de Concessionária&quot;, jPanel4);</span>
+<span class="nc" id="L543">        jTabbedPane1.addTab(&quot;Dados Funcionais&quot;, jPanel2);</span>
 
-<span class="nc" id="L503">        jbCadastar.setText(&quot;Salvar&quot;);</span>
-<span class="nc" id="L504">        jbCadastar.addActionListener(new java.awt.event.ActionListener() {</span>
+<span class="nc" id="L545">        jLabel21.setText(&quot;Nome do Reponsável:&quot;);</span>
+
+<span class="nc" id="L547">        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);</span>
+<span class="nc" id="L548">        jPanel4.setLayout(jPanel4Layout);</span>
+<span class="nc" id="L549">        jPanel4Layout.setHorizontalGroup(</span>
+<span class="nc" id="L550">            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L551">            .addGroup(jPanel4Layout.createSequentialGroup()</span>
+<span class="nc" id="L552">                .addContainerGap()</span>
+<span class="nc" id="L553">                .addComponent(jLabel21)</span>
+<span class="nc" id="L554">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L555">                .addComponent(tfNomeResponsavel, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L556">                .addContainerGap(429, Short.MAX_VALUE))</span>
+        );
+<span class="nc" id="L558">        jPanel4Layout.setVerticalGroup(</span>
+<span class="nc" id="L559">            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L560">            .addGroup(jPanel4Layout.createSequentialGroup()</span>
+<span class="nc" id="L561">                .addContainerGap()</span>
+<span class="nc" id="L562">                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L563">                    .addComponent(jLabel21)</span>
+<span class="nc" id="L564">                    .addComponent(tfNomeResponsavel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L565">                .addContainerGap(347, Short.MAX_VALUE))</span>
+        );
+
+<span class="nc" id="L568">        jTabbedPane1.addTab(&quot;Dados de Concessionária&quot;, jPanel4);</span>
+
+<span class="nc" id="L570">        jTable1.setModel(new javax.swing.table.DefaultTableModel(</span>
+            new Object [][] {
+
+            },
+            new String [] {
+                &quot;Id&quot;, &quot;Descrição&quot;, &quot;Tipo&quot;, &quot;Data&quot;
+            }
+<span class="nc" id="L577">        ) {</span>
+<span class="nc" id="L578">            boolean[] canEdit = new boolean [] {</span>
+                false, true, true, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+<span class="nc" id="L583">                return canEdit [columnIndex];</span>
+            }
+        });
+<span class="nc" id="L586">        jScrollPane2.setViewportView(jTable1);</span>
+
+<span class="nc" id="L588">        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);</span>
+<span class="nc" id="L589">        jPanel5.setLayout(jPanel5Layout);</span>
+<span class="nc" id="L590">        jPanel5Layout.setHorizontalGroup(</span>
+<span class="nc" id="L591">            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L592">            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 770, Short.MAX_VALUE)</span>
+        );
+<span class="nc" id="L594">        jPanel5Layout.setVerticalGroup(</span>
+<span class="nc" id="L595">            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L596">            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 378, Short.MAX_VALUE)</span>
+        );
+
+<span class="nc" id="L599">        jTabbedPane1.addTab(&quot;Histórico&quot;, jPanel5);</span>
+
+<span class="nc" id="L601">        jbCadastar.setText(&quot;Salvar&quot;);</span>
+<span class="nc" id="L602">        jbCadastar.addActionListener(new java.awt.event.ActionListener() {</span>
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-<span class="nc" id="L506">                jbCadastarActionPerformed(evt);</span>
-<span class="nc" id="L507">            }</span>
+<span class="nc" id="L604">                jbCadastarActionPerformed(evt);</span>
+<span class="nc" id="L605">            }</span>
         });
 
-<span class="nc" id="L510">        jbRemover.setText(&quot;Remover&quot;);</span>
-<span class="nc" id="L511">        jbRemover.setEnabled(false);</span>
-<span class="nc" id="L512">        jbRemover.addActionListener(new java.awt.event.ActionListener() {</span>
+<span class="nc" id="L608">        jbRemover.setText(&quot;Remover&quot;);</span>
+<span class="nc" id="L609">        jbRemover.setEnabled(false);</span>
+<span class="nc" id="L610">        jbRemover.addActionListener(new java.awt.event.ActionListener() {</span>
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-<span class="nc" id="L514">                jbRemoverActionPerformed(evt);</span>
-<span class="nc" id="L515">            }</span>
+<span class="nc" id="L612">                jbRemoverActionPerformed(evt);</span>
+<span class="nc" id="L613">            }</span>
         });
 
-<span class="nc" id="L518">        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());</span>
-<span class="nc" id="L519">        getContentPane().setLayout(layout);</span>
-<span class="nc" id="L520">        layout.setHorizontalGroup(</span>
-<span class="nc" id="L521">            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
-<span class="nc" id="L522">            .addComponent(jTabbedPane1)</span>
-<span class="nc" id="L523">            .addGroup(layout.createSequentialGroup()</span>
-<span class="nc" id="L524">                .addComponent(jbRemover)</span>
-<span class="nc" id="L525">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
-<span class="nc" id="L526">                .addComponent(jbCadastar))</span>
+<span class="nc" id="L616">        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());</span>
+<span class="nc" id="L617">        getContentPane().setLayout(layout);</span>
+<span class="nc" id="L618">        layout.setHorizontalGroup(</span>
+<span class="nc" id="L619">            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L620">            .addComponent(jTabbedPane1)</span>
+<span class="nc" id="L621">            .addGroup(layout.createSequentialGroup()</span>
+<span class="nc" id="L622">                .addComponent(jbRemover)</span>
+<span class="nc" id="L623">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+<span class="nc" id="L624">                .addComponent(jbCadastar))</span>
         );
-<span class="nc" id="L528">        layout.setVerticalGroup(</span>
-<span class="nc" id="L529">            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
-<span class="nc" id="L530">            .addGroup(layout.createSequentialGroup()</span>
-<span class="nc" id="L531">                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
-<span class="nc" id="L532">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
-<span class="nc" id="L533">                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
-<span class="nc" id="L534">                    .addComponent(jbCadastar)</span>
-<span class="nc" id="L535">                    .addComponent(jbRemover)))</span>
+<span class="nc" id="L626">        layout.setVerticalGroup(</span>
+<span class="nc" id="L627">            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L628">            .addGroup(layout.createSequentialGroup()</span>
+<span class="nc" id="L629">                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 406, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L630">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L631">                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L632">                    .addComponent(jbRemover)</span>
+<span class="nc" id="L633">                    .addComponent(jbCadastar))</span>
+<span class="nc" id="L634">                .addGap(0, 0, Short.MAX_VALUE))</span>
         );
 
-<span class="nc" id="L538">        pack();</span>
-<span class="nc" id="L539">    }// &lt;/editor-fold&gt;//GEN-END:initComponents</span>
+<span class="nc" id="L637">        pack();</span>
+<span class="nc" id="L638">        setLocationRelativeTo(null);</span>
+<span class="nc" id="L639">    }// &lt;/editor-fold&gt;//GEN-END:initComponents</span>
 
     private void tfDiaNascimentoStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tfDiaNascimentoStateChanged
-<span class="nc" id="L542">        validarDataNascimento(evt);</span>
-<span class="nc" id="L543">    }//GEN-LAST:event_tfDiaNascimentoStateChanged</span>
+<span class="nc" id="L642">        validarDataNascimento(evt);</span>
+<span class="nc" id="L643">    }//GEN-LAST:event_tfDiaNascimentoStateChanged</span>
 
     private void tfMesNascimentojpDiaAdmissaoStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tfMesNascimentojpDiaAdmissaoStateChanged
-<span class="nc" id="L546">        validarDataNascimento(evt);</span>
-<span class="nc" id="L547">    }//GEN-LAST:event_tfMesNascimentojpDiaAdmissaoStateChanged</span>
+<span class="nc" id="L646">        validarDataNascimento(evt);</span>
+<span class="nc" id="L647">    }//GEN-LAST:event_tfMesNascimentojpDiaAdmissaoStateChanged</span>
 
     private void tfAnoNascimentojpDiaAdmissaoStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tfAnoNascimentojpDiaAdmissaoStateChanged
-<span class="nc" id="L550">        validarDataNascimento(evt);</span>
-<span class="nc" id="L551">    }//GEN-LAST:event_tfAnoNascimentojpDiaAdmissaoStateChanged</span>
+<span class="nc" id="L650">        validarDataNascimento(evt);</span>
+<span class="nc" id="L651">    }//GEN-LAST:event_tfAnoNascimentojpDiaAdmissaoStateChanged</span>
 
     private void tfTelefone2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfTelefone2ActionPerformed
         // TODO add your handling code here:
-<span class="nc" id="L555">    }//GEN-LAST:event_tfTelefone2ActionPerformed</span>
+<span class="nc" id="L655">    }//GEN-LAST:event_tfTelefone2ActionPerformed</span>
 
     private void jpDiaAdmissaoStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jpDiaAdmissaoStateChanged
-<span class="nc" id="L558">        validarDataAdmissao(evt);</span>
-<span class="nc" id="L559">    }//GEN-LAST:event_jpDiaAdmissaoStateChanged</span>
+<span class="nc" id="L658">        validarDataAdmissao(evt);</span>
+<span class="nc" id="L659">    }//GEN-LAST:event_jpDiaAdmissaoStateChanged</span>
 
     private void jpMesAdmissaojpDiaAdmissaoStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jpMesAdmissaojpDiaAdmissaoStateChanged
-<span class="nc" id="L562">        validarDataAdmissao(evt);</span>
-<span class="nc" id="L563">    }//GEN-LAST:event_jpMesAdmissaojpDiaAdmissaoStateChanged</span>
+<span class="nc" id="L662">        validarDataAdmissao(evt);</span>
+<span class="nc" id="L663">    }//GEN-LAST:event_jpMesAdmissaojpDiaAdmissaoStateChanged</span>
 
     private void jpAnoAdmissaojpDiaAdmissaoStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jpAnoAdmissaojpDiaAdmissaoStateChanged
-<span class="nc" id="L566">        validarDataAdmissao(evt);</span>
-<span class="nc" id="L567">    }//GEN-LAST:event_jpAnoAdmissaojpDiaAdmissaoStateChanged</span>
+<span class="nc" id="L666">        validarDataAdmissao(evt);</span>
+<span class="nc" id="L667">    }//GEN-LAST:event_jpAnoAdmissaojpDiaAdmissaoStateChanged</span>
 
     private void jbCadastarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCadastarActionPerformed
         try {
-<span class="nc bnc" id="L571" title="All 2 branches missed.">                if (this.rbFuncionario.isSelected()) {</span>
-<span class="nc" id="L572">                    this.cadastrarFuncionario();</span>
-<span class="nc bnc" id="L573" title="All 4 branches missed.">                } else if (this.rbPJuridica.isSelected() || this.rbPFisica.isSelected()) {</span>
-<span class="nc" id="L574">                    this.cadastrarLocatario();</span>
+<span class="nc bnc" id="L671" title="All 2 branches missed.">                if (this.rbFuncionario.isSelected()) {</span>
+<span class="nc" id="L672">                    this.cadastrarFuncionario();</span>
+<span class="nc bnc" id="L673" title="All 4 branches missed.">                } else if (this.rbPJuridica.isSelected() || this.rbPFisica.isSelected()) {</span>
+<span class="nc" id="L674">                    this.cadastrarLocatario();</span>
                 } else {
-<span class="nc" id="L576">                    this.cadastrarConcessionaria();</span>
+<span class="nc" id="L676">                    this.cadastrarConcessionaria();</span>
                 }
-<span class="nc" id="L578">            this.dispose();</span>
-<span class="nc" id="L579">        } catch (Exception ex) {</span>
-<span class="nc" id="L580">            JOptionPane.showMessageDialog(null, ex.toString(), &quot;Erro ao cadastrar funcionário&quot;, JOptionPane.ERROR_MESSAGE);</span>
-<span class="nc" id="L581">            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);</span>
-<span class="nc" id="L582">        }</span>
-<span class="nc" id="L583">    }//GEN-LAST:event_jbCadastarActionPerformed</span>
+<span class="nc" id="L678">            this.dispose();</span>
+<span class="nc" id="L679">        } catch (Exception ex) {</span>
+<span class="nc" id="L680">            JOptionPane.showMessageDialog(null, ex.toString(), &quot;Erro ao cadastrar funcionário&quot;, JOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L681">            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L682">        }</span>
+<span class="nc" id="L683">    }//GEN-LAST:event_jbCadastarActionPerformed</span>
 
     private void jbRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRemoverActionPerformed
        try{
-<span class="nc bnc" id="L587" title="All 2 branches missed.">            if(this.locatarioEdicao != null){</span>
-<span class="nc" id="L588">                Persistencia.remover(this.locatarioEdicao);</span>
-<span class="nc" id="L589">                this.dispose();</span>
+<span class="nc bnc" id="L687" title="All 2 branches missed.">            if(this.locatarioEdicao != null){</span>
+<span class="nc" id="L688">               this.locatarioEdicao.setStatus(StatusLocatario.Apagado);</span>
+<span class="nc bnc" id="L689" title="All 2 branches missed.">               if (Main.getFuncionario() != null) {</span>
+
+<span class="nc" id="L691">                Main.getFuncionario().alterarLocatario(locatarioEdicao);</span>
+            } else {
+<span class="nc" id="L693">                Persistencia.atualizar(locatarioEdicao);</span>
             }
-<span class="nc" id="L591">        } catch (Exception ex) {</span>
-<span class="nc" id="L592">            JOptionPane.showMessageDialog(null, ex.toString(), &quot;Erro ao remover cliente&quot;, JOptionPane.ERROR_MESSAGE);</span>
-<span class="nc" id="L593">            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);</span>
-<span class="nc" id="L594">        }</span>
-<span class="nc" id="L595">    }//GEN-LAST:event_jbRemoverActionPerformed</span>
+<span class="nc" id="L695">                this.dispose();</span>
+            }
+<span class="nc" id="L697">        } catch (Exception ex) {</span>
+<span class="nc" id="L698">            JOptionPane.showMessageDialog(null, ex.toString(), &quot;Erro ao remover cliente&quot;, JOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L699">            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L700">        }</span>
+<span class="nc" id="L701">    }//GEN-LAST:event_jbRemoverActionPerformed</span>
+
+    private void rbFuncionarioStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_rbFuncionarioStateChanged
+<span class="nc" id="L704">        this.jpfSenha.setEnabled(this.rbFuncionario.isSelected());</span>
+<span class="nc" id="L705">    }//GEN-LAST:event_rbFuncionarioStateChanged</span>
 
     public void cadastrarConcessionaria() throws UFInvalidaException, ParseException, Exception{
-<span class="nc" id="L598">        TipoLocatario tipoLocatario = TipoLocatario.CONCESSIONARIA;</span>
+<span class="nc" id="L708">        TipoLocatario tipoLocatario = TipoLocatario.CONCESSIONARIA;</span>
 
-<span class="nc" id="L600">        String nome = tfNome.getText();</span>
-<span class="nc" id="L601">        String nomeResponsavel = this.tfNomeResponsavel.getText();</span>
-<span class="nc" id="L602">        String razaoSocial = this.tfRazaoSocial.getText();</span>
-<span class="nc" id="L603">        String cpf = this.tfCPF.getText();</span>
-<span class="nc" id="L604">        String cnpj = this.tfCNPJ.getText();</span>
-<span class="nc" id="L605">        String ie = this.tfIE.getText();</span>
+<span class="nc" id="L710">        String nome = tfNome.getText();</span>
+<span class="nc" id="L711">        String nomeResponsavel = this.tfNomeResponsavel.getText();</span>
+<span class="nc" id="L712">        String razaoSocial = this.tfRazaoSocial.getText();</span>
+<span class="nc" id="L713">        String cpf = this.tfCPF.getText();</span>
+<span class="nc" id="L714">        String cnpj = this.tfCNPJ.getText();</span>
+<span class="nc" id="L715">        String ie = this.tfIE.getText();</span>
 
-<span class="nc" id="L607">        String data = this.tfDiaNascimento.getValue().toString() + &quot;/&quot; + this.tfMesNascimento.getValue().toString() + &quot;/&quot; + this.tfAnoNascimento.getValue().toString();</span>
-<span class="nc" id="L608">        DateFormat format = new SimpleDateFormat(&quot;dd/MM/yyyy&quot;, Locale.ENGLISH);</span>
-<span class="nc" id="L609">        Date dataNascimento = format.parse(data);</span>
+<span class="nc" id="L717">        String data = this.tfDiaNascimento.getValue().toString() + &quot;/&quot; + this.tfMesNascimento.getValue().toString() + &quot;/&quot; + this.tfAnoNascimento.getValue().toString();</span>
+<span class="nc" id="L718">        DateFormat format = new SimpleDateFormat(&quot;dd/MM/yyyy&quot;, Locale.ENGLISH);</span>
+<span class="nc" id="L719">        Date dataNascimento = format.parse(data);</span>
 
-<span class="nc" id="L611">        String rua = this.tfRua.getText();</span>
-<span class="nc" id="L612">        String cep = tfCEP.getText();</span>
-<span class="nc" id="L613">        String bairro = tfBairro.getText();</span>
-<span class="nc" id="L614">        String cidade = tfCidade.getText();</span>
-<span class="nc" id="L615">        String uf = tfUF.getText();</span>
-<span class="nc" id="L616">        validarUF(uf);</span>
-<span class="nc" id="L617">        int numero = Integer.parseInt(tfNumero.getText());</span>
+<span class="nc" id="L721">        String rua = this.tfRua.getText();</span>
+<span class="nc" id="L722">        String cep = tfCEP.getText();</span>
+<span class="nc" id="L723">        String bairro = tfBairro.getText();</span>
+<span class="nc" id="L724">        String cidade = tfCidade.getText();</span>
+<span class="nc" id="L725">        String uf = tfUF.getValue().toString();</span>
+<span class="nc" id="L726">        validarUF(uf);</span>
+<span class="nc" id="L727">        int numero = Integer.parseInt(tfNumero.getText());</span>
 
         //dados de contato
-<span class="nc" id="L620">        String telefonePrincipal = this.tfTelefonePrincipal.getText();</span>
-<span class="nc" id="L621">        String telefone2 = this.tfTelefone2.getText();</span>
-<span class="nc" id="L622">        String emailPrincipal = this.tfEmailPrincipal.getText();</span>
-<span class="nc" id="L623">        String email2 = this.tfEmail2.getText();</span>
+<span class="nc" id="L730">        String telefonePrincipal = this.tfTelefonePrincipal.getText();</span>
+<span class="nc" id="L731">        String telefone2 = this.tfTelefone2.getText();</span>
+<span class="nc" id="L732">        String emailPrincipal = this.tfEmailPrincipal.getText();</span>
+<span class="nc" id="L733">        String email2 = this.tfEmail2.getText();</span>
 
-<span class="nc" id="L625">        Concessionaria concessionaria = new Concessionaria();</span>
-<span class="nc" id="L626">        concessionaria.setNome(nome);</span>
-<span class="nc" id="L627">        concessionaria.setNomeResponsavel(nomeResponsavel);</span>
-<span class="nc" id="L628">        concessionaria.setRazaoSocial(razaoSocial);</span>
-<span class="nc" id="L629">        concessionaria.setCpf(cpf);</span>
-<span class="nc" id="L630">        concessionaria.setCnpj(cnpj);</span>
-<span class="nc" id="L631">        concessionaria.setInscricaoEstadual(ie);</span>
-<span class="nc" id="L632">        concessionaria.setDataNascimento(dataNascimento);</span>
-<span class="nc" id="L633">        concessionaria.setRua(rua);</span>
-<span class="nc" id="L634">        concessionaria.setCep(cep);</span>
-<span class="nc" id="L635">        concessionaria.setBairro(bairro);</span>
-<span class="nc" id="L636">        concessionaria.setCidade(cidade);</span>
-<span class="nc" id="L637">        concessionaria.setUf(uf);</span>
-<span class="nc" id="L638">        concessionaria.setNumero(numero);</span>
+<span class="nc" id="L735">        Concessionaria concessionaria = new Concessionaria();</span>
+<span class="nc" id="L736">        concessionaria.setNome(nome);</span>
+<span class="nc" id="L737">        concessionaria.setNomeResponsavel(nomeResponsavel);</span>
+<span class="nc" id="L738">        concessionaria.setRazaoSocial(razaoSocial);</span>
+<span class="nc" id="L739">        concessionaria.setCpf(cpf);</span>
+<span class="nc" id="L740">        concessionaria.setCnpj(cnpj);</span>
+<span class="nc" id="L741">        concessionaria.setInscricaoEstadual(ie);</span>
+<span class="nc" id="L742">        concessionaria.setDataNascimento(dataNascimento);</span>
+<span class="nc" id="L743">        concessionaria.setRua(rua);</span>
+<span class="nc" id="L744">        concessionaria.setCep(cep);</span>
+<span class="nc" id="L745">        concessionaria.setBairro(bairro);</span>
+<span class="nc" id="L746">        concessionaria.setCidade(cidade);</span>
+<span class="nc" id="L747">        concessionaria.setUf(uf);</span>
+<span class="nc" id="L748">        concessionaria.setNumero(numero);</span>
 
-<span class="nc" id="L640">        concessionaria.setTelefonePrincipal(telefonePrincipal);</span>
-<span class="nc" id="L641">        concessionaria.setTelefone2(telefone2);</span>
-<span class="nc" id="L642">        concessionaria.setEmailPrincipal(emailPrincipal);</span>
-<span class="nc" id="L643">        concessionaria.setEmail2(email2);</span>
+<span class="nc" id="L750">        concessionaria.setTelefonePrincipal(telefonePrincipal);</span>
+<span class="nc" id="L751">        concessionaria.setTelefone2(telefone2);</span>
+<span class="nc" id="L752">        concessionaria.setEmailPrincipal(emailPrincipal);</span>
+<span class="nc" id="L753">        concessionaria.setEmail2(email2);</span>
 
-<span class="nc" id="L645">        concessionaria.setTipo(tipoLocatario);</span>
+<span class="nc" id="L755">        concessionaria.setTipo(tipoLocatario);</span>
+        
+<span class="nc" id="L757">        Set&lt;Historico&gt; historicos = concessionaria.getHistoricos();</span>
+        
+<span class="nc bnc" id="L759" title="All 2 branches missed.">        if(historicos == null){</span>
+<span class="nc" id="L760">            historicos = new HashSet&lt;&gt;();</span>
+<span class="nc" id="L761">            concessionaria.setHistoricos(historicos);</span>
+        }
+<span class="nc" id="L763">        Historico historico = new Historico();</span>
+<span class="nc" id="L764">        historico.setDataOcorrencia(new Date());</span>
+       
+        
+<span class="nc bnc" id="L767" title="All 2 branches missed.">        if (this.locatarioEdicao != null) {</span>
+<span class="nc bnc" id="L768" title="All 2 branches missed.">             historico.setDescricao(&quot;Alteração de cadastro realizada por &quot; + (Main.getFuncionario()==null?&quot; desconhecido&quot;:Main.getFuncionario().getNome()));</span>
+<span class="nc" id="L769">            historico.setTipoOcorrencia(TipoOcorrencia.AlteracaoCadastro);</span>
+<span class="nc" id="L770">            concessionaria.getHistoricos().add(historico);</span>
+<span class="nc" id="L771">            concessionaria.setId(this.locatarioEdicao.getId());</span>
+<span class="nc bnc" id="L772" title="All 2 branches missed.">            if (Main.getFuncionario() != null) {</span>
 
-<span class="nc bnc" id="L647" title="All 2 branches missed.">        if (this.locatarioEdicao != null) {</span>
-<span class="nc" id="L648">            concessionaria.setId(this.locatarioEdicao.getId());</span>
-<span class="nc bnc" id="L649" title="All 2 branches missed.">            if (Main.getFuncionario() != null) {</span>
-
-<span class="nc" id="L651">                Main.getFuncionario().alterarCliente(concessionaria);</span>
+<span class="nc" id="L774">                Main.getFuncionario().alterarLocatario(concessionaria);</span>
             } else {
-<span class="nc" id="L653">                Persistencia.atualizar(concessionaria);</span>
+<span class="nc" id="L776">                Persistencia.atualizar(concessionaria);</span>
             }
         } else {
-<span class="nc bnc" id="L656" title="All 2 branches missed.">            if (Main.getFuncionario() != null) {</span>
-<span class="nc" id="L657">                Main.getFuncionario().cadastrarLocatario(concessionaria);</span>
+<span class="nc bnc" id="L779" title="All 2 branches missed.">             historico.setDescricao(&quot;Cadastro realizado por &quot; + (Main.getFuncionario()==null?&quot; desconhecido&quot;:Main.getFuncionario().getNome()));</span>
+<span class="nc" id="L780">            historico.setTipoOcorrencia(TipoOcorrencia.Cadastro);</span>
+<span class="nc" id="L781">            concessionaria.getHistoricos().add(historico);</span>
+            
+<span class="nc bnc" id="L783" title="All 2 branches missed.">            if (Main.getFuncionario() != null) {</span>
+<span class="nc" id="L784">                Main.getFuncionario().cadastrarLocatario(concessionaria);</span>
             } else {
-<span class="nc" id="L659">                Persistencia.salvar(concessionaria);</span>
+<span class="nc" id="L786">                Persistencia.salvar(concessionaria);</span>
             }
         }
-<span class="nc" id="L662">    }</span>
+<span class="nc" id="L789">    }</span>
     
     private void cadastrarFuncionario() throws UFInvalidaException, ParseException, Exception{
 
-<span class="nc" id="L666">        TipoLocatario tipoLocatario = TipoLocatario.FUNCIONARIO;</span>
+<span class="nc" id="L793">        TipoLocatario tipoLocatario = TipoLocatario.FUNCIONARIO;</span>
 
-<span class="nc" id="L668">        String nome = tfNome.getText();</span>
-<span class="nc" id="L669">        String razaoSocial = this.tfRazaoSocial.getText();</span>
-<span class="nc" id="L670">        String cpf = this.tfCPF.getText();</span>
-<span class="nc" id="L671">        String cnpj = this.tfCNPJ.getText();</span>
-<span class="nc" id="L672">        String ie = this.tfIE.getText();</span>
+<span class="nc" id="L795">        String nome = tfNome.getText();</span>
+<span class="nc" id="L796">        String razaoSocial = this.tfRazaoSocial.getText();</span>
+<span class="nc" id="L797">        String cpf = this.tfCPF.getText();</span>
+<span class="nc" id="L798">        String cnpj = this.tfCNPJ.getText();</span>
+<span class="nc" id="L799">        String ie = this.tfIE.getText();</span>
 
-<span class="nc" id="L674">        String data = this.tfDiaNascimento.getValue().toString() + &quot;/&quot; + this.tfMesNascimento.getValue().toString() + &quot;/&quot; + this.tfAnoNascimento.getValue().toString();</span>
-<span class="nc" id="L675">        DateFormat format = new SimpleDateFormat(&quot;dd/MM/yyyy&quot;, Locale.ENGLISH);</span>
-<span class="nc" id="L676">        Date dataNascimento = format.parse(data);</span>
+<span class="nc" id="L801">        String data = this.tfDiaNascimento.getValue().toString() + &quot;/&quot; + this.tfMesNascimento.getValue().toString() + &quot;/&quot; + this.tfAnoNascimento.getValue().toString();</span>
+<span class="nc" id="L802">        DateFormat format = new SimpleDateFormat(&quot;dd/MM/yyyy&quot;, Locale.ENGLISH);</span>
+<span class="nc" id="L803">        Date dataNascimento = format.parse(data);</span>
 
-<span class="nc" id="L678">        String rua = this.tfRua.getText();</span>
-<span class="nc" id="L679">        String cep = tfCEP.getText();</span>
-<span class="nc" id="L680">        String bairro = tfBairro.getText();</span>
-<span class="nc" id="L681">        String cidade = tfCidade.getText();</span>
-<span class="nc" id="L682">        String uf = tfUF.getText();</span>
-<span class="nc" id="L683">        validarUF(uf);</span>
-<span class="nc" id="L684">        int numero = Integer.parseInt(tfNumero.getText());</span>
+<span class="nc" id="L805">        String rua = this.tfRua.getText();</span>
+<span class="nc" id="L806">        String cep = tfCEP.getText();</span>
+<span class="nc" id="L807">        String bairro = tfBairro.getText();</span>
+<span class="nc" id="L808">        String cidade = tfCidade.getText();</span>
+<span class="nc" id="L809">        String uf = tfUF.getValue().toString();</span>
+<span class="nc" id="L810">        validarUF(uf);</span>
+<span class="nc" id="L811">        int numero = Integer.parseInt(tfNumero.getText());</span>
 
         //dados de contato
-<span class="nc" id="L687">        String telefonePrincipal = this.tfTelefonePrincipal.getText();</span>
-<span class="nc" id="L688">        String telefone2 = this.tfTelefone2.getText();</span>
-<span class="nc" id="L689">        String emailPrincipal = this.tfEmailPrincipal.getText();</span>
-<span class="nc" id="L690">        String email2 = this.tfEmail2.getText();</span>
+<span class="nc" id="L814">        String telefonePrincipal = this.tfTelefonePrincipal.getText();</span>
+<span class="nc" id="L815">        String telefone2 = this.tfTelefone2.getText();</span>
+<span class="nc" id="L816">        String emailPrincipal = this.tfEmailPrincipal.getText();</span>
+<span class="nc" id="L817">        String email2 = this.tfEmail2.getText();</span>
 
-<span class="nc" id="L692">        Funcionario funcionario = new Funcionario();</span>
-<span class="nc" id="L693">        funcionario.setNome(nome);</span>
-<span class="nc" id="L694">        funcionario.setRazaoSocial(razaoSocial);</span>
-<span class="nc" id="L695">        funcionario.setCpf(cpf);</span>
-<span class="nc" id="L696">        funcionario.setCnpj(cnpj);</span>
-<span class="nc" id="L697">        funcionario.setInscricaoEstadual(ie);</span>
-<span class="nc" id="L698">        funcionario.setDataNascimento(dataNascimento);</span>
-<span class="nc" id="L699">        funcionario.setRua(rua);</span>
-<span class="nc" id="L700">        funcionario.setCep(cep);</span>
-<span class="nc" id="L701">        funcionario.setBairro(bairro);</span>
-<span class="nc" id="L702">        funcionario.setCidade(cidade);</span>
-<span class="nc" id="L703">        funcionario.setUf(uf);</span>
-<span class="nc" id="L704">        funcionario.setNumero(numero);</span>
+<span class="nc" id="L819">        Funcionario funcionario = new Funcionario();</span>
+<span class="nc" id="L820">        funcionario.setNome(nome);</span>
+<span class="nc" id="L821">        funcionario.setRazaoSocial(razaoSocial);</span>
+<span class="nc" id="L822">        funcionario.setCpf(cpf);</span>
+<span class="nc" id="L823">        funcionario.setCnpj(cnpj);</span>
+<span class="nc" id="L824">        funcionario.setInscricaoEstadual(ie);</span>
+<span class="nc" id="L825">        funcionario.setDataNascimento(dataNascimento);</span>
+<span class="nc" id="L826">        funcionario.setRua(rua);</span>
+<span class="nc" id="L827">        funcionario.setCep(cep);</span>
+<span class="nc" id="L828">        funcionario.setBairro(bairro);</span>
+<span class="nc" id="L829">        funcionario.setCidade(cidade);</span>
+<span class="nc" id="L830">        funcionario.setUf(uf);</span>
+<span class="nc" id="L831">        funcionario.setNumero(numero);</span>
 
-<span class="nc" id="L706">        funcionario.setTelefonePrincipal(telefonePrincipal);</span>
-<span class="nc" id="L707">        funcionario.setTelefone2(telefone2);</span>
-<span class="nc" id="L708">        funcionario.setEmailPrincipal(emailPrincipal);</span>
-<span class="nc" id="L709">        funcionario.setEmail2(email2);</span>
+<span class="nc" id="L833">        funcionario.setTelefonePrincipal(telefonePrincipal);</span>
+<span class="nc" id="L834">        funcionario.setTelefone2(telefone2);</span>
+<span class="nc" id="L835">        funcionario.setEmailPrincipal(emailPrincipal);</span>
+<span class="nc" id="L836">        funcionario.setEmail2(email2);</span>
 
-<span class="nc" id="L711">        funcionario.setTipo(tipoLocatario);</span>
+<span class="nc" id="L838">        funcionario.setTipo(tipoLocatario);</span>
 
         //dados funcionais
-<span class="nc" id="L714">        String nis = this.tfNIS.getText();</span>
-<span class="nc" id="L715">        String dataAdm = this.jpDiaAdmissao.getValue().toString() + &quot;/&quot; + this.jpMesAdmissao.getValue().toString() + &quot;/&quot; + this.jpAnoAdmissao.getValue().toString();</span>
-<span class="nc" id="L716">        Date dataAdmissao = format.parse(dataAdm);</span>
-<span class="nc" id="L717">        float salario = Float.parseFloat(this.tfSalario.getText());</span>
+<span class="nc" id="L841">        String nis = this.tfNIS.getText();</span>
+<span class="nc" id="L842">        String dataAdm = this.jpDiaAdmissao.getValue().toString() + &quot;/&quot; + this.jpMesAdmissao.getValue().toString() + &quot;/&quot; + this.jpAnoAdmissao.getValue().toString();</span>
+<span class="nc" id="L843">        Date dataAdmissao = format.parse(dataAdm);</span>
+<span class="nc" id="L844">        float salario = Float.parseFloat(this.tfSalario.getText());</span>
 
-<span class="nc" id="L719">        funcionario.setNis(nis);</span>
-<span class="nc" id="L720">        funcionario.setDataAdmissao(dataAdmissao);</span>
-<span class="nc" id="L721">        funcionario.setSalario(salario);</span>
+<span class="nc" id="L846">        funcionario.setNis(nis);</span>
+<span class="nc" id="L847">        funcionario.setDataAdmissao(dataAdmissao);</span>
+<span class="nc" id="L848">        funcionario.setSalario(salario);</span>
+        
+        
+<span class="nc" id="L851">        String senha = String.valueOf( this.jpfSenha.getPassword());</span>
+<span class="nc" id="L852">        funcionario.setSenha(senha);</span>
+        
+<span class="nc" id="L854">        Set&lt;Historico&gt; historicos = funcionario.getHistoricos();</span>
+        
+<span class="nc bnc" id="L856" title="All 2 branches missed.">        if(historicos == null){</span>
+<span class="nc" id="L857">            historicos = new HashSet&lt;&gt;();</span>
+<span class="nc" id="L858">            funcionario.setHistoricos(historicos);</span>
+        }
+<span class="nc" id="L860">        Historico historico = new Historico();</span>
+<span class="nc" id="L861">        historico.setDataOcorrencia(new Date());</span>
+        
+<span class="nc bnc" id="L863" title="All 2 branches missed.">        if (this.locatarioEdicao != null) {</span>
+<span class="nc bnc" id="L864" title="All 2 branches missed.">            historico.setDescricao(&quot;Alteracao de cadastro realizada por &quot; + (Main.getFuncionario()==null?&quot; desconhecido&quot;:Main.getFuncionario().getNome()));</span>
+<span class="nc" id="L865">            historico.setTipoOcorrencia(TipoOcorrencia.AlteracaoCadastro);</span>
+<span class="nc" id="L866">            funcionario.getHistoricos().add(historico);</span>
+            
+<span class="nc" id="L868">            funcionario.setId(this.locatarioEdicao.getId());</span>
+<span class="nc bnc" id="L869" title="All 2 branches missed.">            if (Main.getFuncionario() != null) {</span>
 
-<span class="nc bnc" id="L723" title="All 2 branches missed.">        if (this.locatarioEdicao != null) {</span>
-<span class="nc" id="L724">            funcionario.setId(this.locatarioEdicao.getId());</span>
-<span class="nc bnc" id="L725" title="All 2 branches missed.">            if (Main.getFuncionario() != null) {</span>
-
-<span class="nc" id="L727">                Main.getFuncionario().alterarCliente(funcionario);</span>
+<span class="nc" id="L871">                Main.getFuncionario().alterarLocatario(funcionario);</span>
             } else {
-<span class="nc" id="L729">                Persistencia.atualizar(funcionario);</span>
+<span class="nc" id="L873">                Persistencia.atualizar(funcionario);</span>
             }
         } else {
-<span class="nc bnc" id="L732" title="All 2 branches missed.">            if (Main.getFuncionario() != null) {</span>
-<span class="nc" id="L733">                Main.getFuncionario().cadastrarLocatario(funcionario);</span>
+<span class="nc bnc" id="L876" title="All 2 branches missed.">            historico.setDescricao(&quot;Cadastro realizado por &quot; +(Main.getFuncionario()==null?&quot; desconhecido&quot;:Main.getFuncionario().getNome()));</span>
+<span class="nc" id="L877">            historico.setTipoOcorrencia(TipoOcorrencia.Cadastro);</span>
+<span class="nc" id="L878">            funcionario.getHistoricos().add(historico);</span>
+<span class="nc bnc" id="L879" title="All 2 branches missed.">            if (Main.getFuncionario() != null) {</span>
+<span class="nc" id="L880">                Main.getFuncionario().cadastrarLocatario(funcionario);</span>
             } else {
-<span class="nc" id="L735">                Persistencia.salvar(funcionario);</span>
+<span class="nc" id="L882">                Persistencia.salvar(funcionario);</span>
             }
         }
 
-<span class="nc bnc" id="L739" title="All 2 branches missed.">        if (this.isLogarFuncionarioAoCadastrar()) {</span>
-<span class="nc" id="L740">            Main.setFuncionario(funcionario);</span>
+<span class="nc bnc" id="L886" title="All 2 branches missed.">        if (this.isLogarFuncionarioAoCadastrar()) {</span>
+<span class="nc" id="L887">            Main.setFuncionario(funcionario);</span>
         }
 
-<span class="nc" id="L743">    }</span>
+<span class="nc" id="L890">    }</span>
     
     private void cadastrarLocatario() throws ParseException, UFInvalidaException, Exception {
 
         TipoLocatario tipoLocatario;
 
-<span class="nc bnc" id="L749" title="All 2 branches missed.">        if (this.rbPJuridica.isSelected()) {</span>
-<span class="nc" id="L750">            tipoLocatario = TipoLocatario.JURIDICA;</span>
+<span class="nc bnc" id="L896" title="All 2 branches missed.">        if (this.rbPJuridica.isSelected()) {</span>
+<span class="nc" id="L897">            tipoLocatario = TipoLocatario.JURIDICA;</span>
         } else {
-<span class="nc" id="L752">            tipoLocatario = TipoLocatario.FISICA;</span>
+<span class="nc" id="L899">            tipoLocatario = TipoLocatario.FISICA;</span>
         }
 
-<span class="nc" id="L755">        String nome = tfNome.getText();</span>
-<span class="nc" id="L756">        String razaoSocial = this.tfRazaoSocial.getText();</span>
-<span class="nc" id="L757">        String cpf = this.tfCPF.getText();</span>
-<span class="nc" id="L758">        String cnpj = this.tfCNPJ.getText();</span>
-<span class="nc" id="L759">        String ie = this.tfIE.getText();</span>
+<span class="nc" id="L902">        String nome = tfNome.getText();</span>
+<span class="nc" id="L903">        String razaoSocial = this.tfRazaoSocial.getText();</span>
+<span class="nc" id="L904">        String cpf = this.tfCPF.getText();</span>
+<span class="nc" id="L905">        String cnpj = this.tfCNPJ.getText();</span>
+<span class="nc" id="L906">        String ie = this.tfIE.getText();</span>
 
-<span class="nc" id="L761">        String data = this.tfDiaNascimento.getValue().toString() + &quot;/&quot; + this.tfMesNascimento.getValue().toString() + &quot;/&quot; + this.tfAnoNascimento.getValue().toString();</span>
-<span class="nc" id="L762">        DateFormat format = new SimpleDateFormat(&quot;dd/MM/yyyy&quot;, Locale.ENGLISH);</span>
-<span class="nc" id="L763">        Date dataNascimento = format.parse(data);</span>
+<span class="nc" id="L908">        String data = this.tfDiaNascimento.getValue().toString() + &quot;/&quot; + this.tfMesNascimento.getValue().toString() + &quot;/&quot; + this.tfAnoNascimento.getValue().toString();</span>
+<span class="nc" id="L909">        DateFormat format = new SimpleDateFormat(&quot;dd/MM/yyyy&quot;, Locale.ENGLISH);</span>
+<span class="nc" id="L910">        Date dataNascimento = format.parse(data);</span>
 
-<span class="nc" id="L765">        String rua = this.tfRua.getText();</span>
-<span class="nc" id="L766">        String cep = tfCEP.getText();</span>
-<span class="nc" id="L767">        String bairro = tfBairro.getText();</span>
-<span class="nc" id="L768">        String cidade = tfCidade.getText();</span>
-<span class="nc" id="L769">        String uf = tfUF.getText();</span>
-<span class="nc" id="L770">        validarUF(uf);</span>
-<span class="nc" id="L771">        int numero = Integer.parseInt(tfNumero.getText());</span>
+<span class="nc" id="L912">        String rua = this.tfRua.getText();</span>
+<span class="nc" id="L913">        String cep = tfCEP.getText();</span>
+<span class="nc" id="L914">        String bairro = tfBairro.getText();</span>
+<span class="nc" id="L915">        String cidade = tfCidade.getText();</span>
+<span class="nc" id="L916">        String uf = tfUF.getValue().toString();</span>
+<span class="nc" id="L917">        validarUF(uf);</span>
+<span class="nc" id="L918">        int numero = Integer.parseInt(tfNumero.getText());</span>
 
         //dados de contato
-<span class="nc" id="L774">        String telefonePrincipal = this.tfTelefonePrincipal.getText();</span>
-<span class="nc" id="L775">        String telefone2 = this.tfTelefone2.getText();</span>
-<span class="nc" id="L776">        String emailPrincipal = this.tfEmailPrincipal.getText();</span>
-<span class="nc" id="L777">        String email2 = this.tfEmail2.getText();</span>
+<span class="nc" id="L921">        String telefonePrincipal = this.tfTelefonePrincipal.getText();</span>
+<span class="nc" id="L922">        String telefone2 = this.tfTelefone2.getText();</span>
+<span class="nc" id="L923">        String emailPrincipal = this.tfEmailPrincipal.getText();</span>
+<span class="nc" id="L924">        String email2 = this.tfEmail2.getText();</span>
 
-<span class="nc" id="L779">        Locatario locatario = new Locatario();</span>
-<span class="nc" id="L780">        locatario.setNome(nome);</span>
-<span class="nc" id="L781">        locatario.setRazaoSocial(razaoSocial);</span>
-<span class="nc" id="L782">        locatario.setCpf(cpf);</span>
-<span class="nc" id="L783">        locatario.setCnpj(cnpj);</span>
-<span class="nc" id="L784">        locatario.setInscricaoEstadual(ie);</span>
-<span class="nc" id="L785">        locatario.setDataNascimento(dataNascimento);</span>
-<span class="nc" id="L786">        locatario.setRua(rua);</span>
-<span class="nc" id="L787">        locatario.setCep(cep);</span>
-<span class="nc" id="L788">        locatario.setBairro(bairro);</span>
-<span class="nc" id="L789">        locatario.setCidade(cidade);</span>
-<span class="nc" id="L790">        locatario.setUf(uf);</span>
-<span class="nc" id="L791">        locatario.setNumero(numero);</span>
+<span class="nc" id="L926">        Locatario locatario = new Locatario();</span>
+<span class="nc" id="L927">        locatario.setNome(nome);</span>
+<span class="nc" id="L928">        locatario.setRazaoSocial(razaoSocial);</span>
+<span class="nc" id="L929">        locatario.setCpf(cpf);</span>
+<span class="nc" id="L930">        locatario.setCnpj(cnpj);</span>
+<span class="nc" id="L931">        locatario.setInscricaoEstadual(ie);</span>
+<span class="nc" id="L932">        locatario.setDataNascimento(dataNascimento);</span>
+<span class="nc" id="L933">        locatario.setRua(rua);</span>
+<span class="nc" id="L934">        locatario.setCep(cep);</span>
+<span class="nc" id="L935">        locatario.setBairro(bairro);</span>
+<span class="nc" id="L936">        locatario.setCidade(cidade);</span>
+<span class="nc" id="L937">        locatario.setUf(uf);</span>
+<span class="nc" id="L938">        locatario.setNumero(numero);</span>
 
-<span class="nc" id="L793">        locatario.setTelefonePrincipal(telefonePrincipal);</span>
-<span class="nc" id="L794">        locatario.setTelefone2(telefone2);</span>
-<span class="nc" id="L795">        locatario.setEmailPrincipal(emailPrincipal);</span>
-<span class="nc" id="L796">        locatario.setEmail2(email2);</span>
+<span class="nc" id="L940">        locatario.setTelefonePrincipal(telefonePrincipal);</span>
+<span class="nc" id="L941">        locatario.setTelefone2(telefone2);</span>
+<span class="nc" id="L942">        locatario.setEmailPrincipal(emailPrincipal);</span>
+<span class="nc" id="L943">        locatario.setEmail2(email2);</span>
 
-<span class="nc" id="L798">        locatario.setTipo(tipoLocatario);</span>
+<span class="nc" id="L945">        locatario.setTipo(tipoLocatario);</span>
 
-<span class="nc bnc" id="L800" title="All 2 branches missed.">        if (this.locatarioEdicao != null) {</span>
-<span class="nc" id="L801">            locatario.setId(this.locatarioEdicao.getId());</span>
-<span class="nc bnc" id="L802" title="All 2 branches missed.">            if (Main.getFuncionario() != null) {</span>
-
-<span class="nc" id="L804">                Main.getFuncionario().alterarCliente(locatario);</span>
+<span class="nc" id="L947">        Set&lt;Historico&gt; historicos = locatario.getHistoricos();</span>
+        
+<span class="nc bnc" id="L949" title="All 2 branches missed.">        if(historicos == null){</span>
+<span class="nc" id="L950">            historicos = new HashSet&lt;&gt;();</span>
+<span class="nc" id="L951">            locatario.setHistoricos(historicos);</span>
+        }
+<span class="nc" id="L953">        Historico historico = new Historico();</span>
+<span class="nc" id="L954">        historico.setDataOcorrencia(new Date());</span>
+        
+        
+<span class="nc bnc" id="L957" title="All 2 branches missed.">        if (this.locatarioEdicao != null) {</span>
+<span class="nc" id="L958">            locatario.setId(this.locatarioEdicao.getId());</span>
+<span class="nc bnc" id="L959" title="All 2 branches missed.">            historico.setDescricao(&quot;Alteração de cadastro realizada por &quot; + (Main.getFuncionario()==null?&quot; desconhecido&quot;:Main.getFuncionario().getNome()));</span>
+<span class="nc" id="L960">            historico.setTipoOcorrencia(TipoOcorrencia.AlteracaoCadastro);</span>
+<span class="nc" id="L961">            locatario.getHistoricos().add(historico);</span>
+<span class="nc bnc" id="L962" title="All 2 branches missed.">            if (Main.getFuncionario() != null) {</span>
+                
+<span class="nc" id="L964">                Main.getFuncionario().alterarLocatario(locatario);</span>
             } else {
-<span class="nc" id="L806">                Persistencia.atualizar(locatario);</span>
+<span class="nc" id="L966">                Persistencia.atualizar(locatario);</span>
             }
         } else {
-<span class="nc bnc" id="L809" title="All 2 branches missed.">            if (Main.getFuncionario() != null) {</span>
-<span class="nc" id="L810">                Main.getFuncionario().cadastrarLocatario(locatario);</span>
+            
+<span class="nc bnc" id="L970" title="All 2 branches missed.">            historico.setDescricao(&quot;Cadastro realizado por &quot; + (Main.getFuncionario()==null?&quot; desconhecido&quot;:Main.getFuncionario().getNome()));</span>
+<span class="nc" id="L971">            historico.setTipoOcorrencia(TipoOcorrencia.Cadastro);</span>
+<span class="nc" id="L972">            locatario.getHistoricos().add(historico);</span>
+            
+<span class="nc bnc" id="L974" title="All 2 branches missed.">            if (Main.getFuncionario() != null) {</span>
+<span class="nc" id="L975">                Main.getFuncionario().cadastrarLocatario(locatario);</span>
             } else {
-<span class="nc" id="L812">                Persistencia.salvar(locatario);</span>
+<span class="nc" id="L977">                Persistencia.salvar(locatario);</span>
             }
         }
 
-<span class="nc" id="L816">    }</span>
+<span class="nc" id="L981">    }</span>
     
     private void validarUF(String uf) throws UFInvalidaException {
         try
         {
-<span class="nc" id="L821">            UF.valueOf(uf.toUpperCase());</span>
+<span class="nc" id="L986">            UF.valueOf(uf.toUpperCase());</span>
         }
-<span class="nc" id="L823">        catch(Exception ex)</span>
+<span class="nc" id="L988">        catch(Exception ex)</span>
         {
-<span class="nc" id="L825">            throw new Excecoes.UFInvalidaException(&quot;A UF '&quot;+uf+&quot;' declarada não é válida.&quot;,ex);</span>
-<span class="nc" id="L826">        }</span>
-<span class="nc" id="L827">    }</span>
+<span class="nc" id="L990">            throw new Excecoes.UFInvalidaException(&quot;A UF '&quot;+uf+&quot;' declarada não é válida.&quot;,ex);</span>
+<span class="nc" id="L991">        }</span>
+<span class="nc" id="L992">    }</span>
     
     private void validarDataAdmissao(javax.swing.event.ChangeEvent evt){
-<span class="nc bnc" id="L830" title="All 2 branches missed.">        if(evt.getSource() == this.tfDiaNascimento){</span>
-<span class="nc" id="L831">            int valor = (int) this.tfDiaNascimento.getValue();</span>
-<span class="nc bnc" id="L832" title="All 4 branches missed.">            this.tfDiaNascimento.setValue(valor&lt;1?1:valor&gt;31?31:valor);</span>
-<span class="nc" id="L833">        }</span>
+<span class="nc bnc" id="L995" title="All 2 branches missed.">        if(evt.getSource() == this.tfDiaNascimento){</span>
+<span class="nc" id="L996">            int valor = (int) this.tfDiaNascimento.getValue();</span>
+<span class="nc bnc" id="L997" title="All 4 branches missed.">            this.tfDiaNascimento.setValue(valor&lt;1?1:valor&gt;31?31:valor);</span>
+<span class="nc" id="L998">        }</span>
         else
-<span class="nc bnc" id="L835" title="All 2 branches missed.">        if(evt.getSource() == this.tfMesNascimento){</span>
-<span class="nc" id="L836">            int valor = (int) this.tfMesNascimento.getValue();</span>
-<span class="nc bnc" id="L837" title="All 4 branches missed.">            this.tfMesNascimento.setValue(valor&lt;1?1:valor&gt;12?12:valor);</span>
-<span class="nc" id="L838">        }</span>
+<span class="nc bnc" id="L1000" title="All 2 branches missed.">        if(evt.getSource() == this.tfMesNascimento){</span>
+<span class="nc" id="L1001">            int valor = (int) this.tfMesNascimento.getValue();</span>
+<span class="nc bnc" id="L1002" title="All 4 branches missed.">            this.tfMesNascimento.setValue(valor&lt;1?1:valor&gt;12?12:valor);</span>
+<span class="nc" id="L1003">        }</span>
         else
-<span class="nc bnc" id="L840" title="All 2 branches missed.">        if(evt.getSource() == this.tfAnoNascimento){</span>
-<span class="nc" id="L841">            int valor = (int) this.tfAnoNascimento.getValue();</span>
-<span class="nc bnc" id="L842" title="All 4 branches missed.">            this.tfAnoNascimento.setValue(valor&lt;1900?1900:valor&gt;2500?2500:valor);</span>
+<span class="nc bnc" id="L1005" title="All 2 branches missed.">        if(evt.getSource() == this.tfAnoNascimento){</span>
+<span class="nc" id="L1006">            int valor = (int) this.tfAnoNascimento.getValue();</span>
+<span class="nc bnc" id="L1007" title="All 4 branches missed.">            this.tfAnoNascimento.setValue(valor&lt;1900?1900:valor&gt;2500?2500:valor);</span>
         }
-<span class="nc" id="L844">    }</span>
+<span class="nc" id="L1009">    }</span>
     private void validarDataNascimento(javax.swing.event.ChangeEvent evt){
-<span class="nc bnc" id="L846" title="All 2 branches missed.">        if(evt.getSource() == this.tfDiaNascimento){</span>
-<span class="nc" id="L847">            int valor = (int) this.tfDiaNascimento.getValue();</span>
-<span class="nc bnc" id="L848" title="All 4 branches missed.">            this.tfDiaNascimento.setValue(valor&lt;1?1:valor&gt;31?31:valor);</span>
-<span class="nc" id="L849">        }</span>
+<span class="nc bnc" id="L1011" title="All 2 branches missed.">        if(evt.getSource() == this.tfDiaNascimento){</span>
+<span class="nc" id="L1012">            int valor = (int) this.tfDiaNascimento.getValue();</span>
+<span class="nc bnc" id="L1013" title="All 4 branches missed.">            this.tfDiaNascimento.setValue(valor&lt;1?1:valor&gt;31?31:valor);</span>
+<span class="nc" id="L1014">        }</span>
         else
-<span class="nc bnc" id="L851" title="All 2 branches missed.">        if(evt.getSource() == this.tfMesNascimento){</span>
-<span class="nc" id="L852">            int valor = (int) this.tfMesNascimento.getValue();</span>
-<span class="nc bnc" id="L853" title="All 4 branches missed.">            this.tfMesNascimento.setValue(valor&lt;1?1:valor&gt;12?12:valor);</span>
-<span class="nc" id="L854">        }</span>
+<span class="nc bnc" id="L1016" title="All 2 branches missed.">        if(evt.getSource() == this.tfMesNascimento){</span>
+<span class="nc" id="L1017">            int valor = (int) this.tfMesNascimento.getValue();</span>
+<span class="nc bnc" id="L1018" title="All 4 branches missed.">            this.tfMesNascimento.setValue(valor&lt;1?1:valor&gt;12?12:valor);</span>
+<span class="nc" id="L1019">        }</span>
         else
-<span class="nc bnc" id="L856" title="All 2 branches missed.">        if(evt.getSource() == this.tfAnoNascimento){</span>
-<span class="nc" id="L857">            int valor = (int) this.tfAnoNascimento.getValue();</span>
-<span class="nc bnc" id="L858" title="All 4 branches missed.">            this.tfAnoNascimento.setValue(valor&lt;1900?1900:valor&gt;2500?2500:valor);</span>
+<span class="nc bnc" id="L1021" title="All 2 branches missed.">        if(evt.getSource() == this.tfAnoNascimento){</span>
+<span class="nc" id="L1022">            int valor = (int) this.tfAnoNascimento.getValue();</span>
+<span class="nc bnc" id="L1023" title="All 4 branches missed.">            this.tfAnoNascimento.setValue(valor&lt;1900?1900:valor&gt;2500?2500:valor);</span>
         }
-<span class="nc" id="L860">    }</span>
+<span class="nc" id="L1025">    }</span>
     /**
      * @param args the command line arguments
      */
@@ -868,40 +1033,40 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-<span class="nc bnc" id="L871" title="All 2 branches missed.">            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {</span>
-<span class="nc bnc" id="L872" title="All 2 branches missed.">                if (&quot;Nimbus&quot;.equals(info.getName())) {</span>
-<span class="nc" id="L873">                    javax.swing.UIManager.setLookAndFeel(info.getClassName());</span>
-<span class="nc" id="L874">                    break;</span>
+<span class="nc bnc" id="L1036" title="All 2 branches missed.">            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {</span>
+<span class="nc bnc" id="L1037" title="All 2 branches missed.">                if (&quot;Nimbus&quot;.equals(info.getName())) {</span>
+<span class="nc" id="L1038">                    javax.swing.UIManager.setLookAndFeel(info.getClassName());</span>
+<span class="nc" id="L1039">                    break;</span>
                 }
             }
-<span class="nc" id="L877">        } catch (ClassNotFoundException ex) {</span>
-<span class="nc" id="L878">            java.util.logging.Logger.getLogger(TelaCadastroCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
-<span class="nc" id="L879">        } catch (InstantiationException ex) {</span>
-<span class="nc" id="L880">            java.util.logging.Logger.getLogger(TelaCadastroCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
-<span class="nc" id="L881">        } catch (IllegalAccessException ex) {</span>
-<span class="nc" id="L882">            java.util.logging.Logger.getLogger(TelaCadastroCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
-<span class="nc" id="L883">        } catch (javax.swing.UnsupportedLookAndFeelException ex) {</span>
-<span class="nc" id="L884">            java.util.logging.Logger.getLogger(TelaCadastroCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
-<span class="nc" id="L885">        }</span>
+<span class="nc" id="L1042">        } catch (ClassNotFoundException ex) {</span>
+<span class="nc" id="L1043">            java.util.logging.Logger.getLogger(TelaCadastroCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L1044">        } catch (InstantiationException ex) {</span>
+<span class="nc" id="L1045">            java.util.logging.Logger.getLogger(TelaCadastroCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L1046">        } catch (IllegalAccessException ex) {</span>
+<span class="nc" id="L1047">            java.util.logging.Logger.getLogger(TelaCadastroCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L1048">        } catch (javax.swing.UnsupportedLookAndFeelException ex) {</span>
+<span class="nc" id="L1049">            java.util.logging.Logger.getLogger(TelaCadastroCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L1050">        }</span>
         //&lt;/editor-fold&gt;
         //&lt;/editor-fold&gt;
         //&lt;/editor-fold&gt;
         //&lt;/editor-fold&gt;
 
         /* Create and display the dialog */
-<span class="nc" id="L892">        java.awt.EventQueue.invokeLater(new Runnable() {</span>
+<span class="nc" id="L1057">        java.awt.EventQueue.invokeLater(new Runnable() {</span>
             public void run() {
-<span class="nc" id="L894">                TelaCadastroCliente dialog = new TelaCadastroCliente(new javax.swing.JFrame(), true);</span>
-<span class="nc" id="L895">                dialog.addWindowListener(new java.awt.event.WindowAdapter() {</span>
+<span class="nc" id="L1059">                TelaCadastroCliente dialog = new TelaCadastroCliente(new javax.swing.JFrame(), true);</span>
+<span class="nc" id="L1060">                dialog.addWindowListener(new java.awt.event.WindowAdapter() {</span>
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
-<span class="nc" id="L898">                        System.exit(0);</span>
-<span class="nc" id="L899">                    }</span>
+<span class="nc" id="L1063">                        System.exit(0);</span>
+<span class="nc" id="L1064">                    }</span>
                 });
-<span class="nc" id="L901">                dialog.setVisible(true);</span>
-<span class="nc" id="L902">            }</span>
+<span class="nc" id="L1066">                dialog.setVisible(true);</span>
+<span class="nc" id="L1067">            }</span>
         });
-<span class="nc" id="L904">    }</span>
+<span class="nc" id="L1069">    }</span>
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
@@ -920,6 +1085,7 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -931,21 +1097,25 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTable jTable1;
     private javax.swing.JButton jbCadastar;
     private javax.swing.JButton jbRemover;
     private javax.swing.JSpinner jpAnoAdmissao;
     private javax.swing.JSpinner jpDiaAdmissao;
     private javax.swing.JSpinner jpMesAdmissao;
+    private javax.swing.JPasswordField jpfSenha;
     private javax.swing.JRadioButton rbConcessionaria;
     private javax.swing.JRadioButton rbFuncionario;
     private javax.swing.JRadioButton rbPFisica;
     private javax.swing.JRadioButton rbPJuridica;
     private javax.swing.JSpinner tfAnoNascimento;
     private javax.swing.JTextField tfBairro;
-    private javax.swing.JTextField tfCEP;
-    private javax.swing.JTextField tfCNPJ;
-    private javax.swing.JTextField tfCPF;
+    private javax.swing.JFormattedTextField tfCEP;
+    private javax.swing.JFormattedTextField tfCNPJ;
+    private javax.swing.JFormattedTextField tfCPF;
     private javax.swing.JTextField tfCidade;
     private javax.swing.JSpinner tfDiaNascimento;
     private javax.swing.JTextField tfEmail2;
@@ -962,152 +1132,178 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
     private javax.swing.JTextField tfSalario;
     private javax.swing.JTextField tfTelefone2;
     private javax.swing.JTextField tfTelefonePrincipal;
-    private javax.swing.JTextField tfUF;
+    private javax.swing.JSpinner tfUF;
     // End of variables declaration//GEN-END:variables
 
     private void carregarDadosLocatario() {
-<span class="nc bnc" id="L969" title="All 2 branches missed.">            if(this.locatarioEdicao.getTipo() == TipoLocatario.FISICA){</span>
-<span class="nc" id="L970">                this.rbPFisica.setSelected(true);</span>
+<span class="nc bnc" id="L1139" title="All 2 branches missed.">            if(this.locatarioEdicao.getTipo() == TipoLocatario.FISICA){</span>
+<span class="nc" id="L1140">                this.rbPFisica.setSelected(true);</span>
             }
-<span class="nc bnc" id="L972" title="All 2 branches missed.">            else if(this.locatarioEdicao.getTipo() == TipoLocatario.JURIDICA){</span>
-<span class="nc" id="L973">                this.rbPJuridica.setSelected(true);</span>
+<span class="nc bnc" id="L1142" title="All 2 branches missed.">            else if(this.locatarioEdicao.getTipo() == TipoLocatario.JURIDICA){</span>
+<span class="nc" id="L1143">                this.rbPJuridica.setSelected(true);</span>
             }
-<span class="nc" id="L975">            this.jTabbedPane1.setEnabledAt(2, false);</span>
-<span class="nc" id="L976">            this.jTabbedPane1.setEnabledAt(3, false);</span>
+<span class="nc" id="L1145">            this.jTabbedPane1.setEnabledAt(2, false);</span>
+<span class="nc" id="L1146">            this.jTabbedPane1.setEnabledAt(3, false);</span>
             
-<span class="nc" id="L978">            this.tfId.setText(String.valueOf(this.locatarioEdicao.getId()));</span>
-<span class="nc" id="L979">            tfNome.setText(this.locatarioEdicao.getNome());</span>
-<span class="nc" id="L980">            this.tfRazaoSocial.setText(this.locatarioEdicao.getRazaoSocial());</span>
-<span class="nc" id="L981">            this.tfCPF.setText(this.locatarioEdicao.getCpf());</span>
-<span class="nc" id="L982">            this.tfCNPJ.setText(this.locatarioEdicao.getCnpj());</span>
-<span class="nc" id="L983">            this.tfIE.setText(this.locatarioEdicao.getInscricaoEstadual());</span>
+<span class="nc" id="L1148">            this.tfId.setText(String.valueOf(this.locatarioEdicao.getId()));</span>
+<span class="nc" id="L1149">            tfNome.setText(this.locatarioEdicao.getNome());</span>
+<span class="nc" id="L1150">            this.tfRazaoSocial.setText(this.locatarioEdicao.getRazaoSocial());</span>
+<span class="nc" id="L1151">            this.tfCPF.setText(this.locatarioEdicao.getCpf());</span>
+<span class="nc" id="L1152">            this.tfCNPJ.setText(this.locatarioEdicao.getCnpj());</span>
+<span class="nc" id="L1153">            this.tfIE.setText(this.locatarioEdicao.getInscricaoEstadual());</span>
             
-<span class="nc" id="L985">            Date dataNascimento = this.locatarioEdicao.getDataNascimento(); </span>
-<span class="nc" id="L986">            Calendar cal = Calendar.getInstance();</span>
-<span class="nc bnc" id="L987" title="All 2 branches missed.">            if(dataNascimento!=null){</span>
-<span class="nc" id="L988">                cal.setTime(dataNascimento);</span>
-<span class="nc" id="L989">                int diaNasc = cal.get(Calendar.YEAR);</span>
-<span class="nc" id="L990">                int mesNasc = cal.get(Calendar.MONTH);</span>
-<span class="nc" id="L991">                int anoNasc = cal.get(Calendar.DAY_OF_MONTH);</span>
+<span class="nc" id="L1155">            Date dataNascimento = this.locatarioEdicao.getDataNascimento(); </span>
+<span class="nc" id="L1156">            Calendar cal = Calendar.getInstance();</span>
+<span class="nc bnc" id="L1157" title="All 2 branches missed.">            if(dataNascimento!=null){</span>
+<span class="nc" id="L1158">                cal.setTime(dataNascimento);</span>
+<span class="nc" id="L1159">                int diaNasc = cal.get(Calendar.YEAR);</span>
+<span class="nc" id="L1160">                int mesNasc = cal.get(Calendar.MONTH);</span>
+<span class="nc" id="L1161">                int anoNasc = cal.get(Calendar.DAY_OF_MONTH);</span>
 
-<span class="nc" id="L993">                this.tfDiaNascimento.setValue(diaNasc);</span>
-<span class="nc" id="L994">                this.tfMesNascimento.setValue(mesNasc);</span>
-<span class="nc" id="L995">                this.tfAnoNascimento.setValue(anoNasc);</span>
+<span class="nc" id="L1163">                this.tfDiaNascimento.setValue(diaNasc);</span>
+<span class="nc" id="L1164">                this.tfMesNascimento.setValue(mesNasc);</span>
+<span class="nc" id="L1165">                this.tfAnoNascimento.setValue(anoNasc);</span>
             }
-<span class="nc" id="L997">            this.tfRua.setText(this.locatarioEdicao.getRua());</span>
-<span class="nc" id="L998">            tfCEP.setText(this.locatarioEdicao.getCep());</span>
-<span class="nc" id="L999">            tfBairro.setText(this.locatarioEdicao.getBairro());</span>
-<span class="nc" id="L1000">            tfCidade.setText(this.locatarioEdicao.getCidade());</span>
-<span class="nc" id="L1001">            tfUF.setText(this.locatarioEdicao.getUf());</span>
+<span class="nc" id="L1167">            this.tfRua.setText(this.locatarioEdicao.getRua());</span>
+<span class="nc" id="L1168">            tfCEP.setText(this.locatarioEdicao.getCep());</span>
+<span class="nc" id="L1169">            tfBairro.setText(this.locatarioEdicao.getBairro());</span>
+<span class="nc" id="L1170">            tfCidade.setText(this.locatarioEdicao.getCidade());</span>
+<span class="nc" id="L1171">            tfUF.setValue(this.locatarioEdicao.getUf());</span>
             
-<span class="nc" id="L1003">            tfNumero.setText(String.valueOf(this.locatarioEdicao.getNumero()));</span>
+<span class="nc" id="L1173">            tfNumero.setText(String.valueOf(this.locatarioEdicao.getNumero()));</span>
             
             //dados de contato
-<span class="nc" id="L1006">            this.tfTelefonePrincipal.setText(this.locatarioEdicao.getTelefonePrincipal());</span>
-<span class="nc" id="L1007">            this.tfTelefone2.setText(this.locatarioEdicao.getTelefone2());</span>
+<span class="nc" id="L1176">            this.tfTelefonePrincipal.setText(this.locatarioEdicao.getTelefonePrincipal());</span>
+<span class="nc" id="L1177">            this.tfTelefone2.setText(this.locatarioEdicao.getTelefone2());</span>
             
-<span class="nc" id="L1009">            this.tfEmailPrincipal.setText(this.locatarioEdicao.getEmailPrincipal());</span>
-<span class="nc" id="L1010">            this.tfEmail2.setText(this.locatarioEdicao.getEmail2());</span>
-<span class="nc" id="L1011">    }</span>
+<span class="nc" id="L1179">            this.tfEmailPrincipal.setText(this.locatarioEdicao.getEmailPrincipal());</span>
+<span class="nc" id="L1180">            this.tfEmail2.setText(this.locatarioEdicao.getEmail2());</span>
+<span class="nc" id="L1181">            carregarHistoricos();</span>
+<span class="nc" id="L1182">    }</span>
 
     private void carregarDadosFuncionario() {
 
-<span class="nc" id="L1015">        this.rbFuncionario.setSelected(true);</span>
-<span class="nc" id="L1016">        this.jTabbedPane1.setEnabledAt(3, false);</span>
+<span class="nc" id="L1186">        this.rbFuncionario.setSelected(true);</span>
+<span class="nc" id="L1187">        this.jTabbedPane1.setEnabledAt(3, false);</span>
         
-<span class="nc" id="L1018">        Funcionario funcionario = (Funcionario) this.locatarioEdicao;</span>
-<span class="nc" id="L1019">        this.tfId.setText(String.valueOf(funcionario.getId()));</span>
-<span class="nc" id="L1020">        tfNome.setText(funcionario.getNome());</span>
-<span class="nc" id="L1021">        this.tfRazaoSocial.setText(funcionario.getRazaoSocial());</span>
-<span class="nc" id="L1022">        this.tfCPF.setText(funcionario.getCpf());</span>
-<span class="nc" id="L1023">        this.tfCNPJ.setText(funcionario.getCnpj());</span>
-<span class="nc" id="L1024">        this.tfIE.setText(funcionario.getInscricaoEstadual());</span>
+<span class="nc" id="L1189">        Funcionario funcionario = (Funcionario) this.locatarioEdicao;</span>
+<span class="nc" id="L1190">        this.tfId.setText(String.valueOf(funcionario.getId()));</span>
+<span class="nc" id="L1191">        tfNome.setText(funcionario.getNome());</span>
+<span class="nc" id="L1192">        this.tfRazaoSocial.setText(funcionario.getRazaoSocial());</span>
+<span class="nc" id="L1193">        this.tfCPF.setText(funcionario.getCpf());</span>
+<span class="nc" id="L1194">        this.tfCNPJ.setText(funcionario.getCnpj());</span>
+<span class="nc" id="L1195">        this.tfIE.setText(funcionario.getInscricaoEstadual());</span>
+<span class="nc" id="L1196">        this.jpfSenha.setText(funcionario.getSenha());</span>
+<span class="nc" id="L1197">        Calendar cal = Calendar.getInstance();</span>
 
-<span class="nc" id="L1026">        Calendar cal = Calendar.getInstance();</span>
+<span class="nc" id="L1199">        Date dataNascimento = funcionario.getDataNascimento();</span>
+<span class="nc bnc" id="L1200" title="All 2 branches missed.">        if (dataNascimento != null) {</span>
 
-<span class="nc" id="L1028">        Date dataNascimento = funcionario.getDataNascimento();</span>
-<span class="nc bnc" id="L1029" title="All 2 branches missed.">        if (dataNascimento != null) {</span>
+<span class="nc" id="L1202">            cal.setTime(dataNascimento);</span>
+<span class="nc" id="L1203">            int diaNasc = cal.get(Calendar.YEAR);</span>
+<span class="nc" id="L1204">            int mesNasc = cal.get(Calendar.MONTH);</span>
+<span class="nc" id="L1205">            int anoNasc = cal.get(Calendar.DAY_OF_MONTH);</span>
 
-<span class="nc" id="L1031">            cal.setTime(dataNascimento);</span>
-<span class="nc" id="L1032">            int diaNasc = cal.get(Calendar.YEAR);</span>
-<span class="nc" id="L1033">            int mesNasc = cal.get(Calendar.MONTH);</span>
-<span class="nc" id="L1034">            int anoNasc = cal.get(Calendar.DAY_OF_MONTH);</span>
-
-<span class="nc" id="L1036">            this.tfDiaNascimento.setValue(diaNasc);</span>
-<span class="nc" id="L1037">            this.tfMesNascimento.setValue(mesNasc);</span>
-<span class="nc" id="L1038">            this.tfAnoNascimento.setValue(anoNasc);</span>
+<span class="nc" id="L1207">            this.tfDiaNascimento.setValue(diaNasc);</span>
+<span class="nc" id="L1208">            this.tfMesNascimento.setValue(mesNasc);</span>
+<span class="nc" id="L1209">            this.tfAnoNascimento.setValue(anoNasc);</span>
         }
-<span class="nc" id="L1040">        this.tfRua.setText(funcionario.getRua());</span>
-<span class="nc" id="L1041">        tfCEP.setText(funcionario.getCep());</span>
-<span class="nc" id="L1042">        tfBairro.setText(funcionario.getBairro());</span>
-<span class="nc" id="L1043">        tfCidade.setText(funcionario.getCidade());</span>
-<span class="nc" id="L1044">        tfUF.setText(funcionario.getUf());</span>
+<span class="nc" id="L1211">        this.tfRua.setText(funcionario.getRua());</span>
+<span class="nc" id="L1212">        tfCEP.setText(funcionario.getCep());</span>
+<span class="nc" id="L1213">        tfBairro.setText(funcionario.getBairro());</span>
+<span class="nc" id="L1214">        tfCidade.setText(funcionario.getCidade());</span>
+<span class="nc" id="L1215">        tfUF.setValue(funcionario.getUf());</span>
 
-<span class="nc" id="L1046">        tfNumero.setText(String.valueOf(funcionario.getNumero()));</span>
+<span class="nc" id="L1217">        tfNumero.setText(String.valueOf(funcionario.getNumero()));</span>
 
         //dados de contato
-<span class="nc" id="L1049">        this.tfTelefonePrincipal.setText(funcionario.getTelefonePrincipal());</span>
-<span class="nc" id="L1050">        this.tfTelefone2.setText(funcionario.getTelefone2());</span>
+<span class="nc" id="L1220">        this.tfTelefonePrincipal.setText(funcionario.getTelefonePrincipal());</span>
+<span class="nc" id="L1221">        this.tfTelefone2.setText(funcionario.getTelefone2());</span>
 
-<span class="nc" id="L1052">        this.tfEmailPrincipal.setText(funcionario.getEmailPrincipal());</span>
-<span class="nc" id="L1053">        this.tfEmail2.setText(funcionario.getEmail2());</span>
+<span class="nc" id="L1223">        this.tfEmailPrincipal.setText(funcionario.getEmailPrincipal());</span>
+<span class="nc" id="L1224">        this.tfEmail2.setText(funcionario.getEmail2());</span>
 
-<span class="nc" id="L1055">        this.tfNIS.setText(funcionario.getNis());</span>
+<span class="nc" id="L1226">        this.tfNIS.setText(funcionario.getNis());</span>
 
-<span class="nc" id="L1057">        Date dataAdmissao = funcionario.getDataAdmissao();</span>
-<span class="nc bnc" id="L1058" title="All 2 branches missed.">        if (dataAdmissao != null) {</span>
-<span class="nc" id="L1059">            cal.setTime(dataAdmissao);</span>
-<span class="nc" id="L1060">            int diaAdmissao = cal.get(Calendar.YEAR);</span>
-<span class="nc" id="L1061">            int mesAdmissao = cal.get(Calendar.MONTH);</span>
-<span class="nc" id="L1062">            int anoAdmissao = cal.get(Calendar.DAY_OF_MONTH);</span>
-<span class="nc" id="L1063">            this.jpDiaAdmissao.setValue(diaAdmissao);</span>
-<span class="nc" id="L1064">            this.jpMesAdmissao.setValue(mesAdmissao);</span>
-<span class="nc" id="L1065">            this.jpAnoAdmissao.setValue(anoAdmissao);</span>
+<span class="nc" id="L1228">        Date dataAdmissao = funcionario.getDataAdmissao();</span>
+<span class="nc bnc" id="L1229" title="All 2 branches missed.">        if (dataAdmissao != null) {</span>
+<span class="nc" id="L1230">            cal.setTime(dataAdmissao);</span>
+<span class="nc" id="L1231">            int diaAdmissao = cal.get(Calendar.YEAR);</span>
+<span class="nc" id="L1232">            int mesAdmissao = cal.get(Calendar.MONTH);</span>
+<span class="nc" id="L1233">            int anoAdmissao = cal.get(Calendar.DAY_OF_MONTH);</span>
+<span class="nc" id="L1234">            this.jpDiaAdmissao.setValue(diaAdmissao);</span>
+<span class="nc" id="L1235">            this.jpMesAdmissao.setValue(mesAdmissao);</span>
+<span class="nc" id="L1236">            this.jpAnoAdmissao.setValue(anoAdmissao);</span>
         }
-<span class="nc" id="L1067">        this.tfSalario.setText(String.valueOf(funcionario.getSalario()));</span>
-
-<span class="nc" id="L1069">    }</span>
+<span class="nc" id="L1238">        this.tfSalario.setText(String.valueOf(funcionario.getSalario()));</span>
+<span class="nc" id="L1239">        carregarHistoricos();</span>
+<span class="nc" id="L1240">    }</span>
 
     private void carregarDadosConcessionaria() {
             
-<span class="nc" id="L1073">            this.rbConcessionaria.setSelected(true);</span>
-<span class="nc" id="L1074">            Concessionaria concessionaria = (Concessionaria)this.locatarioEdicao;</span>
-<span class="nc" id="L1075">            this.tfId.setText(String.valueOf(concessionaria.getId()));</span>
-<span class="nc" id="L1076">            tfNome.setText(concessionaria.getNome());</span>
-<span class="nc" id="L1077">            this.tfRazaoSocial.setText(concessionaria.getRazaoSocial());</span>
-<span class="nc" id="L1078">            this.tfCPF.setText(concessionaria.getCpf());</span>
-<span class="nc" id="L1079">            this.tfCNPJ.setText(concessionaria.getCnpj());</span>
-<span class="nc" id="L1080">            this.tfIE.setText(concessionaria.getInscricaoEstadual());</span>
+<span class="nc" id="L1244">            this.rbConcessionaria.setSelected(true);</span>
+<span class="nc" id="L1245">            Concessionaria concessionaria = (Concessionaria)this.locatarioEdicao;</span>
+<span class="nc" id="L1246">            this.tfId.setText(String.valueOf(concessionaria.getId()));</span>
+<span class="nc" id="L1247">            tfNome.setText(concessionaria.getNome());</span>
+<span class="nc" id="L1248">            this.tfRazaoSocial.setText(concessionaria.getRazaoSocial());</span>
+<span class="nc" id="L1249">            this.tfCPF.setText(concessionaria.getCpf());</span>
+<span class="nc" id="L1250">            this.tfCNPJ.setText(concessionaria.getCnpj());</span>
+<span class="nc" id="L1251">            this.tfIE.setText(concessionaria.getInscricaoEstadual());</span>
             
-<span class="nc" id="L1082">            Date dataNascimento = concessionaria.getDataNascimento(); </span>
-<span class="nc" id="L1083">            Calendar cal = Calendar.getInstance();</span>
-<span class="nc bnc" id="L1084" title="All 2 branches missed.">            if (dataNascimento != null) {</span>
-<span class="nc" id="L1085">                cal.setTime(dataNascimento);</span>
-<span class="nc" id="L1086">                int diaNasc = cal.get(Calendar.YEAR);</span>
-<span class="nc" id="L1087">                int mesNasc = cal.get(Calendar.MONTH);</span>
-<span class="nc" id="L1088">                int anoNasc = cal.get(Calendar.DAY_OF_MONTH);</span>
+<span class="nc" id="L1253">            Date dataNascimento = concessionaria.getDataNascimento(); </span>
+<span class="nc" id="L1254">            Calendar cal = Calendar.getInstance();</span>
+<span class="nc bnc" id="L1255" title="All 2 branches missed.">            if (dataNascimento != null) {</span>
+<span class="nc" id="L1256">                cal.setTime(dataNascimento);</span>
+<span class="nc" id="L1257">                int diaNasc = cal.get(Calendar.YEAR);</span>
+<span class="nc" id="L1258">                int mesNasc = cal.get(Calendar.MONTH);</span>
+<span class="nc" id="L1259">                int anoNasc = cal.get(Calendar.DAY_OF_MONTH);</span>
 
-<span class="nc" id="L1090">                this.tfDiaNascimento.setValue(diaNasc);</span>
-<span class="nc" id="L1091">                this.tfMesNascimento.setValue(mesNasc);</span>
-<span class="nc" id="L1092">                this.tfAnoNascimento.setValue(anoNasc);</span>
+<span class="nc" id="L1261">                this.tfDiaNascimento.setValue(diaNasc);</span>
+<span class="nc" id="L1262">                this.tfMesNascimento.setValue(mesNasc);</span>
+<span class="nc" id="L1263">                this.tfAnoNascimento.setValue(anoNasc);</span>
             }
-<span class="nc" id="L1094">            this.tfRua.setText(concessionaria.getRua());</span>
-<span class="nc" id="L1095">            tfCEP.setText(concessionaria.getCep());</span>
-<span class="nc" id="L1096">            tfBairro.setText(concessionaria.getBairro());</span>
-<span class="nc" id="L1097">            tfCidade.setText(concessionaria.getCidade());</span>
-<span class="nc" id="L1098">            tfUF.setText(concessionaria.getUf());</span>
+<span class="nc" id="L1265">            this.tfRua.setText(concessionaria.getRua());</span>
+<span class="nc" id="L1266">            tfCEP.setText(concessionaria.getCep());</span>
+<span class="nc" id="L1267">            tfBairro.setText(concessionaria.getBairro());</span>
+<span class="nc" id="L1268">            tfCidade.setText(concessionaria.getCidade());</span>
+<span class="nc" id="L1269">            tfUF.setValue(concessionaria.getUf());</span>
             
-<span class="nc" id="L1100">            tfNumero.setText(String.valueOf(concessionaria.getNumero()));</span>
+<span class="nc" id="L1271">            tfNumero.setText(String.valueOf(concessionaria.getNumero()));</span>
             
             //dados de contato
-<span class="nc" id="L1103">            this.tfTelefonePrincipal.setText(concessionaria.getTelefonePrincipal());</span>
-<span class="nc" id="L1104">            this.tfTelefone2.setText(concessionaria.getTelefone2());</span>
+<span class="nc" id="L1274">            this.tfTelefonePrincipal.setText(concessionaria.getTelefonePrincipal());</span>
+<span class="nc" id="L1275">            this.tfTelefone2.setText(concessionaria.getTelefone2());</span>
             
-<span class="nc" id="L1106">            this.tfEmailPrincipal.setText(concessionaria.getEmailPrincipal());</span>
-<span class="nc" id="L1107">            this.tfEmail2.setText(concessionaria.getEmail2());</span>
+<span class="nc" id="L1277">            this.tfEmailPrincipal.setText(concessionaria.getEmailPrincipal());</span>
+<span class="nc" id="L1278">            this.tfEmail2.setText(concessionaria.getEmail2());</span>
             
-<span class="nc" id="L1109">            this.tfNomeResponsavel.setText(concessionaria.getNomeResponsavel());</span>
+<span class="nc" id="L1280">            this.tfNomeResponsavel.setText(concessionaria.getNomeResponsavel());</span>
             
-<span class="nc" id="L1111">    }</span>
+<span class="nc" id="L1282">            carregarHistoricos();</span>
+<span class="nc" id="L1283">    }</span>
+
+    private void carregarHistoricos() {
+<span class="nc" id="L1286">        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();</span>
+<span class="nc" id="L1287">        model.setRowCount(0);</span>
+        try {
+<span class="nc" id="L1289">            Set&lt;Historico&gt; historicos = this.locatarioEdicao.getHistoricos();</span>
+<span class="nc" id="L1290">            SimpleDateFormat out = new SimpleDateFormat(&quot;dd/MM/yyyy HH:mm:ss&quot;); </span>
+<span class="nc bnc" id="L1291" title="All 2 branches missed.">             for(Historico historico : historicos){</span>
+<span class="nc" id="L1292">                     Object[] linha = new Object[]{</span>
+                                historico,
+<span class="nc" id="L1294">                                historico.getDescricao(),</span>
+<span class="nc" id="L1295">                                historico.getTipoOcorrencia(),</span>
+<span class="nc" id="L1296">                                out.format(historico.getDataOcorrencia())</span>
+                            };
+<span class="nc" id="L1298">                   model.addRow(linha);</span>
+<span class="nc" id="L1299">            }</span>
+            
+            
+            
+<span class="nc" id="L1303">        } catch (Exception ex) {</span>
+<span class="nc" id="L1304">            JOptionPane.showMessageDialog(null, ex.toString(), &quot;Erro ao obter clientes&quot;, JOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L1305">            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L1306">        }</span>
+<span class="nc" id="L1307">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

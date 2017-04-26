@@ -12,13 +12,14 @@ import java.awt.Frame;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.Query;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author Grupo
  */
-<span class="nc" id="L21">public class Main {</span>
+<span class="nc" id="L22">public class Main {</span>
 
     /**
      * @param args the command line arguments
@@ -27,39 +28,37 @@ import javax.swing.JOptionPane;
     private static Funcionario funcionario;
 
     public static Funcionario getFuncionario() {
-<span class="nc" id="L30">        return funcionario;</span>
+<span class="nc" id="L31">        return funcionario;</span>
     }
 
     public static void setFuncionario(Funcionario funcionario) {
-<span class="nc" id="L34">        Main.funcionario = funcionario;</span>
-<span class="nc" id="L35">    }</span>
-<span class="nc" id="L36">    private static int falhasConexao= 0;</span>
+<span class="nc" id="L35">        Main.funcionario = funcionario;</span>
+<span class="nc" id="L36">    }</span>
+<span class="nc" id="L37">    private static int falhasConexao= 0;</span>
     public static void main(String[] args)  {
          
          
         try {
-<span class="nc" id="L41">            Persistencia.estabelecerConexao();</span>
-<span class="nc" id="L42">            List&lt;Object&gt; funcionarios =  Persistencia.buscar(&quot;select t from Locatario as t where DTYPE = 'Funcionario'&quot;);</span>
-<span class="nc bnc" id="L43" title="All 4 branches missed.">            if(funcionarios!=null &amp;&amp; !funcionarios.isEmpty()){</span>
-<span class="nc" id="L44">                funcionario =(Funcionario) funcionarios.get(0);</span>
+<span class="nc" id="L42">            Persistencia.estabelecerConexao();</span>
+            
+<span class="nc" id="L44">            Query query = Persistencia.getManager().createQuery(&quot;select count(*) from Funcionario as t&quot;);</span>
+           
+<span class="nc" id="L46">            long contagem = (long) query.getSingleResult();</span>
+            
+<span class="nc bnc" id="L48" title="All 2 branches missed.">            if(contagem==0){</span>
+<span class="nc" id="L49">              JOptionPane.showMessageDialog(null, &quot;Cadastre um funcionario para continuar.&quot;, &quot;Nenhum Funcionario Presente&quot;, JOptionPane.INFORMATION_MESSAGE);</span>
+<span class="nc" id="L50">              TelaCadastroCliente telaCadastro = new TelaCadastroCliente((Frame)null,true);</span>
+<span class="nc" id="L51">              telaCadastro.setLogarFuncionarioAoCadastrar(true);</span>
+<span class="nc" id="L52">              telaCadastro.setVisible(true);</span>
+<span class="nc" id="L53">            }else{</span>
+<span class="nc" id="L54">                new TelaLogin().setVisible(true);</span>
             }
-            else{
-<span class="nc" id="L47">              JOptionPane.showMessageDialog(null, &quot;Cadastre um funcionario para continuar.&quot;, &quot;Nenhum Funcionario Presente&quot;, JOptionPane.INFORMATION_MESSAGE);</span>
-<span class="nc" id="L48">              TelaCadastroCliente telaCadastro = new TelaCadastroCliente((Frame)null,true);</span>
-<span class="nc" id="L49">              telaCadastro.setLogarFuncionarioAoCadastrar(true);</span>
-<span class="nc" id="L50">              telaCadastro.setVisible(true);</span>
-              
-                
-            }
-<span class="nc bnc" id="L54" title="All 2 branches missed.">            if(funcionario!=null){</span>
-<span class="nc" id="L55">               new TelaPrincipal().setVisible(true);</span>
-            }
-<span class="nc" id="L57">        } catch (Exception ex) {</span>
-<span class="nc" id="L58">            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);</span>
-<span class="nc" id="L59">        }</span>
+<span class="nc" id="L56">        } catch (Exception ex) {</span>
+<span class="nc" id="L57">            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L58">        }</span>
          
     
-<span class="nc" id="L62">    }</span>
+<span class="nc" id="L61">    }</span>
 
     }
 

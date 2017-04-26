@@ -10,5 +10,5 @@ package Classes;
  * @author Vitor
  */
 public enum StatusLocacao {
-    EmDia,Atrasada,RequerAtencao, Aberta, Apagada
+    EmDia,Atrasada,RequerAtencao, Aberta, Apagada, Devolvida, Rejeitada
 }

@@ -5,7 +5,6 @@
  */
 package Classes;
 
-import GUI.TelaCadastroEquipamento;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -15,21 +14,16 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
-import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -48,6 +42,18 @@ public class Equipamento implements Serializable {
     private String descricao;
     @OneToOne
     private Concessionaria concessionaria;
+    
+    @OneToOne
+    private Locatario locatarioReserva;
+
+    public Locatario getLocatarioReserva() {
+        return locatarioReserva;
+    }
+
+    public void setLocatarioReserva(Locatario locatarioReserva) {
+        this.locatarioReserva = locatarioReserva;
+    }
+    
     @Lob
     private String imagemBase64;
 

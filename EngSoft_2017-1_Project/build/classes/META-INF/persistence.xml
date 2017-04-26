@@ -9,7 +9,10 @@
     <class>Classes.Funcionario</class>
     <class>Classes.Locacao</class>
     <class>Classes.Locatario</class>
+    <class>Classes.FormaPagamento</class>
     <class>Classes.Pagamento</class>
+    
+    
     <properties>
       <!-- dados da conexao -->
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>

@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import java.util.Set;
-import javax.persistence.Column;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -39,7 +39,7 @@ public class Locacao implements Serializable {
     private Date dataDevolucao;
     
     private StatusLocacao status;
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.ALL})
     
     private Set<Pagamento> pagamentos;
     
@@ -139,5 +139,8 @@ public class Locacao implements Serializable {
     public void setFuncionario(Funcionario funcionario) {
         this.funcionario = funcionario;
     }
-   
+    @Override
+   public String toString(){
+       return String.valueOf(id);
+   }
 }

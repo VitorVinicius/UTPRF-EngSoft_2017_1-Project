@@ -5,237 +5,296 @@
  */
 package Classes;
 
-
+import Database.Persistencia;
+import GUI.Main;
 import java.util.Date;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Query;
 import javax.persistence.Temporal;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Vitor
  */
-
-
 @Entity
-<span class="fc" id="L25">public class Locatario implements Serializable{</span>
-    
+<span class="fc" id="L31">public class Locatario implements Serializable {</span>
+
     private String cpf;
-    
+
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dataNascimento;
     private String razaoSocial;
     private String cnpj;
-    
-    private String  inscricaoEstadual;
-   
+
+    private String inscricaoEstadual;
+
     @Id
     @GeneratedValue
     private long id;
-    
+
     private String nome;
-    
+
     private String rua;
-    
+
     private int numero;
-    
+
     private String cep;
-    
+
     private String bairro;
-    
+
     private String cidade;
-    
+
     private String uf;
-    
+
+<span class="fc" id="L60">    private StatusLocatario status = StatusLocatario.Normal;</span>
+
     private String telefonePrincipal;
-    
+
     private String telefone2;
-    
+
     private String emailPrincipal;
-    
+
     private String email2;
 
     public String getTelefonePrincipal() {
-<span class="nc" id="L63">        return telefonePrincipal;</span>
+<span class="nc" id="L71">        return telefonePrincipal;</span>
     }
 
     public void setTelefonePrincipal(String telefonePrincipal) {
-<span class="nc" id="L67">        this.telefonePrincipal = telefonePrincipal;</span>
-<span class="nc" id="L68">    }</span>
+<span class="nc" id="L75">        this.telefonePrincipal = telefonePrincipal;</span>
+<span class="nc" id="L76">    }</span>
 
     public String getTelefone2() {
-<span class="nc" id="L71">        return telefone2;</span>
+<span class="nc" id="L79">        return telefone2;</span>
     }
 
     public void setTelefone2(String telefone2) {
-<span class="nc" id="L75">        this.telefone2 = telefone2;</span>
-<span class="nc" id="L76">    }</span>
+<span class="nc" id="L83">        this.telefone2 = telefone2;</span>
+<span class="nc" id="L84">    }</span>
+
+    public StatusLocatario getStatus() {
+<span class="nc" id="L87">        return status;</span>
+    }
+
+    public void setStatus(StatusLocatario status) {
+<span class="nc" id="L91">        this.status = status;</span>
+<span class="nc" id="L92">    }</span>
 
     public String getEmailPrincipal() {
-<span class="nc" id="L79">        return emailPrincipal;</span>
+<span class="nc" id="L95">        return emailPrincipal;</span>
     }
 
     public void setEmailPrincipal(String emailPrincipal) {
-<span class="nc" id="L83">        this.emailPrincipal = emailPrincipal;</span>
-<span class="nc" id="L84">    }</span>
+<span class="nc" id="L99">        this.emailPrincipal = emailPrincipal;</span>
+<span class="nc" id="L100">    }</span>
 
     public String getEmail2() {
-<span class="nc" id="L87">        return email2;</span>
+<span class="nc" id="L103">        return email2;</span>
     }
 
     public void setEmail2(String email2) {
-<span class="nc" id="L91">        this.email2 = email2;</span>
-<span class="nc" id="L92">    }</span>
-    
-    @OneToMany
+<span class="nc" id="L107">        this.email2 = email2;</span>
+<span class="nc" id="L108">    }</span>
+
+    @OneToMany(cascade = {CascadeType.ALL})
     private Set&lt;Historico&gt; historicosRelacionados;
     private TipoLocatario tipo;
-    
 
     public TipoLocatario getTipo() {
-<span class="nc" id="L100">        return tipo;</span>
+<span class="nc" id="L115">        return tipo;</span>
     }
 
     public void setTipo(TipoLocatario tipo) {
-<span class="nc" id="L104">        this.tipo = tipo;</span>
-<span class="nc" id="L105">    }</span>
-    
+<span class="nc" id="L119">        this.tipo = tipo;</span>
+<span class="nc" id="L120">    }</span>
+
     @OneToMany
     private Set&lt;Pagamento&gt; pagamentosRelacionados;
+
     public String getCpf() {
-<span class="nc" id="L110">        return cpf;</span>
+<span class="nc" id="L126">        return cpf;</span>
     }
 
     public void setCpf(String cpf) {
-<span class="nc" id="L114">        this.cpf = cpf;</span>
-<span class="nc" id="L115">    }</span>
+<span class="nc" id="L130">        this.cpf = cpf;</span>
+<span class="nc" id="L131">    }</span>
 
     public Date getDataNascimento() {
-<span class="nc" id="L118">        return dataNascimento;</span>
+<span class="nc" id="L134">        return dataNascimento;</span>
     }
 
     public void setDataNascimento(Date dataNascimento) {
-<span class="nc" id="L122">        this.dataNascimento = dataNascimento;</span>
-<span class="nc" id="L123">    }</span>
+<span class="nc" id="L138">        this.dataNascimento = dataNascimento;</span>
+<span class="nc" id="L139">    }</span>
 
     public Set&lt;Pagamento&gt; ObterPagamentos() {
-<span class="nc" id="L126">        return pagamentosRelacionados;</span>
+<span class="nc" id="L142">        return pagamentosRelacionados;</span>
     }
-    
-  
-
 
     public Set&lt;Pagamento&gt; getPagamentos() {
-<span class="nc" id="L133">        return pagamentosRelacionados;</span>
+<span class="nc" id="L146">        return pagamentosRelacionados;</span>
     }
 
     public void setPagamentos(Set&lt;Pagamento&gt; pagamentos) {
-<span class="nc" id="L137">        this.pagamentosRelacionados = pagamentos;</span>
-<span class="nc" id="L138">    }</span>
+<span class="nc" id="L150">        this.pagamentosRelacionados = pagamentos;</span>
+<span class="nc" id="L151">    }</span>
+
     public String getRazaoSocial() {
-<span class="nc" id="L140">        return razaoSocial;</span>
+<span class="nc" id="L154">        return razaoSocial;</span>
     }
 
     public void setRazaoSocial(String razaoSocial) {
-<span class="nc" id="L144">        this.razaoSocial = razaoSocial;</span>
-<span class="nc" id="L145">    }</span>
+<span class="nc" id="L158">        this.razaoSocial = razaoSocial;</span>
+<span class="nc" id="L159">    }</span>
 
     public String getCnpj() {
-<span class="nc" id="L148">        return cnpj;</span>
+<span class="nc" id="L162">        return cnpj;</span>
     }
 
     public void setCnpj(String cnpj) {
-<span class="nc" id="L152">        this.cnpj = cnpj;</span>
-<span class="nc" id="L153">    }</span>
+<span class="nc" id="L166">        this.cnpj = cnpj;</span>
+<span class="nc" id="L167">    }</span>
 
     public String getInscricaoEstadual() {
-<span class="nc" id="L156">        return inscricaoEstadual;</span>
+<span class="nc" id="L170">        return inscricaoEstadual;</span>
     }
 
     public void setInscricaoEstadual(String inscricaoEstadual) {
-<span class="nc" id="L160">        this.inscricaoEstadual = inscricaoEstadual;</span>
-<span class="nc" id="L161">    }</span>
-    
-    
-     public long getId() {
-<span class="fc" id="L165">        return id;</span>
+<span class="nc" id="L174">        this.inscricaoEstadual = inscricaoEstadual;</span>
+<span class="nc" id="L175">    }</span>
+
+    public long getId() {
+<span class="fc" id="L178">        return id;</span>
     }
 
     public void setId(long id) {
-<span class="nc" id="L169">        this.id = id;</span>
-<span class="nc" id="L170">    }</span>
-    
+<span class="nc" id="L182">        this.id = id;</span>
+<span class="nc" id="L183">    }</span>
+
     public String getNome() {
-<span class="fc" id="L173">        return nome;</span>
+<span class="fc" id="L186">        return nome;</span>
     }
 
     public void setNome(String nome) {
-<span class="fc" id="L177">        this.nome = nome;</span>
-<span class="fc" id="L178">    }</span>
+<span class="fc" id="L190">        this.nome = nome;</span>
+<span class="fc" id="L191">    }</span>
 
     public String getRua() {
-<span class="nc" id="L181">        return rua;</span>
+<span class="nc" id="L194">        return rua;</span>
     }
 
     public void setRua(String rua) {
-<span class="nc" id="L185">        this.rua = rua;</span>
-<span class="nc" id="L186">    }</span>
+<span class="nc" id="L198">        this.rua = rua;</span>
+<span class="nc" id="L199">    }</span>
 
     public int getNumero() {
-<span class="nc" id="L189">        return numero;</span>
+<span class="nc" id="L202">        return numero;</span>
     }
 
     public void setNumero(int numero) {
-<span class="nc" id="L193">        this.numero = numero;</span>
-<span class="nc" id="L194">    }</span>
+<span class="nc" id="L206">        this.numero = numero;</span>
+<span class="nc" id="L207">    }</span>
 
     public String getCep() {
-<span class="nc" id="L197">        return cep;</span>
+<span class="nc" id="L210">        return cep;</span>
     }
 
     public void setCep(String cep) {
-<span class="nc" id="L201">        this.cep = cep;</span>
-<span class="nc" id="L202">    }</span>
+<span class="nc" id="L214">        this.cep = cep;</span>
+<span class="nc" id="L215">    }</span>
 
     public String getBairro() {
-<span class="nc" id="L205">        return bairro;</span>
+<span class="nc" id="L218">        return bairro;</span>
     }
 
     public void setBairro(String bairro) {
-<span class="nc" id="L209">        this.bairro = bairro;</span>
-<span class="nc" id="L210">    }</span>
+<span class="nc" id="L222">        this.bairro = bairro;</span>
+<span class="nc" id="L223">    }</span>
 
     public String getCidade() {
-<span class="nc" id="L213">        return cidade;</span>
+<span class="nc" id="L226">        return cidade;</span>
     }
 
     public void setCidade(String cidade) {
-<span class="nc" id="L217">        this.cidade = cidade;</span>
-<span class="nc" id="L218">    }</span>
+<span class="nc" id="L230">        this.cidade = cidade;</span>
+<span class="nc" id="L231">    }</span>
 
     public String getUf() {
-<span class="nc" id="L221">        return uf;</span>
+<span class="nc" id="L234">        return uf;</span>
     }
 
     public void setUf(String uf) {
-<span class="nc" id="L225">        this.uf = uf;</span>
-<span class="nc" id="L226">    }</span>
+<span class="nc" id="L238">        this.uf = uf;</span>
+<span class="nc" id="L239">    }</span>
 
     public Set&lt;Historico&gt; getHistoricos() {
-<span class="nc" id="L229">        return historicosRelacionados;</span>
+<span class="nc" id="L242">        return historicosRelacionados;</span>
+    }
+
+    public void setHistoricos(Set&lt;Historico&gt; historicos) {
+<span class="nc" id="L246">        this.historicosRelacionados = historicos;</span>
+<span class="nc" id="L247">    }</span>
+
+    @Override
+    public String toString() {
+<span class="nc" id="L251">        return Long.toString(id);</span>
+    }
+
+    public List&lt;Locacao&gt; getLocacoes() throws Exception {
+        
+<span class="nc" id="L256">        Query query = Persistencia.getManager().createQuery(&quot;select t from Locacao as t where t.locatario = ? and t.status &lt;&gt; ? order by t.id asc&quot;);</span>
+<span class="nc" id="L257">        query.setParameter(1, this);</span>
+<span class="nc" id="L258">        query.setParameter(2, StatusLocacao.Apagada);</span>
+<span class="nc" id="L259">        List&lt;Locacao&gt; locacoes = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L260">        List&lt;Object&gt; locacoesRegistradas = Persistencia.buscar(query);</span>
+<span class="nc bnc" id="L261" title="All 2 branches missed.">        for (int i = 0; i &lt; locacoesRegistradas.size(); i++) {</span>
+<span class="nc" id="L262">            Locacao locacao = (Locacao) locacoesRegistradas.get(i);</span>
+<span class="nc" id="L263">            locacoes.add(locacao);</span>
+        }
+<span class="nc" id="L265">        return locacoes;</span>
     }
     
-    public void setHistoricos(Set&lt;Historico&gt; historicos) {
-<span class="nc" id="L233">        this.historicosRelacionados = historicos;</span>
-<span class="nc" id="L234">    }</span>
-    
-    @Override
-    public String toString(){
-<span class="nc" id="L238">        return Long.toString(id);</span>
+    public List&lt;Locacao&gt; getLocacoesAtrasadas() throws Exception {
+        
+<span class="nc" id="L270">        Query query = Persistencia.getManager().createQuery(&quot;select t from Locacao as t where t.locatario = ? and t.status &lt;&gt; ? and (t.status = ? or t.dataDevolucao &lt; ?) order by t.id asc&quot;);</span>
+<span class="nc" id="L271">        query.setParameter(1, this);</span>
+<span class="nc" id="L272">        query.setParameter(2, StatusLocacao.Apagada);</span>
+<span class="nc" id="L273">        query.setParameter(3, StatusLocacao.Atrasada);</span>
+<span class="nc" id="L274">        query.setParameter(4, new Date());</span>
+<span class="nc" id="L275">        List&lt;Locacao&gt; locacoes = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L276">        List&lt;Object&gt; locacoesRegistradas = Persistencia.buscar(query);</span>
+<span class="nc bnc" id="L277" title="All 2 branches missed.">        for (int i = 0; i &lt; locacoesRegistradas.size(); i++) {</span>
+<span class="nc" id="L278">            Locacao locacao = (Locacao) locacoesRegistradas.get(i);</span>
+<span class="nc" id="L279">            locacao.setStatus(StatusLocacao.Atrasada);</span>
+<span class="nc" id="L280">            locacoes.add(locacao);</span>
+<span class="nc" id="L281">            Persistencia.atualizar(locacao);</span>
+        }
+<span class="nc" id="L283">        return locacoes;</span>
+    }
+
+    public List&lt;Locacao&gt; getLocacoesAbertas() throws Exception {
+<span class="nc" id="L287">         Query query = Persistencia.getManager().createQuery(&quot;select t from Locacao as t where t.locatario = ? and (t.status = ? or t.status = ?) order by t.id asc&quot;);</span>
+<span class="nc" id="L288">        query.setParameter(1, this);</span>
+<span class="nc" id="L289">        query.setParameter(2, StatusLocacao.Aberta);</span>
+<span class="nc" id="L290">        query.setParameter(3, StatusLocacao.RequerAtencao);</span>
+<span class="nc" id="L291">        List&lt;Locacao&gt; locacoes = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L292">        List&lt;Object&gt; locacoesRegistradas = Persistencia.buscar(query);</span>
+<span class="nc bnc" id="L293" title="All 2 branches missed.">        for (int i = 0; i &lt; locacoesRegistradas.size(); i++) {</span>
+<span class="nc" id="L294">            Locacao locacao = (Locacao) locacoesRegistradas.get(i);</span>
+<span class="nc" id="L295">            locacoes.add(locacao);</span>
+        }
+<span class="nc" id="L297">        return locacoes;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

@@ -5,12 +5,13 @@
  */
 package Classes;
 
+
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 
 /**
@@ -24,8 +25,8 @@ public class Pagamento implements Serializable {
     private long id;
     
     private float valor;
-    
-    private String formaPagamento;
+    @OneToOne
+    private FormaPagamento formaPagamento;
     
     private String referencia;
     
@@ -94,13 +95,17 @@ public class Pagamento implements Serializable {
         this.valor = valor;
     }
 
-    public String getFormaPagamento() {
+    public FormaPagamento getFormaPagamento() {
         return formaPagamento;
     }
 
-    public void setFormaPagamento(String formaPagamento) {
+    public void setFormaPagamento(FormaPagamento formaPagamento) {
         this.formaPagamento = formaPagamento;
     }
     
+    @Override
+    public String toString(){
+        return String.valueOf(this.valor);
+    }
     
 }

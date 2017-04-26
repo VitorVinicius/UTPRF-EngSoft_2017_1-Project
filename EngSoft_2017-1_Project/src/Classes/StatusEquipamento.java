@@ -10,5 +10,5 @@ package Classes;
  * @author Vitor
  */
 public enum StatusEquipamento {
-    Locado,Disponivel,EmManutencao,Avariado,Apagado
+    Locado,Disponivel,EmManutencao,Avariado,Apagado, Reservado
 }

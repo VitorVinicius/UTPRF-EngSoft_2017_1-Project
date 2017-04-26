@@ -14,6 +14,7 @@ import Classes.StatusLocacao;
 import Classes.StatusLocatario;
 import Database.Persistencia;
 import java.awt.Color;
+import java.awt.Frame;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.math.RoundingMode;
@@ -83,9 +84,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         NOME_EQUIPAMENTO = new javax.swing.JLabel();
         jPanel34 = new javax.swing.JPanel();
@@ -154,18 +154,26 @@ public class TelaPrincipal extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Autorizar Todas");
+        jButton1.setText("Consolidar Reservas");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
-        jButton3.setText("Autorizar");
-
         jButton5.setText("Locações");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
-        jButton6.setText("Cancelar");
+        jButton3.setText("Formas de Pagamento");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -177,11 +185,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 .addComponent(jButton4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton1))
         );
         jPanel1Layout.setVerticalGroup(
@@ -192,9 +198,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
                     .addComponent(jButton2)
                     .addComponent(jButton4)
                     .addComponent(jButton1)
-                    .addComponent(jButton3)
                     .addComponent(jButton5)
-                    .addComponent(jButton6)))
+                    .addComponent(jButton3)))
         );
 
         jPanel2.setBackground(new java.awt.Color(83, 165, 252));
@@ -862,26 +867,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_CPF_CNPJActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if(locacoes == null) return;
-
-        int dialogButton = JOptionPane.showConfirmDialog (null, "Deseja realmente autorizar todas as locações abertas deste locatário?","Autorizar Locações", JOptionPane.YES_NO_OPTION);
-        if(dialogButton  == JOptionPane.YES_OPTION){
-            for(Locacao locacao : locacoes){
-                if(locacao.getDataDevolucao().getTime()>=new Date().getTime()){
-                    locacao.setStatus(StatusLocacao.EmDia);
-                }
-                else{
-                    locacao.setStatus(StatusLocacao.RequerAtencao);
-                }
-                try {
-                    Main.getFuncionario().atualizarLocacao(locacao);
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(null,"Erro ao obter cliente: "+ ex.getMessage(), "", JOptionPane.ERROR_MESSAGE);
-                    Logger.getLogger(TelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            limparTela();
+        if(this.locatario == null){
+            JOptionPane.showMessageDialog(null, "Selecione o locatário primeiro", "Locatário não selecionado", JOptionPane.ERROR_MESSAGE);
+            return;
         }
+        new TelaVisualizarLocacoes((Frame)null,true,this.locatario,StatusLocacao.Aberta).setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void ENTRADA_NOME_EQUIPAMENTOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ENTRADA_NOME_EQUIPAMENTOActionPerformed
@@ -900,6 +890,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
             NOME_EQUIPAMENTO.setText("NÃO ENCONTRADO OU INDISPONÍVEL NO ESTOQUE");
         }
     }//GEN-LAST:event_ENTRADA_NOME_EQUIPAMENTOActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        new TelaVisualizarLocacoes((Frame)null,true).setVisible(true);
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+       new TelaGerenciarFormasPagamento((Frame)null,true,false).setVisible(true);
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -951,7 +949,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1018,14 +1015,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
        
        jFormattedTextField1.setText(String.valueOf(Float.parseFloat(jFormattedTextField1.getText()) + locacao.getTotalLocacao()));
        
-       locacao = Main.getFuncionario().efetuarLocacao(locacao);
+       locacao = Main.getFuncionario().fazerReserva(locacao);
        descreverLocacao(locacao);
        
     }
     private void descreverLocacao(Locacao locacao){
         Equipamento equip = locacao.getEquipamento();
        String texto = jTextArea1.getText();
-       texto += "\n\nID Locação: "+locacao.getId()+"\n";
+       texto += "\n\nID Locação: "+locacao.getId()+" Tipo: "+locacao.getStatus().name()+"\n";
        
        if(locacao.getStatus() == StatusLocacao.Atrasada)
        {   
@@ -1037,6 +1034,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
        }
        
        texto += ">"+ equip.getNome() + "\n";
+       texto += "Status: "+ equip.getStatus().name() + "\n";
        texto +="ID:"+ equip.getId() + " Série:" + locacao.getEquipamento().getSerie();
        texto += "\n"+equip.getFabricante();
        texto +="\nLocação: "+  this.formatoDataCompleta.format(locacao.getDataLocacao());
@@ -1054,7 +1052,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 descreverLocacao(locacao);
             }
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, ex.toString(), "Erro ao obter locações abertas do cliente", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, ex.toString(), "Erro ao obter locações do cliente", JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(TelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -1071,7 +1069,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
             }
             
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, ex.toString(), "Erro ao obter locações abertas do cliente", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, ex.toString(), "Erro ao obter locações do cliente", JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(TelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -1120,7 +1118,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 String texto = "Recibo de Locações\nCliente: "+ this.locatario.getNome()+"\nDoc.: "
                         + this.locatario.getCpf() + " " + this.locatario.getCnpj()
                         + "\nData: "+ data
-                        + "\n>Locações Abertas";
+                        + "\n>Reservas";
                 jTextArea1.setText(texto);
                 carregarLocacoesAbertas(this.locatario);
                 carregarLocacoesAtrasadas(this.locatario);

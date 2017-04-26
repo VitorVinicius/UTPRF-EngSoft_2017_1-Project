@@ -272,7 +272,7 @@ public class TelaVisualizarEquipamentos extends javax.swing.JFrame {
     
     private void carregarEquipamentosPorNome() {
         Query query = Persistencia.getManager().createQuery("select t from Equipamento as t where t.nome like ? and t.status <> ? order by t.id desc");
-        query.setParameter(1, jTextField1.getText());
+        query.setParameter(1, "%"+jTextField1.getText()+"%");
         query.setParameter(2, StatusEquipamento.Apagado);
         carregarEquipamentos(query);
     }
@@ -281,7 +281,7 @@ public class TelaVisualizarEquipamentos extends javax.swing.JFrame {
         
         Query query = Persistencia.getManager().createQuery("select t from Equipamento as t where (ean like ? or id = ?) and t.status <> ?  order by t.id desc");
         query.setParameter(1, jTextField2.getText());
-        query.setParameter(2, jTextField2.getText());
+        query.setParameter(2, Long.parseLong(jTextField2.getText()));
         query.setParameter(3, StatusEquipamento.Apagado);
         carregarEquipamentos(query);
         

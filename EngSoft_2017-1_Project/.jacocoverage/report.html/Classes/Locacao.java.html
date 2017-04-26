@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import java.util.Set;
-import javax.persistence.Column;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -31,15 +31,15 @@ import javax.persistence.Temporal;
     private Locatario locatario;
     @OneToOne
     private Equipamento equipamento;
-    @Temporal(javax.persistence.TemporalType.DATE)
     
+    
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date dataLocacao;
-    @Temporal(javax.persistence.TemporalType.DATE)
-    
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date dataDevolucao;
     
     private StatusLocacao status;
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.ALL})
     
     private Set&lt;Pagamento&gt; pagamentos;
     
@@ -139,6 +139,9 @@ import javax.persistence.Temporal;
     public void setFuncionario(Funcionario funcionario) {
 <span class="nc" id="L140">        this.funcionario = funcionario;</span>
 <span class="nc" id="L141">    }</span>
-   
+    @Override
+   public String toString(){
+<span class="nc" id="L144">       return String.valueOf(id);</span>
+   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

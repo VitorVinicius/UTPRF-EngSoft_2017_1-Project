@@ -131,18 +131,34 @@ public class Funcionario extends Locatario {
          Persistencia.atualizar(this);
     }
 
-    public Locacao efetuarLocacao(Locacao locacao) throws Exception {
+    public Locacao fazerLocacao(Locacao locacao) throws Exception {
         
-        if(locacao.getEquipamento().getStatus() == StatusEquipamento.Locado){
-            throw new Excecoes.EquipamentoLocado("O equipamento de id '"+locacao.getEquipamento().getId()+"' já está locado.");
+        
+        if(locacao.getEquipamento().getStatus() != StatusEquipamento.Reservado || locacao.getEquipamento().getLocatarioReserva() == null ){
+            throw new Excecoes.EquipamentoLocado("O equipamento de id '"+locacao.getEquipamento().getId()+"' não está disponível para locações porque ainda não foi reservado.");
+        }
+        else
+        if(locacao.getLocatario().getId()!=locacao.getEquipamento().getLocatarioReserva().getId()){
+            throw new Excecoes.EquipamentoLocado("O equipamento de id '"+locacao.getEquipamento().getId()+"' não está disponível para locações porque foi reservado para outro locatário.");
         }
         
-        locacao = (Locacao) Persistencia.salvar(locacao);
+        if(locacao.getPagamentos() == null || locacao.getPagamentos().isEmpty()){
+            throw new Excecoes.LocacaoSemPagamentosException("Nenhum pagamento detectado para a locação '"+locacao.getId()+"'. Insira um pagamento para efetivar a locaçao.");
+        }
+        locacao.setStatus(StatusLocacao.EmDia);
+        
+        
+        if(locacao.getId()!=0)
+            locacao = (Locacao) Persistencia.salvar(locacao);
+        else{
+            Persistencia.atualizar(locacao);
+        }
+        
          if(this.getHistoricos() == null)
              this.setHistoricos(new HashSet<>());
          
          Historico historicoFuncionario = new Historico();
-         historicoFuncionario.setDescricao("Efetuou uma nova locação com id: " + locacao.getId());
+         historicoFuncionario.setDescricao("Locou o equipamento de id '"+locacao.getId()+"' na locacao com id: " + locacao.getId());
          historicoFuncionario.setTipoOcorrencia(TipoOcorrencia.Locacao);
          historicoFuncionario.setDataOcorrencia(new Date());
          this.getHistoricos().add(historicoFuncionario);
@@ -151,8 +167,40 @@ public class Funcionario extends Locatario {
          Equipamento equipamento = locacao.getEquipamento();
          equipamento.setStatus(StatusEquipamento.Locado);
          Historico historicoEquipamento = new Historico();
-         historicoEquipamento.setDescricao("Foi locado por "+this.getNome()+" na locação de id: " + locacao.getId());
+         historicoEquipamento.setDescricao("Foi locado por "+this.getNome()+" para '"+locacao.getLocatario().getNome()+"' locação de id: " + locacao.getId());
          historicoEquipamento.setTipoOcorrencia(TipoOcorrencia.Locacao);
+         historicoEquipamento.setDataOcorrencia(new Date());
+         equipamento.getHistoricos().add(historicoEquipamento);
+         locacao.setEquipamento(equipamento);
+         
+         Persistencia.atualizar(equipamento);
+         
+         return locacao;
+    }
+    
+    public Locacao fazerReserva(Locacao locacao) throws Exception {
+        
+        if(locacao.getEquipamento().getStatus() != StatusEquipamento.Disponivel){
+            throw new Excecoes.EquipamentoLocado("O equipamento de id '"+locacao.getEquipamento().getId()+"' não está disponível para reservas/locações.");
+        }
+        
+        locacao = (Locacao) Persistencia.salvar(locacao);
+         if(this.getHistoricos() == null)
+             this.setHistoricos(new HashSet<>());
+         
+         Historico historicoFuncionario = new Historico();
+         historicoFuncionario.setDescricao("Efetuou uma nova reserva com id de locação: " + locacao.getId());
+         historicoFuncionario.setTipoOcorrencia(TipoOcorrencia.Reserva);
+         historicoFuncionario.setDataOcorrencia(new Date());
+         this.getHistoricos().add(historicoFuncionario);
+         Persistencia.atualizar(this);
+         
+         Equipamento equipamento = locacao.getEquipamento();
+         equipamento.setStatus(StatusEquipamento.Reservado);
+         equipamento.setLocatarioReserva(locacao.getLocatario());
+         Historico historicoEquipamento = new Historico();
+         historicoEquipamento.setDescricao("Foi reservado por "+this.getNome()+" para '"+locacao.getLocatario().getNome()+"' locação de id: " + locacao.getId());
+         historicoEquipamento.setTipoOcorrencia(TipoOcorrencia.Reserva);
          historicoEquipamento.setDataOcorrencia(new Date());
          equipamento.getHistoricos().add(historicoEquipamento);
          locacao.setEquipamento(equipamento);
@@ -172,6 +220,25 @@ public class Funcionario extends Locatario {
          this.getHistoricos().add(historicoFuncionario);
          Persistencia.atualizar(this);
          
+    }
+
+    public void registrarFormaPagamento(FormaPagamento forma) throws Exception {
+        forma = (FormaPagamento) Persistencia.salvar(forma);
+        Historico historicoFuncionario = new Historico();
+         historicoFuncionario.setDescricao("Criou a forma de pagamento '"+forma.getNome()+"': " + forma.getId());
+         historicoFuncionario.setTipoOcorrencia(TipoOcorrencia.Cadastro);
+         historicoFuncionario.setDataOcorrencia(new Date());
+         this.getHistoricos().add(historicoFuncionario);
+         Persistencia.atualizar(this);
+    }
+    public void atualizarFormaPagamento(FormaPagamento forma) throws Exception {
+        Persistencia.atualizar(forma);
+        Historico historicoFuncionario = new Historico();
+         historicoFuncionario.setDescricao("Atualizou a forma de pagamento '"+forma.getNome()+"': " + forma.getId());
+         historicoFuncionario.setTipoOcorrencia(TipoOcorrencia.AlteracaoCadastro);
+         historicoFuncionario.setDataOcorrencia(new Date());
+         this.getHistoricos().add(historicoFuncionario);
+         Persistencia.atualizar(this);
     }
     
     

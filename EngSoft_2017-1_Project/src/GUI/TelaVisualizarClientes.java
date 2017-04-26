@@ -5,6 +5,7 @@
  */
 package GUI;
 
+import Classes.Locacao;
 import Classes.Locatario;
 import Classes.StatusLocatario;
 import Database.Persistencia;
@@ -14,6 +15,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.Query;
 import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -198,6 +201,8 @@ public class TelaVisualizarClientes extends javax.swing.JFrame {
         carregarLocatarios();
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    
+    
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         carregarLocatariosPorDocumento();
     }//GEN-LAST:event_jButton3ActionPerformed
