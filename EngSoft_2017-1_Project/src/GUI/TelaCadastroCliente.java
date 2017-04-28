@@ -771,7 +771,7 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
             concessionaria.setId(this.locatarioEdicao.getId());
             if (Main.getFuncionario() != null) {
 
-                Main.getFuncionario().alterarLocatario(concessionaria);
+                Main.getFuncionario().alterarConcessionaria(concessionaria);
             } else {
                 Persistencia.atualizar(concessionaria);
             }
@@ -781,7 +781,7 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
             concessionaria.getHistoricos().add(historico);
             
             if (Main.getFuncionario() != null) {
-                Main.getFuncionario().cadastrarLocatario(concessionaria);
+                Main.getFuncionario().cadastrarConcessionaria(concessionaria);
             } else {
                 Persistencia.salvar(concessionaria);
             }
@@ -868,7 +868,7 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
             funcionario.setId(this.locatarioEdicao.getId());
             if (Main.getFuncionario() != null) {
 
-                Main.getFuncionario().alterarLocatario(funcionario);
+                Main.getFuncionario().alterarFuncionario(funcionario);
             } else {
                 Persistencia.atualizar(funcionario);
             }
@@ -877,7 +877,7 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
             historico.setTipoOcorrencia(TipoOcorrencia.Cadastro);
             funcionario.getHistoricos().add(historico);
             if (Main.getFuncionario() != null) {
-                Main.getFuncionario().cadastrarLocatario(funcionario);
+                Main.getFuncionario().cadastrarFuncionario(funcionario);
             } else {
                 Persistencia.salvar(funcionario);
             }

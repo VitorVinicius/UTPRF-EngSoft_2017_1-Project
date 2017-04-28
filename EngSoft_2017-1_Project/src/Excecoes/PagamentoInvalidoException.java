@@ -9,8 +9,8 @@ package Excecoes;
  *
  * @author Vitor
  */
-public class EquipamentoLocado extends Exception {
-    public EquipamentoLocado(String msg){
+public class PagamentoInvalidoException extends Exception{
+    public PagamentoInvalidoException(String msg){
         super(msg);
     }
 }

@@ -9,8 +9,8 @@ package Excecoes;
  *
  * @author Vitor
  */
-public class LocacaoSemPagamentosException extends Exception {
-    public LocacaoSemPagamentosException(String msg){
+public class FormaPagamentoInvalida extends Exception {
+    public FormaPagamentoInvalida(String msg){
         super(msg);
     }
 }
