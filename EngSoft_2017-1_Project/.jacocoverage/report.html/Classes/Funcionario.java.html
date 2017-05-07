@@ -6,12 +6,10 @@
 package Classes;
 
 import Database.Persistencia;
+import Excecoes.EquipamentoInvalidoException;
+import Excecoes.LocacaoInvalidaException;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 
 /**
@@ -19,7 +17,11 @@ import javax.persistence.Temporal;
  * @author Vitor
  */
 @Entity
-<span class="fc" id="L22">public class Funcionario extends Locatario {</span>
+public class Funcionario extends Locatario {
+<span class="fc" id="L21">    public Funcionario(){</span>
+<span class="fc" id="L22">        super.setTipo(TipoLocatario.FUNCIONARIO);</span>
+<span class="fc" id="L23">    }</span>
+    
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date dataAdmissao;
     
@@ -30,197 +32,265 @@ import javax.persistence.Temporal;
     private String senha;
 
     public String getSenha() {
-<span class="nc" id="L33">        return senha;</span>
+<span class="fc" id="L35">        return senha;</span>
     }
 
     public void setSenha(String senha) {
-<span class="nc" id="L37">        this.senha = senha;</span>
-<span class="nc" id="L38">    }</span>
+<span class="fc" id="L39">        this.senha = senha;</span>
+<span class="fc" id="L40">    }</span>
     
-    @OneToMany
-    private Set&lt;Locacao&gt; locacoesEfetuadas;
-
     public Date getDataAdmissao() {
-<span class="nc" id="L44">        return dataAdmissao;</span>
+<span class="fc" id="L43">        return dataAdmissao;</span>
     }
 
     public void setDataAdmissao(Date dataAdmissao) {
-<span class="nc" id="L48">        this.dataAdmissao = dataAdmissao;</span>
-<span class="nc" id="L49">    }</span>
+<span class="fc" id="L47">        this.dataAdmissao = dataAdmissao;</span>
+<span class="fc" id="L48">    }</span>
 
     public String getNis() {
-<span class="nc" id="L52">        return nis;</span>
+<span class="fc" id="L51">        return nis;</span>
     }
 
     public void setNis(String nis) {
-<span class="nc" id="L56">        this.nis = nis;</span>
-<span class="nc" id="L57">    }</span>
+<span class="fc" id="L55">        this.nis = nis;</span>
+<span class="fc" id="L56">    }</span>
 
     public float getSalario() {
-<span class="nc" id="L60">        return salario;</span>
+<span class="fc" id="L59">        return salario;</span>
     }
 
     public void setSalario(float salario) {
-<span class="nc" id="L64">        this.salario = salario;</span>
-<span class="nc" id="L65">    }</span>
+<span class="fc" id="L63">        this.salario = salario;</span>
+<span class="fc" id="L64">    }</span>
 
-    public Set&lt;Locacao&gt; getLocacoesEfetuadas() {
-<span class="nc" id="L68">        return locacoesEfetuadas;</span>
-    }
-
-    public void setLocacoesEfetuadas(Set&lt;Locacao&gt; locacoesEfetuadas) {
-<span class="nc" id="L72">        this.locacoesEfetuadas = locacoesEfetuadas;</span>
-<span class="nc" id="L73">    }</span>
-    
-    public void solicitarCadastro() throws Exception{
-<span class="nc" id="L76">        throw new Exception(&quot;Método não ainda implementado.&quot;);</span>
-    }
-    public void solicitarLocacao() throws Exception{
-<span class="nc" id="L79">        throw new Exception(&quot;Método não ainda implementado.&quot;);</span>
-    }
-    
     public void cadastrarLocatario(Locatario locatario) throws Exception{
-<span class="nc" id="L83">         locatario = (Locatario) Persistencia.salvar(locatario);</span>
-<span class="nc bnc" id="L84" title="All 2 branches missed.">         if(this.getHistoricos() == null)</span>
-<span class="nc" id="L85">             this.setHistoricos(new HashSet&lt;&gt;());</span>
+<span class="fc" id="L67">        Validacao.validarLocatario(locatario);</span>
+<span class="fc" id="L68">        locatario = (Locatario) Persistencia.salvar(locatario);</span>
          
-<span class="nc" id="L87">         Historico historico = new Historico();</span>
-<span class="nc" id="L88">         historico.setDescricao(&quot;Cadastrou um novo locatario (&quot;+ locatario.getClass().getSimpleName()+&quot;) com id: &quot; + locatario.getId());</span>
-<span class="nc" id="L89">         historico.setTipoOcorrencia(TipoOcorrencia.Cadastro);</span>
-<span class="nc" id="L90">         historico.setDataOcorrencia(new Date());</span>
-<span class="nc" id="L91">         this.getHistoricos().add(historico);</span>
-<span class="nc" id="L92">         Persistencia.atualizar(this);</span>
-<span class="nc" id="L93">    }</span>
+<span class="fc" id="L70">         Historico historico = new Historico();</span>
+<span class="fc" id="L71">         historico.setDescricao(&quot;Cadastrou um novo locatario (&quot;+ locatario.getClass().getSimpleName()+&quot;) com id: &quot; + locatario.getId());</span>
+<span class="fc" id="L72">         historico.setTipoOcorrencia(TipoOcorrencia.Cadastro);</span>
+<span class="fc" id="L73">         historico.setDataOcorrencia(new Date());</span>
+<span class="fc" id="L74">         this.getHistoricos().add(historico);</span>
+<span class="fc" id="L75">         Persistencia.atualizar(this);</span>
+<span class="fc" id="L76">    }</span>
     
     public void alterarLocatario(Locatario locatario) throws Exception{
-<span class="nc" id="L96">        Persistencia.atualizar(locatario);</span>
-<span class="nc bnc" id="L97" title="All 2 branches missed.">        if(this.getHistoricos() == null)</span>
-<span class="nc" id="L98">             this.setHistoricos(new HashSet&lt;&gt;());</span>
+<span class="fc bfc" id="L79" title="All 2 branches covered.">        if(locatario.getId()==0){</span>
+<span class="fc" id="L80">            throw new Excecoes.LocatarioInvalidoException(&quot;O locatário informado ainda não foi cadastrado.&quot;);</span>
+        }
+        
+<span class="fc" id="L83">        Validacao.validarLocatario(locatario);</span>
+<span class="fc" id="L84">        Persistencia.atualizar(locatario);</span>
+        
+<span class="fc" id="L86">         Historico historico = new Historico();</span>
+<span class="fc" id="L87">         historico.setDescricao(&quot;Atualizou um locatario (&quot;+ locatario.getClass().getSimpleName()+&quot;) com id: &quot; + locatario.getId());</span>
+<span class="fc" id="L88">         historico.setTipoOcorrencia(TipoOcorrencia.AlteracaoCadastro);</span>
+<span class="fc" id="L89">         historico.setDataOcorrencia(new Date());</span>
+<span class="fc" id="L90">         this.getHistoricos().add(historico);</span>
+<span class="fc" id="L91">         Persistencia.atualizar(this);</span>
+<span class="fc" id="L92">    }</span>
+    
+    
+    public void cadastrarFuncionario(Funcionario funcionario) throws Exception{
+<span class="fc" id="L96">         Validacao.validarFuncionario(funcionario);</span>
+<span class="fc" id="L97">         funcionario = (Funcionario) Persistencia.salvar(funcionario);</span>
          
-<span class="nc" id="L100">         Historico historico = new Historico();</span>
-<span class="nc" id="L101">         historico.setDescricao(&quot;Atualizou um locatario (&quot;+ locatario.getClass().getSimpleName()+&quot;) com id: &quot; + locatario.getId());</span>
-<span class="nc" id="L102">         historico.setTipoOcorrencia(TipoOcorrencia.Cadastro);</span>
-<span class="nc" id="L103">         historico.setDataOcorrencia(new Date());</span>
-<span class="nc" id="L104">         this.getHistoricos().add(historico);</span>
-<span class="nc" id="L105">         Persistencia.atualizar(this);</span>
-<span class="nc" id="L106">    }</span>
-
-    public void cadastrarEquipamento(Equipamento equipamento) throws Exception {
-<span class="nc" id="L109">        equipamento =(Equipamento) Persistencia.salvar(equipamento);</span>
-<span class="nc bnc" id="L110" title="All 2 branches missed.">        if(this.getHistoricos() == null)</span>
-<span class="nc" id="L111">             this.setHistoricos(new HashSet&lt;&gt;());</span>
+<span class="fc" id="L99">         Historico historico = new Historico();</span>
+<span class="fc" id="L100">         historico.setDescricao(&quot;Cadastrou um novo funcionario (&quot;+ funcionario.getClass().getSimpleName()+&quot;) com id: &quot; + funcionario.getId());</span>
+<span class="fc" id="L101">         historico.setTipoOcorrencia(TipoOcorrencia.Cadastro);</span>
+<span class="fc" id="L102">         historico.setDataOcorrencia(new Date());</span>
+<span class="fc" id="L103">         this.getHistoricos().add(historico);</span>
+<span class="fc" id="L104">         Persistencia.atualizar(this);</span>
+<span class="fc" id="L105">    }</span>
+    
+    public void alterarFuncionario(Funcionario funcionario) throws Exception{
+<span class="fc" id="L108">        Validacao.validarFuncionario(funcionario);</span>
+<span class="fc" id="L109">        Persistencia.atualizar(funcionario);</span>
+        
          
-<span class="nc" id="L113">         Historico historico = new Historico();</span>
-<span class="nc" id="L114">         historico.setDescricao(&quot;Cadastrou um equipamento com id: &quot; + equipamento.getId());</span>
-<span class="nc" id="L115">         historico.setTipoOcorrencia(TipoOcorrencia.Cadastro);</span>
-<span class="nc" id="L116">         historico.setDataOcorrencia(new Date());</span>
-<span class="nc" id="L117">         this.getHistoricos().add(historico);</span>
-<span class="nc" id="L118">         Persistencia.atualizar(this);</span>
-<span class="nc" id="L119">    }</span>
-
-    public void atualizarEquipamento(Equipamento equipamento) throws Exception {
-<span class="nc" id="L122">        Persistencia.atualizar(equipamento);</span>
-<span class="nc bnc" id="L123" title="All 2 branches missed.">        if(this.getHistoricos() == null)</span>
-<span class="nc" id="L124">             this.setHistoricos(new HashSet&lt;&gt;());</span>
+<span class="fc" id="L112">         Historico historico = new Historico();</span>
+<span class="fc" id="L113">         historico.setDescricao(&quot;Atualizou um funcionario (&quot;+ funcionario.getClass().getSimpleName()+&quot;) com id: &quot; + funcionario.getId());</span>
+<span class="fc" id="L114">         historico.setTipoOcorrencia(TipoOcorrencia.AlteracaoCadastro);</span>
+<span class="fc" id="L115">         historico.setDataOcorrencia(new Date());</span>
+<span class="fc" id="L116">         this.getHistoricos().add(historico);</span>
+<span class="fc" id="L117">         Persistencia.atualizar(this);</span>
+<span class="fc" id="L118">    }</span>
+    
+    
+    public void cadastrarConcessionaria(Concessionaria concessionaria) throws Exception{
+<span class="fc" id="L122">         Validacao.validarConcessionaria(concessionaria);</span>
+<span class="fc" id="L123">         concessionaria = (Concessionaria) Persistencia.salvar(concessionaria);</span>
+        
          
-<span class="nc" id="L126">         Historico historico = new Historico();</span>
-<span class="nc" id="L127">         historico.setDescricao(&quot;Alterou um equipamento com id: &quot; + equipamento.getId());</span>
-<span class="nc" id="L128">         historico.setTipoOcorrencia(TipoOcorrencia.Cadastro);</span>
-<span class="nc" id="L129">         historico.setDataOcorrencia(new Date());</span>
-<span class="nc" id="L130">         this.getHistoricos().add(historico);</span>
-<span class="nc" id="L131">         Persistencia.atualizar(this);</span>
-<span class="nc" id="L132">    }</span>
+<span class="fc" id="L126">         Historico historico = new Historico();</span>
+<span class="fc" id="L127">         historico.setDescricao(&quot;Cadastrou uma nova concessionaria (&quot;+ concessionaria.getClass().getSimpleName()+&quot;) com id: &quot; + concessionaria.getId());</span>
+<span class="fc" id="L128">         historico.setTipoOcorrencia(TipoOcorrencia.Cadastro);</span>
+<span class="fc" id="L129">         historico.setDataOcorrencia(new Date());</span>
+<span class="fc" id="L130">         this.getHistoricos().add(historico);</span>
+<span class="fc" id="L131">         Persistencia.atualizar(this);</span>
+<span class="fc" id="L132">    }</span>
+    
+    public void alterarConcessionaria(Concessionaria concessionaria) throws Exception{
+<span class="fc" id="L135">        Validacao.validarConcessionaria(concessionaria);</span>
+<span class="fc" id="L136">        Persistencia.atualizar(concessionaria);</span>
+      
+         
+<span class="fc" id="L139">         Historico historico = new Historico();</span>
+<span class="fc" id="L140">         historico.setDescricao(&quot;Atualizou uma concessionaria (&quot;+ concessionaria.getClass().getSimpleName()+&quot;) com id: &quot; + concessionaria.getId());</span>
+<span class="fc" id="L141">         historico.setTipoOcorrencia(TipoOcorrencia.AlteracaoCadastro);</span>
+<span class="fc" id="L142">         historico.setDataOcorrencia(new Date());</span>
+<span class="fc" id="L143">         this.getHistoricos().add(historico);</span>
+<span class="fc" id="L144">         Persistencia.atualizar(this);</span>
+<span class="fc" id="L145">    }</span>
+    
+    
 
+    public void cadastrarEquipamento(Equipamento equipamento) throws EquipamentoInvalidoException, Exception  {
+        
+<span class="fc" id="L151">        Validacao.validarEquipamneto(equipamento);</span>
+        
+<span class="fc" id="L153">        equipamento =(Equipamento) Persistencia.salvar(equipamento);</span>
+      
+         
+<span class="fc" id="L156">         Historico historico = new Historico();</span>
+<span class="fc" id="L157">         historico.setDescricao(&quot;Cadastrou um equipamento com id: &quot; + equipamento.getId());</span>
+<span class="fc" id="L158">         historico.setTipoOcorrencia(TipoOcorrencia.Cadastro);</span>
+<span class="fc" id="L159">         historico.setDataOcorrencia(new Date());</span>
+<span class="fc" id="L160">         this.getHistoricos().add(historico);</span>
+<span class="fc" id="L161">         Persistencia.atualizar(this);</span>
+<span class="fc" id="L162">    }</span>
+
+    public void alterarEquipamento(Equipamento equipamento) throws EquipamentoInvalidoException, Exception  {
+        
+<span class="fc" id="L166">        Validacao.validarEquipamneto(equipamento);</span>
+        
+<span class="fc" id="L168">        Persistencia.atualizar(equipamento);</span>
+        
+         
+<span class="fc" id="L171">         Historico historico = new Historico();</span>
+<span class="fc" id="L172">         historico.setDescricao(&quot;Alterou um equipamento com id: &quot; + equipamento.getId());</span>
+<span class="fc" id="L173">         historico.setTipoOcorrencia(TipoOcorrencia.AlteracaoCadastro);</span>
+<span class="fc" id="L174">         historico.setDataOcorrencia(new Date());</span>
+<span class="fc" id="L175">         this.getHistoricos().add(historico);</span>
+<span class="fc" id="L176">         Persistencia.atualizar(this);</span>
+<span class="fc" id="L177">    }</span>
+    
+    
+    
     public Locacao fazerLocacao(Locacao locacao) throws Exception {
+<span class="fc" id="L182">        Validacao.validarLocacao(locacao);</span>
+<span class="fc" id="L183">        verificarPendencias(locacao.getLocatario());</span>
         
-        
-<span class="nc bnc" id="L137" title="All 4 branches missed.">        if(locacao.getEquipamento().getStatus() != StatusEquipamento.Reservado || locacao.getEquipamento().getLocatarioReserva() == null ){</span>
-<span class="nc" id="L138">            throw new Excecoes.EquipamentoLocado(&quot;O equipamento de id '&quot;+locacao.getEquipamento().getId()+&quot;' não está disponível para locações porque ainda não foi reservado.&quot;);</span>
+<span class="pc bpc" id="L185" title="1 of 4 branches missed.">        if(locacao.getEquipamento().getStatus() != StatusEquipamento.Reservado || locacao.getEquipamento().getLocatarioReserva() == null ){</span>
+<span class="fc" id="L186">            throw new Excecoes.LocacaoInvalidaException(&quot;O equipamento de id '&quot;+locacao.getEquipamento().getId()+&quot;' não está disponível para locações porque ainda não foi reservado.&quot;);</span>
         }
         else
-<span class="nc bnc" id="L141" title="All 2 branches missed.">        if(locacao.getLocatario().getId()!=locacao.getEquipamento().getLocatarioReserva().getId()){</span>
-<span class="nc" id="L142">            throw new Excecoes.EquipamentoLocado(&quot;O equipamento de id '&quot;+locacao.getEquipamento().getId()+&quot;' não está disponível para locações porque foi reservado para outro locatário.&quot;);</span>
+<span class="fc bfc" id="L189" title="All 2 branches covered.">        if(locacao.getLocatario().getId()!=locacao.getEquipamento().getLocatarioReserva().getId()){</span>
+<span class="fc" id="L190">            throw new Excecoes.EquipamentoLocadoException(&quot;O equipamento de id '&quot;+locacao.getEquipamento().getId()+&quot;' não está disponível para locações porque foi reservado para outro locatário.&quot;);</span>
         }
         
-<span class="nc bnc" id="L145" title="All 4 branches missed.">        if(locacao.getPagamentos() == null || locacao.getPagamentos().isEmpty()){</span>
-<span class="nc" id="L146">            throw new Excecoes.LocacaoSemPagamentosException(&quot;Nenhum pagamento detectado para a locação '&quot;+locacao.getId()+&quot;'. Insira um pagamento para efetivar a locaçao.&quot;);</span>
+<span class="pc bpc" id="L193" title="1 of 4 branches missed.">        if(locacao.getPagamentos() == null || locacao.getPagamentos().isEmpty()){</span>
+<span class="fc" id="L194">            throw new Excecoes.LocacaoInvalidaException(&quot;Nenhum pagamento detectado para a locação '&quot;+locacao.getId()+&quot;'. Insira um pagamento para efetivar a locaçao.&quot;);</span>
         }
-<span class="nc" id="L148">        locacao.setStatus(StatusLocacao.EmDia);</span>
+<span class="fc" id="L196">        locacao.setStatus(StatusLocacao.EmDia);</span>
         
         
-<span class="nc bnc" id="L151" title="All 2 branches missed.">        if(locacao.getId()!=0)</span>
-<span class="nc" id="L152">            locacao = (Locacao) Persistencia.salvar(locacao);</span>
-        else{
-<span class="nc" id="L154">            Persistencia.atualizar(locacao);</span>
-        }
+<span class="fc" id="L199">        Persistencia.atualizar(locacao);</span>
+       
         
-<span class="nc bnc" id="L157" title="All 2 branches missed.">         if(this.getHistoricos() == null)</span>
-<span class="nc" id="L158">             this.setHistoricos(new HashSet&lt;&gt;());</span>
+       
          
-<span class="nc" id="L160">         Historico historicoFuncionario = new Historico();</span>
-<span class="nc" id="L161">         historicoFuncionario.setDescricao(&quot;Locou o equipamento de id '&quot;+locacao.getId()+&quot;' na locacao com id: &quot; + locacao.getId());</span>
-<span class="nc" id="L162">         historicoFuncionario.setTipoOcorrencia(TipoOcorrencia.Locacao);</span>
-<span class="nc" id="L163">         historicoFuncionario.setDataOcorrencia(new Date());</span>
-<span class="nc" id="L164">         this.getHistoricos().add(historicoFuncionario);</span>
-<span class="nc" id="L165">         Persistencia.atualizar(this);</span>
+<span class="fc" id="L204">         Historico historicoFuncionario = new Historico();</span>
+<span class="fc" id="L205">         historicoFuncionario.setDescricao(&quot;Locou o equipamento de id '&quot;+locacao.getId()+&quot;' na locacao com id: &quot; + locacao.getId());</span>
+<span class="fc" id="L206">         historicoFuncionario.setTipoOcorrencia(TipoOcorrencia.Locacao);</span>
+<span class="fc" id="L207">         historicoFuncionario.setDataOcorrencia(new Date());</span>
+<span class="fc" id="L208">         this.getHistoricos().add(historicoFuncionario);</span>
+<span class="fc" id="L209">         Persistencia.atualizar(this);</span>
          
-<span class="nc" id="L167">         Equipamento equipamento = locacao.getEquipamento();</span>
-<span class="nc" id="L168">         equipamento.setStatus(StatusEquipamento.Locado);</span>
-<span class="nc" id="L169">         Historico historicoEquipamento = new Historico();</span>
-<span class="nc" id="L170">         historicoEquipamento.setDescricao(&quot;Foi locado por &quot;+this.getNome()+&quot; para '&quot;+locacao.getLocatario().getNome()+&quot;' locação de id: &quot; + locacao.getId());</span>
-<span class="nc" id="L171">         historicoEquipamento.setTipoOcorrencia(TipoOcorrencia.Locacao);</span>
-<span class="nc" id="L172">         historicoEquipamento.setDataOcorrencia(new Date());</span>
-<span class="nc" id="L173">         equipamento.getHistoricos().add(historicoEquipamento);</span>
-<span class="nc" id="L174">         locacao.setEquipamento(equipamento);</span>
+<span class="fc" id="L211">         Equipamento equipamento = locacao.getEquipamento();</span>
+<span class="fc" id="L212">         equipamento.setStatus(StatusEquipamento.Locado);</span>
+<span class="fc" id="L213">         Historico historicoEquipamento = new Historico();</span>
+<span class="fc" id="L214">         historicoEquipamento.setDescricao(&quot;Foi locado por &quot;+this.getNome()+&quot; para '&quot;+locacao.getLocatario().getNome()+&quot;' locação de id: &quot; + locacao.getId());</span>
+<span class="fc" id="L215">         historicoEquipamento.setTipoOcorrencia(TipoOcorrencia.Locacao);</span>
+<span class="fc" id="L216">         historicoEquipamento.setDataOcorrencia(new Date());</span>
+<span class="fc" id="L217">         equipamento.getHistoricos().add(historicoEquipamento);</span>
+<span class="fc" id="L218">         locacao.setEquipamento(equipamento);</span>
          
-<span class="nc" id="L176">         Persistencia.atualizar(equipamento);</span>
+<span class="fc" id="L220">         Persistencia.atualizar(equipamento);</span>
          
-<span class="nc" id="L178">         return locacao;</span>
+<span class="fc" id="L222">         return locacao;</span>
     }
     
     public Locacao fazerReserva(Locacao locacao) throws Exception {
+<span class="fc" id="L226">        Validacao.validarLocacao(locacao);</span>
+<span class="fc" id="L227">        verificarPendencias(locacao.getLocatario());</span>
         
-<span class="nc bnc" id="L183" title="All 2 branches missed.">        if(locacao.getEquipamento().getStatus() != StatusEquipamento.Disponivel){</span>
-<span class="nc" id="L184">            throw new Excecoes.EquipamentoLocado(&quot;O equipamento de id '&quot;+locacao.getEquipamento().getId()+&quot;' não está disponível para reservas/locações.&quot;);</span>
+<span class="fc bfc" id="L229" title="All 2 branches covered.">        if(locacao.getEquipamento().getStatus() != StatusEquipamento.Disponivel){</span>
+<span class="fc" id="L230">            throw new Excecoes.EquipamentoLocadoException(&quot;O equipamento de id '&quot;+locacao.getEquipamento().getId()+&quot;' não está disponível para reservas/locações.&quot;);</span>
         }
         
-<span class="nc" id="L187">        locacao = (Locacao) Persistencia.salvar(locacao);</span>
-<span class="nc bnc" id="L188" title="All 2 branches missed.">         if(this.getHistoricos() == null)</span>
-<span class="nc" id="L189">             this.setHistoricos(new HashSet&lt;&gt;());</span>
+<span class="fc" id="L233">        locacao = (Locacao) Persistencia.salvar(locacao);</span>
+  
          
-<span class="nc" id="L191">         Historico historicoFuncionario = new Historico();</span>
-<span class="nc" id="L192">         historicoFuncionario.setDescricao(&quot;Efetuou uma nova reserva com id de locação: &quot; + locacao.getId());</span>
-<span class="nc" id="L193">         historicoFuncionario.setTipoOcorrencia(TipoOcorrencia.Reserva);</span>
-<span class="nc" id="L194">         historicoFuncionario.setDataOcorrencia(new Date());</span>
-<span class="nc" id="L195">         this.getHistoricos().add(historicoFuncionario);</span>
-<span class="nc" id="L196">         Persistencia.atualizar(this);</span>
+<span class="fc" id="L236">         Historico historicoFuncionario = new Historico();</span>
+<span class="fc" id="L237">         historicoFuncionario.setDescricao(&quot;Efetuou uma nova reserva com id de locação: &quot; + locacao.getId());</span>
+<span class="fc" id="L238">         historicoFuncionario.setTipoOcorrencia(TipoOcorrencia.Reserva);</span>
+<span class="fc" id="L239">         historicoFuncionario.setDataOcorrencia(new Date());</span>
+<span class="fc" id="L240">         this.getHistoricos().add(historicoFuncionario);</span>
+<span class="fc" id="L241">         Persistencia.atualizar(this);</span>
          
-<span class="nc" id="L198">         Equipamento equipamento = locacao.getEquipamento();</span>
-<span class="nc" id="L199">         equipamento.setStatus(StatusEquipamento.Reservado);</span>
-<span class="nc" id="L200">         equipamento.setLocatarioReserva(locacao.getLocatario());</span>
-<span class="nc" id="L201">         Historico historicoEquipamento = new Historico();</span>
-<span class="nc" id="L202">         historicoEquipamento.setDescricao(&quot;Foi reservado por &quot;+this.getNome()+&quot; para '&quot;+locacao.getLocatario().getNome()+&quot;' locação de id: &quot; + locacao.getId());</span>
-<span class="nc" id="L203">         historicoEquipamento.setTipoOcorrencia(TipoOcorrencia.Reserva);</span>
-<span class="nc" id="L204">         historicoEquipamento.setDataOcorrencia(new Date());</span>
-<span class="nc" id="L205">         equipamento.getHistoricos().add(historicoEquipamento);</span>
-<span class="nc" id="L206">         locacao.setEquipamento(equipamento);</span>
+<span class="fc" id="L243">         Equipamento equipamento = locacao.getEquipamento();</span>
+<span class="fc" id="L244">         equipamento.setStatus(StatusEquipamento.Reservado);</span>
+<span class="fc" id="L245">         equipamento.setLocatarioReserva(locacao.getLocatario());</span>
+<span class="fc" id="L246">         Historico historicoEquipamento = new Historico();</span>
+<span class="fc" id="L247">         historicoEquipamento.setDescricao(&quot;Foi reservado por &quot;+this.getNome()+&quot; para '&quot;+locacao.getLocatario().getNome()+&quot;' locação de id: &quot; + locacao.getId());</span>
+<span class="fc" id="L248">         historicoEquipamento.setTipoOcorrencia(TipoOcorrencia.Reserva);</span>
+<span class="fc" id="L249">         historicoEquipamento.setDataOcorrencia(new Date());</span>
+<span class="fc" id="L250">         equipamento.getHistoricos().add(historicoEquipamento);</span>
+<span class="fc" id="L251">         locacao.setEquipamento(equipamento);</span>
          
-<span class="nc" id="L208">         Persistencia.atualizar(equipamento);</span>
+<span class="fc" id="L253">         Persistencia.atualizar(equipamento);</span>
          
-<span class="nc" id="L210">         return locacao;</span>
+<span class="fc" id="L255">         return locacao;</span>
     }
 
     public void atualizarLocacao(Locacao locacao) throws Exception {
-        
-<span class="nc" id="L215">        Persistencia.atualizar(locacao);</span>
-<span class="nc" id="L216">        Historico historicoFuncionario = new Historico();</span>
-<span class="nc" id="L217">         historicoFuncionario.setDescricao(&quot;Atualizou a locação com id: &quot; + locacao.getId());</span>
-<span class="nc" id="L218">         historicoFuncionario.setTipoOcorrencia(TipoOcorrencia.Locacao);</span>
-<span class="nc" id="L219">         historicoFuncionario.setDataOcorrencia(new Date());</span>
-<span class="nc" id="L220">         this.getHistoricos().add(historicoFuncionario);</span>
-<span class="nc" id="L221">         Persistencia.atualizar(this);</span>
+<span class="fc" id="L259">        Validacao.validarLocacao(locacao);</span>
+<span class="fc" id="L260">        Persistencia.atualizar(locacao);</span>
+<span class="fc" id="L261">         Historico historicoFuncionario = new Historico();</span>
+<span class="fc" id="L262">         historicoFuncionario.setDescricao(&quot;Atualizou a locação com id: &quot; + locacao.getId());</span>
+<span class="fc" id="L263">         historicoFuncionario.setTipoOcorrencia(TipoOcorrencia.Locacao);</span>
+<span class="fc" id="L264">         historicoFuncionario.setDataOcorrencia(new Date());</span>
+<span class="fc" id="L265">         this.getHistoricos().add(historicoFuncionario);</span>
+<span class="fc" id="L266">         Persistencia.atualizar(this);</span>
          
-<span class="nc" id="L223">    }</span>
+<span class="fc" id="L268">    }</span>
+
+    public void cadastrarFormaPagamento(FormaPagamento forma) throws Exception {
+<span class="fc" id="L271">        forma = (FormaPagamento) Persistencia.salvar(forma);</span>
+<span class="fc" id="L272">         Historico historicoFuncionario = new Historico();</span>
+<span class="fc" id="L273">         historicoFuncionario.setDescricao(&quot;Criou a forma de pagamento '&quot;+forma.getNome()+&quot;': &quot; + forma.getId());</span>
+<span class="fc" id="L274">         historicoFuncionario.setTipoOcorrencia(TipoOcorrencia.Cadastro);</span>
+<span class="fc" id="L275">         historicoFuncionario.setDataOcorrencia(new Date());</span>
+<span class="fc" id="L276">         this.getHistoricos().add(historicoFuncionario);</span>
+<span class="fc" id="L277">         Persistencia.atualizar(this);</span>
+<span class="fc" id="L278">    }</span>
+    public void alterarFormaPagamento(FormaPagamento forma) throws Exception {
+<span class="fc" id="L280">         Persistencia.atualizar(forma);</span>
+<span class="fc" id="L281">         Historico historicoFuncionario = new Historico();</span>
+<span class="fc" id="L282">         historicoFuncionario.setDescricao(&quot;Atualizou a forma de pagamento '&quot;+forma.getNome()+&quot;': &quot; + forma.getId());</span>
+<span class="fc" id="L283">         historicoFuncionario.setTipoOcorrencia(TipoOcorrencia.AlteracaoCadastro);</span>
+<span class="fc" id="L284">         historicoFuncionario.setDataOcorrencia(new Date());</span>
+<span class="fc" id="L285">         this.getHistoricos().add(historicoFuncionario);</span>
+<span class="fc" id="L286">         Persistencia.atualizar(this);</span>
+<span class="fc" id="L287">    }</span>
+
+    private void verificarPendencias(Locatario locatario) throws Exception {
+<span class="fc bfc" id="L290" title="All 2 branches covered.">           if(locatario.getLocacoesAtrasadas().size() &gt;0){</span>
+<span class="fc" id="L291">            throw new Excecoes.LocacaoInvalidaException(&quot;Não é possível concluir a reserva porque o cliente têm pendências à resolver.&quot;);</span>
+        }
+<span class="fc" id="L293">    }</span>
     
     
     

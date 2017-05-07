@@ -7,11 +7,9 @@ package Classes;
 
 import Database.Persistencia;
 import Excecoes.EquipamentoInvalidoException;
+import Excecoes.LocacaoInvalidaException;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 
 /**
@@ -20,6 +18,10 @@ import javax.persistence.Temporal;
  */
 @Entity
 public class Funcionario extends Locatario {
+    public Funcionario(){
+        super.setTipo(TipoLocatario.FUNCIONARIO);
+    }
+    
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date dataAdmissao;
     
@@ -37,9 +39,6 @@ public class Funcionario extends Locatario {
         this.senha = senha;
     }
     
-    @OneToMany
-    private Set<Locacao> locacoesEfetuadas;
-
     public Date getDataAdmissao() {
         return dataAdmissao;
     }
@@ -64,26 +63,9 @@ public class Funcionario extends Locatario {
         this.salario = salario;
     }
 
-    public Set<Locacao> getLocacoesEfetuadas() {
-        return locacoesEfetuadas;
-    }
-
-    public void setLocacoesEfetuadas(Set<Locacao> locacoesEfetuadas) {
-        this.locacoesEfetuadas = locacoesEfetuadas;
-    }
-    
-    public void solicitarCadastro() throws Exception{
-        throw new Exception("Método não ainda implementado.");
-    }
-    public void solicitarLocacao() throws Exception{
-        throw new Exception("Método não ainda implementado.");
-    }
-    
     public void cadastrarLocatario(Locatario locatario) throws Exception{
         Validacao.validarLocatario(locatario);
         locatario = (Locatario) Persistencia.salvar(locatario);
-         if(this.getHistoricos() == null)
-             this.setHistoricos(new HashSet<>());
          
          Historico historico = new Historico();
          historico.setDescricao("Cadastrou um novo locatario ("+ locatario.getClass().getSimpleName()+") com id: " + locatario.getId());
@@ -94,11 +76,13 @@ public class Funcionario extends Locatario {
     }
     
     public void alterarLocatario(Locatario locatario) throws Exception{
+        if(locatario.getId()==0){
+            throw new Excecoes.LocatarioInvalidoException("O locatário informado ainda não foi cadastrado.");
+        }
+        
         Validacao.validarLocatario(locatario);
         Persistencia.atualizar(locatario);
-        if(this.getHistoricos() == null)
-             this.setHistoricos(new HashSet<>());
-         
+        
          Historico historico = new Historico();
          historico.setDescricao("Atualizou um locatario ("+ locatario.getClass().getSimpleName()+") com id: " + locatario.getId());
          historico.setTipoOcorrencia(TipoOcorrencia.AlteracaoCadastro);
@@ -111,8 +95,6 @@ public class Funcionario extends Locatario {
     public void cadastrarFuncionario(Funcionario funcionario) throws Exception{
          Validacao.validarFuncionario(funcionario);
          funcionario = (Funcionario) Persistencia.salvar(funcionario);
-         if(this.getHistoricos() == null)
-             this.setHistoricos(new HashSet<>());
          
          Historico historico = new Historico();
          historico.setDescricao("Cadastrou um novo funcionario ("+ funcionario.getClass().getSimpleName()+") com id: " + funcionario.getId());
@@ -125,8 +107,7 @@ public class Funcionario extends Locatario {
     public void alterarFuncionario(Funcionario funcionario) throws Exception{
         Validacao.validarFuncionario(funcionario);
         Persistencia.atualizar(funcionario);
-        if(this.getHistoricos() == null)
-             this.setHistoricos(new HashSet<>());
+        
          
          Historico historico = new Historico();
          historico.setDescricao("Atualizou um funcionario ("+ funcionario.getClass().getSimpleName()+") com id: " + funcionario.getId());
@@ -140,8 +121,7 @@ public class Funcionario extends Locatario {
     public void cadastrarConcessionaria(Concessionaria concessionaria) throws Exception{
          Validacao.validarConcessionaria(concessionaria);
          concessionaria = (Concessionaria) Persistencia.salvar(concessionaria);
-         if(this.getHistoricos() == null)
-             this.setHistoricos(new HashSet<>());
+        
          
          Historico historico = new Historico();
          historico.setDescricao("Cadastrou uma nova concessionaria ("+ concessionaria.getClass().getSimpleName()+") com id: " + concessionaria.getId());
@@ -154,8 +134,7 @@ public class Funcionario extends Locatario {
     public void alterarConcessionaria(Concessionaria concessionaria) throws Exception{
         Validacao.validarConcessionaria(concessionaria);
         Persistencia.atualizar(concessionaria);
-        if(this.getHistoricos() == null)
-             this.setHistoricos(new HashSet<>());
+      
          
          Historico historico = new Historico();
          historico.setDescricao("Atualizou uma concessionaria ("+ concessionaria.getClass().getSimpleName()+") com id: " + concessionaria.getId());
@@ -172,8 +151,7 @@ public class Funcionario extends Locatario {
         Validacao.validarEquipamneto(equipamento);
         
         equipamento =(Equipamento) Persistencia.salvar(equipamento);
-        if(this.getHistoricos() == null)
-             this.setHistoricos(new HashSet<>());
+      
          
          Historico historico = new Historico();
          historico.setDescricao("Cadastrou um equipamento com id: " + equipamento.getId());
@@ -183,13 +161,12 @@ public class Funcionario extends Locatario {
          Persistencia.atualizar(this);
     }
 
-    public void atualizarEquipamento(Equipamento equipamento) throws EquipamentoInvalidoException, Exception  {
+    public void alterarEquipamento(Equipamento equipamento) throws EquipamentoInvalidoException, Exception  {
         
         Validacao.validarEquipamneto(equipamento);
         
         Persistencia.atualizar(equipamento);
-        if(this.getHistoricos() == null)
-             this.setHistoricos(new HashSet<>());
+        
          
          Historico historico = new Historico();
          historico.setDescricao("Alterou um equipamento com id: " + equipamento.getId());
@@ -198,12 +175,12 @@ public class Funcionario extends Locatario {
          this.getHistoricos().add(historico);
          Persistencia.atualizar(this);
     }
-
+    
+    
+    
     public Locacao fazerLocacao(Locacao locacao) throws Exception {
-        
-        if(locacao.getLocatario().getLocacoesAtrasadas().size() >0){
-            throw new Excecoes.LocacaoInvalidaException("Não é possível concluir a locação '"+locacao.getId()+"' porque o cliente têm pendências à resolver.");
-        }
+        Validacao.validarLocacao(locacao);
+        verificarPendencias(locacao.getLocatario());
         
         if(locacao.getEquipamento().getStatus() != StatusEquipamento.Reservado || locacao.getEquipamento().getLocatarioReserva() == null ){
             throw new Excecoes.LocacaoInvalidaException("O equipamento de id '"+locacao.getEquipamento().getId()+"' não está disponível para locações porque ainda não foi reservado.");
@@ -219,14 +196,10 @@ public class Funcionario extends Locatario {
         locacao.setStatus(StatusLocacao.EmDia);
         
         
-        if(locacao.getId()!=0)
-            locacao = (Locacao) Persistencia.salvar(locacao);
-        else{
-            Persistencia.atualizar(locacao);
-        }
+        Persistencia.atualizar(locacao);
+       
         
-         if(this.getHistoricos() == null)
-             this.setHistoricos(new HashSet<>());
+       
          
          Historico historicoFuncionario = new Historico();
          historicoFuncionario.setDescricao("Locou o equipamento de id '"+locacao.getId()+"' na locacao com id: " + locacao.getId());
@@ -250,18 +223,15 @@ public class Funcionario extends Locatario {
     }
     
     public Locacao fazerReserva(Locacao locacao) throws Exception {
-        
-        if(locacao.getLocatario().getLocacoesAtrasadas().size() >0){
-            throw new Excecoes.LocacaoInvalidaException("Não é possível concluir a reserva porque o cliente têm pendências à resolver.");
-        }
+        Validacao.validarLocacao(locacao);
+        verificarPendencias(locacao.getLocatario());
         
         if(locacao.getEquipamento().getStatus() != StatusEquipamento.Disponivel){
             throw new Excecoes.EquipamentoLocadoException("O equipamento de id '"+locacao.getEquipamento().getId()+"' não está disponível para reservas/locações.");
         }
         
         locacao = (Locacao) Persistencia.salvar(locacao);
-         if(this.getHistoricos() == null)
-             this.setHistoricos(new HashSet<>());
+  
          
          Historico historicoFuncionario = new Historico();
          historicoFuncionario.setDescricao("Efetuou uma nova reserva com id de locação: " + locacao.getId());
@@ -286,7 +256,7 @@ public class Funcionario extends Locatario {
     }
 
     public void atualizarLocacao(Locacao locacao) throws Exception {
-        
+        Validacao.validarLocacao(locacao);
         Persistencia.atualizar(locacao);
          Historico historicoFuncionario = new Historico();
          historicoFuncionario.setDescricao("Atualizou a locação com id: " + locacao.getId());
@@ -297,7 +267,7 @@ public class Funcionario extends Locatario {
          
     }
 
-    public void registrarFormaPagamento(FormaPagamento forma) throws Exception {
+    public void cadastrarFormaPagamento(FormaPagamento forma) throws Exception {
         forma = (FormaPagamento) Persistencia.salvar(forma);
          Historico historicoFuncionario = new Historico();
          historicoFuncionario.setDescricao("Criou a forma de pagamento '"+forma.getNome()+"': " + forma.getId());
@@ -306,7 +276,7 @@ public class Funcionario extends Locatario {
          this.getHistoricos().add(historicoFuncionario);
          Persistencia.atualizar(this);
     }
-    public void atualizarFormaPagamento(FormaPagamento forma) throws Exception {
+    public void alterarFormaPagamento(FormaPagamento forma) throws Exception {
          Persistencia.atualizar(forma);
          Historico historicoFuncionario = new Historico();
          historicoFuncionario.setDescricao("Atualizou a forma de pagamento '"+forma.getNome()+"': " + forma.getId());
@@ -314,6 +284,12 @@ public class Funcionario extends Locatario {
          historicoFuncionario.setDataOcorrencia(new Date());
          this.getHistoricos().add(historicoFuncionario);
          Persistencia.atualizar(this);
+    }
+
+    private void verificarPendencias(Locatario locatario) throws Exception {
+           if(locatario.getLocacoesAtrasadas().size() >0){
+            throw new Excecoes.LocacaoInvalidaException("Não é possível concluir a reserva porque o cliente têm pendências à resolver.");
+        }
     }
     
     

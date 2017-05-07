@@ -16,6 +16,11 @@ import javax.persistence.Entity;
  */
 @Entity
 public class Concessionaria extends Locatario implements Serializable {
+    
+    public Concessionaria(){
+        super.setTipo(TipoLocatario.CONCESSIONARIA);
+    }
+    
     private String nomeResponsavel;
 
     public String getNomeResponsavel() {
@@ -26,16 +31,4 @@ public class Concessionaria extends Locatario implements Serializable {
         this.nomeResponsavel = nomeResponsavel;
     }
     
-    public boolean consultarConcessionaria() throws Exception{
-        throw new Exception("Método ainda não implementado.");
-    }
-   public boolean solicitarRevisaoEquipamento(Equipamento equipamento) throws Exception{
-        throw new Exception("Método ainda não implementado.");
-    }
-   public boolean solicitarAtualizacaoEquipamento(Equipamento equipamento) throws Exception{
-        throw new Exception("Método ainda não implementado.");
-    }
-   public boolean solicitarEquipamento(Equipamento equipamento) throws Exception{
-        throw new Exception("Método ainda não implementado.");
-    }
 }

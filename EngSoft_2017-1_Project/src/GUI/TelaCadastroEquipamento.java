@@ -8,7 +8,6 @@ package GUI;
 import Classes.Concessionaria;
 import Classes.Equipamento;
 import Classes.Historico;
-import Classes.ImageUtils;
 import Classes.StatusEquipamento;
 import Classes.TipoOcorrencia;
 import Database.Persistencia;
@@ -541,7 +540,7 @@ public class TelaCadastroEquipamento extends javax.swing.JDialog {
                 if (Main.getFuncionario() == null) {
                     Persistencia.atualizar(equipamentoEdicao);
                 } else {
-                    Main.getFuncionario().atualizarEquipamento(equipamentoEdicao);
+                    Main.getFuncionario().alterarEquipamento(equipamentoEdicao);
                 }
             }
             this.dispose();
@@ -670,7 +669,7 @@ public class TelaCadastroEquipamento extends javax.swing.JDialog {
                 this.equipamentoEdicao.setStatus(StatusEquipamento.Apagado);
                 if (Main.getFuncionario() != null) {
 
-                    Main.getFuncionario().atualizarEquipamento(equipamentoEdicao);
+                    Main.getFuncionario().alterarEquipamento(equipamentoEdicao);
                 } else {
                     Persistencia.atualizar(equipamentoEdicao);
                 }

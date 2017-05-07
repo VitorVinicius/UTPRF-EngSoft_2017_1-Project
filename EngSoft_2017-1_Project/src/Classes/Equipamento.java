@@ -69,7 +69,7 @@ public class Equipamento implements Serializable {
     private String categoria;
 
     @OneToMany(cascade = {CascadeType.ALL})
-    private Set<Historico> historicos;
+    private Set<Historico> historicos= new HashSet<>();
     @Column(nullable=false) 
     private StatusEquipamento status = StatusEquipamento.Disponivel;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
@@ -212,21 +212,6 @@ public class Equipamento implements Serializable {
         this.validade = validade;
     }
 
-    public boolean verificarDisponibilidade() throws Exception {
-        throw new Exception("Método ainda não implementado.");
-    }
-
-    public StatusEquipamento consultarEstado() throws Exception {
-        throw new Exception("Método ainda não implementado.");
-    }
-
-    public boolean consultarValidade() throws Exception {
-        throw new Exception("Método ainda não implementado.");
-    }
-
-    public boolean consultarEstoque() throws Exception {
-        throw new Exception("Método ainda não implementado.");
-    }
     @Override
     public String toString(){
         return Long.toString(id);

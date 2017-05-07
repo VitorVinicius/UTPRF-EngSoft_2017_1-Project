@@ -282,7 +282,7 @@ public class TelaGerenciarFormasPagamento extends javax.swing.JDialog {
             FormaPagamento forma = new FormaPagamento();
             forma.setNome(nome);
             forma.setDescricao(descricao);
-            Main.getFuncionario().registrarFormaPagamento(forma);
+            Main.getFuncionario().cadastrarFormaPagamento(forma);
             this.carregarFormasPagamento();
         } catch (Exception ex) {
              JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro ao tentar incluir forma de pagamento.", JOptionPane.ERROR_MESSAGE);
@@ -303,7 +303,7 @@ public class TelaGerenciarFormasPagamento extends javax.swing.JDialog {
             
             formaPagSelecionada.setNome(nome);
             formaPagSelecionada.setDescricao(descricao);
-            Main.getFuncionario().atualizarFormaPagamento(formaPagSelecionada);
+            Main.getFuncionario().alterarFormaPagamento(formaPagSelecionada);
             this.carregarFormasPagamento();
         } catch (Exception ex) {
              JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro ao tentar incluir forma de pagamento.", JOptionPane.ERROR_MESSAGE);
@@ -318,7 +318,7 @@ public class TelaGerenciarFormasPagamento extends javax.swing.JDialog {
             jTextField1.setText("");
             jTextField2.setText("");
             formaPagSelecionada.setApagado(true);
-            Main.getFuncionario().atualizarFormaPagamento(formaPagSelecionada);
+            Main.getFuncionario().alterarFormaPagamento(formaPagSelecionada);
             this.carregarFormasPagamento();
         } catch (Exception ex) {
              JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro ao tentar remover forma de pagamento.", JOptionPane.ERROR_MESSAGE);

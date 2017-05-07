@@ -26,7 +26,7 @@ public class FormaPagamento implements Serializable {
     private boolean apagado = false;
 
     public boolean isApagado() {
-        return apagado;
+        return apagado;            
     }
 
     public void setApagado(boolean apagado) {

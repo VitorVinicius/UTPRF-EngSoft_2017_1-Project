@@ -7,6 +7,7 @@ package Classes;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -41,7 +42,7 @@ public class Locacao implements Serializable {
     private StatusLocacao status;
     @OneToMany(cascade = {CascadeType.ALL})
     
-    private Set<Pagamento> pagamentos;
+    private Set<Pagamento> pagamentos = new HashSet();
     
     private float valorDiaria;
     
@@ -61,10 +62,6 @@ public class Locacao implements Serializable {
     
     public Set<Pagamento> getPagamentos() {
         return pagamentos;
-    }
-
-    public void setPagamentos(Set<Pagamento> pagamentos) {
-        this.pagamentos = pagamentos;
     }
 
     public float getValorDiaria() {

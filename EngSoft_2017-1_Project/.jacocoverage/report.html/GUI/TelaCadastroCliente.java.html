@@ -771,7 +771,7 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
 <span class="nc" id="L771">            concessionaria.setId(this.locatarioEdicao.getId());</span>
 <span class="nc bnc" id="L772" title="All 2 branches missed.">            if (Main.getFuncionario() != null) {</span>
 
-<span class="nc" id="L774">                Main.getFuncionario().alterarLocatario(concessionaria);</span>
+<span class="nc" id="L774">                Main.getFuncionario().alterarConcessionaria(concessionaria);</span>
             } else {
 <span class="nc" id="L776">                Persistencia.atualizar(concessionaria);</span>
             }
@@ -781,7 +781,7 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
 <span class="nc" id="L781">            concessionaria.getHistoricos().add(historico);</span>
             
 <span class="nc bnc" id="L783" title="All 2 branches missed.">            if (Main.getFuncionario() != null) {</span>
-<span class="nc" id="L784">                Main.getFuncionario().cadastrarLocatario(concessionaria);</span>
+<span class="nc" id="L784">                Main.getFuncionario().cadastrarConcessionaria(concessionaria);</span>
             } else {
 <span class="nc" id="L786">                Persistencia.salvar(concessionaria);</span>
             }
@@ -868,7 +868,7 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
 <span class="nc" id="L868">            funcionario.setId(this.locatarioEdicao.getId());</span>
 <span class="nc bnc" id="L869" title="All 2 branches missed.">            if (Main.getFuncionario() != null) {</span>
 
-<span class="nc" id="L871">                Main.getFuncionario().alterarLocatario(funcionario);</span>
+<span class="nc" id="L871">                Main.getFuncionario().alterarFuncionario(funcionario);</span>
             } else {
 <span class="nc" id="L873">                Persistencia.atualizar(funcionario);</span>
             }
@@ -877,7 +877,7 @@ public class TelaCadastroCliente extends javax.swing.JDialog {
 <span class="nc" id="L877">            historico.setTipoOcorrencia(TipoOcorrencia.Cadastro);</span>
 <span class="nc" id="L878">            funcionario.getHistoricos().add(historico);</span>
 <span class="nc bnc" id="L879" title="All 2 branches missed.">            if (Main.getFuncionario() != null) {</span>
-<span class="nc" id="L880">                Main.getFuncionario().cadastrarLocatario(funcionario);</span>
+<span class="nc" id="L880">                Main.getFuncionario().cadastrarFuncionario(funcionario);</span>
             } else {
 <span class="nc" id="L882">                Persistencia.salvar(funcionario);</span>
             }

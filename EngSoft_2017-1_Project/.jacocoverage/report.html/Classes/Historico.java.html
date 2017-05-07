@@ -7,7 +7,6 @@ package Classes;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -20,7 +19,7 @@ import javax.persistence.Temporal;
  * @author Vitor
  */
 @Entity
-<span class="fc" id="L23">public class Historico implements Serializable {</span>
+<span class="fc" id="L22">public class Historico implements Serializable {</span>
     @Id
     @GeneratedValue
     private long id;
@@ -33,40 +32,40 @@ import javax.persistence.Temporal;
     private Date dataOcorrencia;
 
     public Date getDataOcorrencia() {
-<span class="nc" id="L36">        return dataOcorrencia;</span>
+<span class="nc" id="L35">        return dataOcorrencia;</span>
     }
 
     public void setDataOcorrencia(Date dataOcorrencia) {
-<span class="nc" id="L40">        this.dataOcorrencia = dataOcorrencia;</span>
-<span class="nc" id="L41">    }</span>
+<span class="fc" id="L39">        this.dataOcorrencia = dataOcorrencia;</span>
+<span class="fc" id="L40">    }</span>
     
     public long getId() {
-<span class="nc" id="L44">        return id;</span>
+<span class="nc" id="L43">        return id;</span>
     }
 
     public void setId(long id) {
-<span class="nc" id="L48">        this.id = id;</span>
-<span class="nc" id="L49">    }</span>
+<span class="nc" id="L47">        this.id = id;</span>
+<span class="nc" id="L48">    }</span>
 
     public String getDescricao() {
-<span class="nc" id="L52">        return descricao;</span>
+<span class="nc" id="L51">        return descricao;</span>
     }
 
     public void setDescricao(String descricao) {
-<span class="nc" id="L56">        this.descricao = descricao;</span>
-<span class="nc" id="L57">    }</span>
+<span class="fc" id="L55">        this.descricao = descricao;</span>
+<span class="fc" id="L56">    }</span>
 
     public TipoOcorrencia getTipoOcorrencia() {
-<span class="nc" id="L60">        return tipoOcorrencia;</span>
+<span class="nc" id="L59">        return tipoOcorrencia;</span>
     }
 
     public void setTipoOcorrencia(TipoOcorrencia tipoOcorrencia) {
-<span class="nc" id="L64">        this.tipoOcorrencia = tipoOcorrencia;</span>
-<span class="nc" id="L65">    }</span>
+<span class="fc" id="L63">        this.tipoOcorrencia = tipoOcorrencia;</span>
+<span class="fc" id="L64">    }</span>
    
     @Override
     public String toString(){
-<span class="nc" id="L69">        return String.valueOf(id);</span>
+<span class="nc" id="L68">        return String.valueOf(id);</span>
     }
     
 }

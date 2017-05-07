@@ -6,7 +6,6 @@
 package GUI;
 
 import Classes.Equipamento;
-import Classes.ImageUtils;
 import Classes.Locacao;
 import Classes.Locatario;
 import Classes.StatusEquipamento;

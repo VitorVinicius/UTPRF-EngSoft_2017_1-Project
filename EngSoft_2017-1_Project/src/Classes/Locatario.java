@@ -6,14 +6,12 @@
 package Classes;
 
 import Database.Persistencia;
-import GUI.Main;
 import java.util.Date;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,7 +19,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Query;
 import javax.persistence.Temporal;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -108,7 +105,7 @@ public class Locatario implements Serializable {
     }
 
     @OneToMany(cascade = {CascadeType.ALL})
-    private Set<Historico> historicosRelacionados;
+    private Set<Historico> historicosRelacionados = new HashSet<>();
     private TipoLocatario tipo;
 
     public TipoLocatario getTipo() {
@@ -239,6 +236,10 @@ public class Locatario implements Serializable {
     }
 
     public Set<Historico> getHistoricos() {
+        if(historicosRelacionados ==null){
+            historicosRelacionados = new HashSet<>();
+        }
+        
         return historicosRelacionados;
     }
 

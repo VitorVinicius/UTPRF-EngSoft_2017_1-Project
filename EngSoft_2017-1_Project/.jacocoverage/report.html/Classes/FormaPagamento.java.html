@@ -23,40 +23,54 @@ import javax.persistence.Id;
     
     private String nome;
     private String descricao;
+<span class="fc" id="L26">    private boolean apagado = false;</span>
+
+    public boolean isApagado() {
+<span class="nc" id="L29">        return apagado;            </span>
+    }
+
+    public void setApagado(boolean apagado) {
+<span class="nc" id="L33">        this.apagado = apagado;</span>
+<span class="nc" id="L34">    }</span>
     
     private boolean ativa;
 
     public long getId() {
-<span class="nc" id="L30">        return id;</span>
+<span class="fc" id="L39">        return id;</span>
     }
 
     public void setId(long id) {
-<span class="nc" id="L34">        this.id = id;</span>
-<span class="nc" id="L35">    }</span>
+<span class="nc" id="L43">        this.id = id;</span>
+<span class="nc" id="L44">    }</span>
 
     public String getNome() {
-<span class="nc" id="L38">        return nome;</span>
+<span class="fc" id="L47">        return nome;</span>
     }
 
     public void setNome(String nome) {
-<span class="nc" id="L42">        this.nome = nome;</span>
-<span class="nc" id="L43">    }</span>
+<span class="fc" id="L51">        this.nome = nome;</span>
+<span class="fc" id="L52">    }</span>
 
     public String getDescricao() {
-<span class="nc" id="L46">        return descricao;</span>
+<span class="nc" id="L55">        return descricao;</span>
     }
 
     public void setDescricao(String descricao) {
-<span class="nc" id="L50">        this.descricao = descricao;</span>
-<span class="nc" id="L51">    }</span>
+<span class="fc" id="L59">        this.descricao = descricao;</span>
+<span class="fc" id="L60">    }</span>
 
     public boolean isAtiva() {
-<span class="nc" id="L54">        return ativa;</span>
+<span class="nc" id="L63">        return ativa;</span>
     }
 
     public void setAtiva(boolean ativa) {
-<span class="nc" id="L58">        this.ativa = ativa;</span>
-<span class="nc" id="L59">    }</span>
+<span class="fc" id="L67">        this.ativa = ativa;</span>
+<span class="fc" id="L68">    }</span>
+
+    @Override
+    public String toString() {
+<span class="nc" id="L72">        return String.valueOf(id);</span>
+    }
     
     
     
