@@ -24,7 +24,7 @@ import static org.junit.Assert.*;
  *
  * @author Vitor
  */
-public class TestesFuncionaisTest {
+public class TestesTest {
 
     private static Locatario locatarioCadastrado;
     private static Locatario locatarioComPendenciasCadastrado;
@@ -50,7 +50,7 @@ public class TestesFuncionaisTest {
     private Locacao locacaoTesteNOTOK;
     
     
-    public TestesFuncionaisTest(){
+    public TestesTest(){
        
     }
     
