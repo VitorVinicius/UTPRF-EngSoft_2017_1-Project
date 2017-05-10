@@ -317,87 +317,85 @@ public class Validacao {
     }
     
     public static void validarLocacao(Locacao locacao) throws LocacaoInvalidaException{
-        Excecoes.LocacaoInvalidaException ex = new Excecoes.LocacaoInvalidaException("Locação Inválida");
+        String msgErro = "";
+        
         if(locacao.getId() <0){
-            throw ex;
+            msgErro += "id invalido";
         }
         if(locacao.getLocatario() == null){
-           throw ex;
+           msgErro += "Locatario Obrigatório para locação";
         }
         if(locacao.getFuncionario() == null){
-           throw ex;
+            msgErro += "Funcionario Obrigatório para locação";
         }
         if(locacao.getDataLocacao() == null){
-           throw ex;
+           msgErro += "Data de Locação Obrigatória para locação";
         }
         if(locacao.getDataDevolucao()== null){
-           throw ex;
+            msgErro += "Data de Devolução Obrigatória para locação";
         }
         if(locacao.getStatus()== null){
-           throw ex;
+           msgErro += "Status Obrigatório para locação";
         }
-        if(locacao.getStatus()!=StatusLocacao.Aberta && locacao.getStatus()!=StatusLocacao.Apagada){
-            Set<Pagamento> pagamentos = locacao.getPagamentos();
-            if(pagamentos ==null){
-               throw ex;
+        
+        Set<Pagamento> pagamentos = locacao.getPagamentos();
+        if((pagamentos ==null || pagamentos.isEmpty())  && locacao.getStatus()!=StatusLocacao.Aberta){
+           msgErro += "É obrigatorio pagamentos para autorizar a locação";
+        }else
+        for(Pagamento pagamento: pagamentos){
+            try{
+                validarPagamento(pagamento);
             }
-            if(pagamentos.isEmpty()){
-                throw ex;
-            }
-            for(Pagamento pagamento: pagamentos){
-                try{
-                    validarPagamento(pagamento);
-                }
-                catch(Exception e){
-                    throw ex;
-                }
+            catch(Exception e){
+                msgErro += e.getMessage();
             }
         }
         
+        
         if(locacao.getValorDiaria()<0){
-            throw ex;
+            msgErro += "Valor de diária inválido";
         }
         
         if(locacao.getTotalLocacao()<0){
-            throw ex;
+            msgErro += "Total da Locação inválido";
         }
         
         if(locacao.getMultaAtraso()<0){
-            throw ex;
+            msgErro += "Multa de Atraso inválida";
+        }
+        if(!msgErro.isEmpty()){
+            throw new Excecoes.LocacaoInvalidaException(msgErro);
         }
     }
     
     public static void validarPagamento(Pagamento pagamento) throws PagamentoInvalidoException{
-        Excecoes.PagamentoInvalidoException ex = new Excecoes.PagamentoInvalidoException("Pagamento Inválido");
+        
         if(pagamento.getId()<0){
-            throw ex;
+            throw new Excecoes.PagamentoInvalidoException("id de pagamento inválido");
         }
         if(pagamento.getFormaPagamento() == null){
-            throw ex;
+            throw new Excecoes.PagamentoInvalidoException("Forma de Pagamento Inválido");
         }
         try{
             validarFormaPagamento(pagamento.getFormaPagamento());
         }
         catch(Exception e){
-            throw ex;
+            throw new Excecoes.PagamentoInvalidoException(e.getMessage());
         }
-        if(pagamento.getReferencia()== null){
-            throw ex;
-        }
-        if(pagamento.getReferencia().length()>255){
-            throw ex;
+        if(pagamento.getReferencia()== null || pagamento.getReferencia().length()>255){
+            throw new Excecoes.PagamentoInvalidoException("Referência de Pagamento Inválida");
         }
         if(pagamento.getParcela()<=0){
-            throw ex;
+            throw new Excecoes.PagamentoInvalidoException("Nº de parcelas inválido");
         }
         if(pagamento.getTotalParcelas()<=0){
-            throw ex;
+            throw new Excecoes.PagamentoInvalidoException("Nº total de parcelas inválido");
         }
         if(pagamento.getPendente() == null){
-            throw ex;
+            throw new Excecoes.PagamentoInvalidoException("Estado do pagamento inválido");
         }
         if(pagamento.getDataPagamento()== null){
-            throw ex;
+            throw new Excecoes.PagamentoInvalidoException("Data de pagamento inválida");
         }
         
     }

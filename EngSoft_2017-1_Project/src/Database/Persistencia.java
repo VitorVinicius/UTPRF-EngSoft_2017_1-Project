@@ -25,8 +25,10 @@ public final class Persistencia {
     }
 
     public static void estabelecerConexao() throws Exception{
-        factory = Persistence.createEntityManagerFactory("locadora");
-        manager = factory.createEntityManager();
+        if(factory==null){
+            factory = Persistence.createEntityManagerFactory("locadora");
+            manager = factory.createEntityManager();
+        }
     }
     public static Object salvar(Object objeto) throws Exception{
          try {

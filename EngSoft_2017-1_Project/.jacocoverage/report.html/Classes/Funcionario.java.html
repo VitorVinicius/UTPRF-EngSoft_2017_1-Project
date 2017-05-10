@@ -186,12 +186,12 @@ public class Funcionario extends Locatario {
 <span class="fc" id="L186">            throw new Excecoes.LocacaoInvalidaException(&quot;O equipamento de id '&quot;+locacao.getEquipamento().getId()+&quot;' não está disponível para locações porque ainda não foi reservado.&quot;);</span>
         }
         else
-<span class="fc bfc" id="L189" title="All 2 branches covered.">        if(locacao.getLocatario().getId()!=locacao.getEquipamento().getLocatarioReserva().getId()){</span>
-<span class="fc" id="L190">            throw new Excecoes.EquipamentoLocadoException(&quot;O equipamento de id '&quot;+locacao.getEquipamento().getId()+&quot;' não está disponível para locações porque foi reservado para outro locatário.&quot;);</span>
+<span class="pc bpc" id="L189" title="1 of 2 branches missed.">        if(locacao.getLocatario().getId()!=locacao.getEquipamento().getLocatarioReserva().getId()){</span>
+<span class="nc" id="L190">            throw new Excecoes.EquipamentoLocadoException(&quot;O equipamento de id '&quot;+locacao.getEquipamento().getId()+&quot;' não está disponível para locações porque foi reservado para outro locatário.&quot;);</span>
         }
         
-<span class="pc bpc" id="L193" title="1 of 4 branches missed.">        if(locacao.getPagamentos() == null || locacao.getPagamentos().isEmpty()){</span>
-<span class="fc" id="L194">            throw new Excecoes.LocacaoInvalidaException(&quot;Nenhum pagamento detectado para a locação '&quot;+locacao.getId()+&quot;'. Insira um pagamento para efetivar a locaçao.&quot;);</span>
+<span class="pc bpc" id="L193" title="2 of 4 branches missed.">        if(locacao.getPagamentos() == null || locacao.getPagamentos().isEmpty()){</span>
+<span class="nc" id="L194">            throw new Excecoes.LocacaoInvalidaException(&quot;Nenhum pagamento detectado para a locação '&quot;+locacao.getId()+&quot;'. Insira um pagamento para efetivar a locaçao.&quot;);</span>
         }
 <span class="fc" id="L196">        locacao.setStatus(StatusLocacao.EmDia);</span>
         

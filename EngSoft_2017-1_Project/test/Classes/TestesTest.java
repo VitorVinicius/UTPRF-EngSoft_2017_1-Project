@@ -7,8 +7,11 @@ package Classes;
 
 import Database.Persistencia;
 import GUI.Main;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -126,7 +129,7 @@ public class TestesTest {
         {
             Query query = Persistencia.getManager().createQuery("select t from Locatario as t  where t.status <> ?");
             query.setParameter(1, StatusLocatario.Apagado);
-            query.setMaxResults(100);
+            query.setMaxResults(1000);
             List<Object> resultado = Persistencia.buscar(query);
             if(resultado!=null && !resultado.isEmpty()){
                 for(Object loc: resultado){
@@ -338,7 +341,10 @@ public class TestesTest {
             // Cadastro de Locacao Reserva correto
                 locacaoReservaTesteOK = new Locacao();
                 locacaoReservaTesteOK.setFuncionario(Main.getFuncionario());
-                locacaoReservaTesteOK.setDataDevolucao(new Date());
+                 String data = "05/05/2030";
+            DateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+            Date date1 = format.parse(data);
+                locacaoReservaTesteOK.setDataDevolucao(date1);
                 locacaoReservaTesteOK.setDataLocacao(new Date());
                 locacaoReservaTesteOK.setEquipamento(equipamnetoCadastrado);
                 locacaoReservaTesteOK.setId(0);
@@ -350,6 +356,7 @@ public class TestesTest {
                 Pagamento pagamento = new Pagamento();
                 pagamento.setDataPagamento(new Date());
                 pagamento.setFormaPagamento(formaPagamentoCadastrada);
+                pagamento.setReferencia("Locação de equipamento");
                 pagamento.setPendente(false);
                 pagamento.setParcela(1);
                 pagamento.setTotalParcelas(1);
@@ -376,7 +383,11 @@ public class TestesTest {
         // Cadastro de Locacao Reserva correto
             locacaoTesteOK = new Locacao();
             locacaoTesteOK.setFuncionario(Main.getFuncionario());
-            locacaoTesteOK.setDataDevolucao(new Date());
+            String data = "05/05/2030";
+            DateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+            Date date1 = format.parse(data);
+                locacaoReservaTesteOK.setDataDevolucao(date1);
+            locacaoTesteOK.setDataDevolucao(date1);
             locacaoTesteOK.setDataLocacao(new Date());
             locacaoTesteOK.setEquipamento(equipamnetoCadastrado2);
             locacaoTesteOK.setId(0);
@@ -812,7 +823,6 @@ public class TestesTest {
         Funcionario instance = Main.getFuncionario();
         Exception erro = null;
         try {
-            
             locacaoReservaTesteOK = instance.fazerReserva(this.locacaoReservaTesteOK);
             
         }
@@ -938,7 +948,7 @@ public class TestesTest {
         catch (Exception ex) {
             erro = ex;
         }
-        assertNotNull(erro);
+        assertEquals(erro,null);
         
     }
     
@@ -1000,6 +1010,7 @@ public class TestesTest {
             Pagamento pagamento = new Pagamento();
             pagamento.setDataPagamento(new Date());
             pagamento.setFormaPagamento(formaPagamentoCadastrada);
+            pagamento.setReferencia("Locação de equipamento");
             pagamento.setPendente(false);
             pagamento.setParcela(1);
             pagamento.setTotalParcelas(1);
@@ -1016,5 +1027,113 @@ public class TestesTest {
         
     }
     
+    /**
+     * Teste obter locacoes abertas/reservads de um locatario
+     */
+    @Test
+    public void testEstruturalObterLocacaosAbertas() {
+        System.out.println("ObterLocacoesAbertas");
+        
+        Exception erro = null;
+        try {
+            locatarioComPendenciasCadastrado.getLocacoesAbertas();
+        }
+        
+        catch (Exception ex) {
+            erro = ex;
+        }
+        assertNull(erro);
+        
+    }
+    /**
+     * Teste obter locacoes de um locatario
+     */
+    @Test
+    public void testEstruturalObterLocacoesPagamentos() {
+        System.out.println("ObterLocacoes");
+        
+        Exception erro = null;
+        try {
+            locatarioComPendenciasCadastrado.getLocacoes();
+            locatarioComPendenciasCadastrado.getPagamentos();
+        }
+        
+        catch (Exception ex) {
+            erro = ex;
+        }
+        assertNull(erro);
+        
+    }
+    
+    /**
+     * Teste uso de UF
+     */
+    @Test
+    public void testEstruturalUsoUF() {
+        System.out.println("UsoUF");
+        
+        UF uf = UF.SP;
+        assertEquals("SP",uf.name());
+        
+    }
+    
+    /**
+     * Teste uso de UF 2
+     */
+    @Test
+    public void testEstruturalUsoUF2() {
+        System.out.println("UsoUF");
+        
+        UF uf = UF.SP;
+        UF ufN = UF.valueOf("SP");
+        assertEquals(uf,ufN);
+        
+    }
+    
+    /**
+     * Teste uso de Forma de Pagamento
+     */
+    @Test
+    public void testEstruturalUsoFormaPagamento() {
+        System.out.println("UsoFP");
+        formaPagamentoCadastrada.setApagado(false);
+        formaPagamentoCadastrada.setId(formaPagamentoCadastrada.getId());
+        assertTrue(!formaPagamentoCadastrada.isApagado() && formaPagamentoCadastrada.isAtiva() && !formaPagamentoCadastrada.toString().isEmpty());
+        
+    }
+    
+    /**
+     * Teste uso de Historico
+     */
+    @Test
+    public void testEstruturalUsoHistorico() {
+        System.out.println("UsoHistorico");
+        Set<Historico> historicos =  Main.getFuncionario().getHistoricos();
+        for(Historico hist: historicos){
+            long id =hist.getId();
+            hist.getTipoOcorrencia();
+            hist.getDataOcorrencia();
+            hist.getDescricao();
+            hist.setId(id);
+            assertEquals(String.valueOf(id),hist.toString());
+        }
+    }
+    
+    /**
+     * Teste uso de Pagamentos
+     */
+    @Test
+    public void testEstruturalUsoPagamento() {
+        System.out.println("UsoHistorico");
+        Set<Historico> historicos =  Main.getFuncionario().getHistoricos();
+        for(Historico hist: historicos){
+            long id =hist.getId();
+            hist.getTipoOcorrencia();
+            hist.getDataOcorrencia();
+            hist.getDescricao();
+            hist.setId(id);
+            assertEquals(String.valueOf(id),hist.toString());
+        }
+    }
     
 }

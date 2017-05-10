@@ -135,9 +135,7 @@ public class Locatario implements Serializable {
         this.dataNascimento = dataNascimento;
     }
 
-    public Set<Pagamento> ObterPagamentos() {
-        return pagamentosRelacionados;
-    }
+   
 
     public Set<Pagamento> getPagamentos() {
         return pagamentosRelacionados;
@@ -236,11 +234,7 @@ public class Locatario implements Serializable {
     }
 
     public Set<Historico> getHistoricos() {
-        if(historicosRelacionados ==null){
-            historicosRelacionados = new HashSet<>();
-        }
-        
-        return historicosRelacionados;
+       return historicosRelacionados;
     }
 
     public void setHistoricos(Set<Historico> historicos) {
