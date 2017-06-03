@@ -5,6 +5,15 @@
  */
 package Classes;
 
+import Classes.Concessionaria;
+import Classes.Equipamento;
+import Classes.FormaPagamento;
+import Classes.Funcionario;
+import Classes.Locacao;
+import Classes.Locatario;
+import Classes.Pagamento;
+import Classes.StatusLocacao;
+import Classes.TipoLocatario;
 import Excecoes.ConcessionariaInvalidaException;
 import Excecoes.EquipamentoInvalidoException;
 import Excecoes.FormaPagamentoInvalida;
@@ -100,119 +109,127 @@ public class Validacao {
           msgErro += ("Nome inválido\n");
        }
        
-       String cpf = locatario.getCpf();
        String regex = "([0-9])+";
        Pattern pattern = Pattern.compile(regex);
-       if(cpf!=null){
+       
+        msgErro = validarDadosFiscais(locatario, pattern, msgErro);
+       
+        msgErro = validarEndereco(locatario, msgErro, pattern);
+       
+       if(locatario.getStatus()== null){
+           msgErro += ("Status inválido\n");
+       }
+       
+        msgErro = validarInfoContato(locatario, msgErro, pattern);
+        if(!msgErro.isEmpty()){
+            throw new Excecoes.LocatarioInvalidoException(msgErro);
+        }
+    }
+
+    public static String validarDadosFiscais(Locatario locatario, Pattern pattern, String msgErro) {
+        String cpf = locatario.getCpf();
+        if(cpf!=null){
             Matcher matcher = pattern.matcher(cpf);
             if(!matcher.matches()){
                 msgErro += ("CPF inválido\n");
             }
-       }
-       String ie = locatario.getInscricaoEstadual();
-       if(ie!=null){
+        }String ie = locatario.getInscricaoEstadual();
+        if(ie!=null){
             Matcher matcher = pattern.matcher(ie);
             if(!matcher.matches()){
-                 msgErro += ("IE inválida\n");
+                msgErro += ("IE inválida\n");
             }
-       }
-       String cnpj = locatario.getCnpj();
-       if(cnpj!=null){
+        }String cnpj = locatario.getCnpj();
+        if(cnpj!=null){
             Matcher matcher = pattern.matcher(cnpj);
             if(!matcher.matches()){
                 msgErro += ("CNPJ inválido\n");
             }
-       }
-       
-       if(locatario.getNumero()<=0){
-           msgErro += ("Número inválido\n");
-       }
-       
-       if(locatario.getDataNascimento()== null){
-           msgErro += ("Data de nascimento inválida\n");
-       }
-       
-       if(locatario.getRua() == null){
-           msgErro += ("Rua inválida\n");
-       }
-       if(locatario.getRua().length()>255){
-           msgErro += ("Rua inválida\n");
-       }
-       
-       String cep = locatario.getCep();
-       if(cep == null){
-           msgErro += ("Cep inválido\n");
-       }else{
+        }return msgErro;
+    }
+
+    public static String validarEndereco(Locatario locatario, String msgErro, Pattern pattern) {
+        if(locatario.getDataNascimento()== null){
+            msgErro += ("Data de nascimento inválida\n");
+        }if(locatario.getNumero()<=0){
+            msgErro += ("Número inválido\n");
+        }if(locatario.getRua() == null){
+            msgErro += ("Rua inválida\n");
+        }if(locatario.getRua().length()>255){
+            msgErro += ("Rua inválida\n");
+        }String cep = locatario.getCep();
+        if(cep == null){
+            msgErro += ("Cep inválido\n");
+        }else{
             if(cep.length() == 0){
                 msgErro += ("Cep inválido\n");
             }
             Matcher matcherCep = pattern.matcher(cep);
-             if(!matcherCep.matches()){
-                 msgErro += ("Cep inválido\n");
-             }  
-       }
-       String bairro = locatario.getBairro();
-       if(bairro == null){
-           msgErro += ("Bairro inválido\n");
-       }else{
+            if(!matcherCep.matches()){
+                msgErro += ("Cep inválido\n");
+            }
+        }String bairro = locatario.getBairro();
+        if(bairro == null){
+            msgErro += ("Bairro inválido\n");
+        }else{
             if(bairro.length() == 0){
-               msgErro += ("Bairro inválido\n");
+                msgErro += ("Bairro inválido\n");
             }
             if(bairro.length() > 255){
                 msgErro += ("Bairro inválido\n");
             }
-       }
-       String cidade = locatario.getCidade();
-       if(cidade == null){
-           msgErro += ("Cidade inválida\n");
-       }else{
+        }String cidade = locatario.getCidade();
+        if(cidade == null){
+            msgErro += ("Cidade inválida\n");
+        }else{
             if(cidade.length() == 0){
                 msgErro += ("Cidade inválida\n");
             }
             if(cidade.length() > 255){
                 msgErro += ("Cidade inválida\n");
             }
-       }
-       if(locatario.getUf() == null){
-          msgErro += ("UF inválida\n");
-       }
-       
-       if(locatario.getStatus()== null){
-           msgErro += ("Status inválido\n");
-       }
-       
-       String telefone1 = locatario.getTelefonePrincipal();
-       if(telefone1 == null){
-           msgErro += ("Telefone1 inválido\n");
-       }else{
+        }if(locatario.getUf() == null){
+            msgErro += ("UF inválida\n");
+        }return msgErro;
+    }
+
+    public static String validarInfoContato(Locatario locatario, String msgErro, Pattern pattern) {
+        String telefone1 = locatario.getTelefonePrincipal();
+        if(telefone1 == null){
+            msgErro += ("Telefone1 inválido\n");
+        }else{
             if(telefone1.length() == 0){
                 msgErro += ("Telefone1 inválido\n");
             }
             Matcher matcherTel1 = pattern.matcher(telefone1);
-             if(!matcherTel1.matches()){
-                 msgErro += ("Telefone1 inválido\n");
-             }  
-       }
-       String telefone2 = locatario.getTelefone2();
-       if(telefone2 == null){
-                msgErro += ("Telefone2 inválido\n");
+            if(!matcherTel1.matches()){
+                msgErro += ("Telefone1 inválido\n");
             }
-       else
-       {
+        }String telefone2 = locatario.getTelefone2();
+        if(telefone2 == null){
+            msgErro += ("Telefone2 inválido\n");
+        }
+        else
+        {
             if(telefone2.length() == 0){
                 msgErro += ("Telefone2 inválido\n");
             }
             Matcher matcherTel2 = pattern.matcher(telefone2);
-             if(!matcherTel2.matches()){
-                 msgErro += ("Telefone2 inválido\n");
-             }
-       }
+            if(!matcherTel2.matches()){
+                msgErro += ("Telefone2 inválido\n");
+            }
+        }
+        
+        msgErro = validarEmail(locatario, msgErro);
+        return msgErro;
+    }
+
+    public static String validarEmail(Locatario locatario, String msgErro) {
         String email1 = locatario.getEmailPrincipal();
         String regexEmail = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
         Pattern patternEmail = Pattern.compile(regexEmail);
-            
         if(email1 == null){
-           msgErro += ("Email1 inválido\n");
+            msgErro += ("Email1 inválido\n");
         }else{
             if(email1.length() == 0){
                 msgErro += ("Email1 inválido\n");
@@ -224,8 +241,8 @@ public class Validacao {
         }
         String email2 = locatario.getEmail2();
         if(email2 == null){
-               msgErro += ("Email2 inválido\n");
-            }
+            msgErro += ("Email2 inválido\n");
+        }
         else{
             
             if(email2.length() == 0){
@@ -233,12 +250,10 @@ public class Validacao {
             }
             Matcher matcherEmail2 = patternEmail.matcher(email2);
             if(!matcherEmail2.matches()){
-               msgErro += ("Email2 inválido\n");
+                msgErro += ("Email2 inválido\n");
             }
         }
-        if(!msgErro.isEmpty()){
-            throw new Excecoes.LocatarioInvalidoException(msgErro);
-        }
+        return msgErro;
     }
     
     public static void validarFuncionario(Funcionario funcionario) throws FuncionarioInvalidoException{
