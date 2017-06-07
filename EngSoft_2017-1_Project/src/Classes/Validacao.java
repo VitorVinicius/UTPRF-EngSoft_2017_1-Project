@@ -5,15 +5,6 @@
  */
 package Classes;
 
-import Classes.Concessionaria;
-import Classes.Equipamento;
-import Classes.FormaPagamento;
-import Classes.Funcionario;
-import Classes.Locacao;
-import Classes.Locatario;
-import Classes.Pagamento;
-import Classes.StatusLocacao;
-import Classes.TipoLocatario;
 import Excecoes.ConcessionariaInvalidaException;
 import Excecoes.EquipamentoInvalidoException;
 import Excecoes.FormaPagamentoInvalida;
@@ -112,15 +103,12 @@ public class Validacao {
        String regex = "([0-9])+";
        Pattern pattern = Pattern.compile(regex);
        
-        msgErro = validarDadosFiscais(locatario, pattern, msgErro);
+        msgErro += validarDadosFiscais(locatario, pattern, msgErro);
        
-        msgErro = validarEndereco(locatario, msgErro, pattern);
+        msgErro += validarEndereco(locatario, msgErro, pattern);
        
-       if(locatario.getStatus()== null){
-           msgErro += ("Status inválido\n");
-       }
-       
-        msgErro = validarInfoContato(locatario, msgErro, pattern);
+              
+        msgErro += validarInfoContato(locatario, msgErro, pattern);
         if(!msgErro.isEmpty()){
             throw new Excecoes.LocatarioInvalidoException(msgErro);
         }
@@ -133,7 +121,8 @@ public class Validacao {
             if(!matcher.matches()){
                 msgErro += ("CPF inválido\n");
             }
-        }String ie = locatario.getInscricaoEstadual();
+        }
+        String ie = locatario.getInscricaoEstadual();
         if(ie!=null){
             Matcher matcher = pattern.matcher(ie);
             if(!matcher.matches()){
@@ -228,17 +217,10 @@ public class Validacao {
         String email1 = locatario.getEmailPrincipal();
         String regexEmail = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
         Pattern patternEmail = Pattern.compile(regexEmail);
-        if(email1 == null){
-            msgErro += ("Email1 inválido\n");
-        }else{
-            if(email1.length() == 0){
-                msgErro += ("Email1 inválido\n");
-            }
-            Matcher matcherEmail1 = patternEmail.matcher(email1);
+        Matcher matcherEmail1 = patternEmail.matcher(email1);
             if(!matcherEmail1.matches()){
                 msgErro += ("Email1 inválido\n");
             }
-        }
         String email2 = locatario.getEmail2();
         if(email2 == null){
             msgErro += ("Email2 inválido\n");

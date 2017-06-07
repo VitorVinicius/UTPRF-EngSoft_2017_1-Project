@@ -24,46 +24,46 @@ import java.util.regex.Pattern;
     
     public static void validarEquipamneto(Equipamento equipamneto) throws EquipamentoInvalidoException{
 <span class="fc" id="L26">        String msgErro = &quot;&quot;;</span>
-<span class="pc bpc" id="L27" title="1 of 2 branches missed.">       if(equipamneto.getId()&lt;0){</span>
-<span class="nc" id="L28">           msgErro +=(&quot;Id Inválido\n&quot;);</span>
+<span class="fc bfc" id="L27" title="All 2 branches covered.">       if(equipamneto.getId()&lt;0){</span>
+<span class="fc" id="L28">           msgErro +=(&quot;Id Inválido\n&quot;);</span>
        }
-<span class="pc bpc" id="L30" title="1 of 2 branches missed.">       if(equipamneto.getNome()== null){</span>
-<span class="nc" id="L31">           msgErro +=(&quot;Nome Inválido\n&quot;);</span>
+<span class="fc bfc" id="L30" title="All 2 branches covered.">       if(equipamneto.getNome()== null){</span>
+<span class="fc" id="L31">           msgErro +=(&quot;Nome Inválido\n&quot;);</span>
        }else
 <span class="fc bfc" id="L33" title="All 2 branches covered.">       if(equipamneto.getNome().length()&gt;255){</span>
 <span class="fc" id="L34">           msgErro +=(&quot;Nome Inválido\n&quot;);</span>
        }
        
-<span class="pc bpc" id="L37" title="1 of 2 branches missed.">       if(equipamneto.getDescricao()==null){</span>
-<span class="nc" id="L38">           msgErro +=(&quot;Descrição Inválida\n&quot;);</span>
+<span class="fc bfc" id="L37" title="All 2 branches covered.">       if(equipamneto.getDescricao()==null){</span>
+<span class="fc" id="L38">           msgErro +=(&quot;Descrição Inválida\n&quot;);</span>
        }
        
-<span class="pc bpc" id="L41" title="1 of 2 branches missed.">       if(equipamneto.getFabricante()==null){</span>
-<span class="nc" id="L42">           msgErro +=(&quot;Fabricante Inválida\n&quot;);</span>
+<span class="fc bfc" id="L41" title="All 2 branches covered.">       if(equipamneto.getFabricante()==null){</span>
+<span class="fc" id="L42">           msgErro +=(&quot;Fabricante Inválida\n&quot;);</span>
        }else
-<span class="pc bpc" id="L44" title="1 of 2 branches missed.">       if(equipamneto.getFabricante().length()&gt;255){    </span>
+<span class="fc bfc" id="L44" title="All 2 branches covered.">       if(equipamneto.getFabricante().length()&gt;255){    </span>
        
-<span class="nc" id="L46">           msgErro +=(&quot;Fabricante Inválida\n&quot;);</span>
+<span class="fc" id="L46">           msgErro +=(&quot;Fabricante Inválida\n&quot;);</span>
        
        }
        
-<span class="pc bpc" id="L50" title="1 of 2 branches missed.">       if(equipamneto.getValorDiaria()&lt;=0){</span>
-<span class="nc" id="L51">           msgErro +=(&quot;Valor de diária Inválido\n&quot;);</span>
+<span class="fc bfc" id="L50" title="All 2 branches covered.">       if(equipamneto.getValorDiaria()&lt;=0){</span>
+<span class="fc" id="L51">           msgErro +=(&quot;Valor de diária Inválido\n&quot;);</span>
        }
-<span class="pc bpc" id="L53" title="1 of 2 branches missed.">       if(equipamneto.getValorPatrimonio()&lt;=0){</span>
-<span class="nc" id="L54">           msgErro +=(&quot;Valor de Patrimonio Inválido\n&quot;);</span>
+<span class="fc bfc" id="L53" title="All 2 branches covered.">       if(equipamneto.getValorPatrimonio()&lt;=0){</span>
+<span class="fc" id="L54">           msgErro +=(&quot;Valor de Patrimonio Inválido\n&quot;);</span>
        }
-<span class="pc bpc" id="L56" title="1 of 2 branches missed.">       if(equipamneto.getStatus()==null){</span>
-<span class="nc" id="L57">           msgErro +=(&quot;Status Inválido\n&quot;);</span>
+<span class="fc bfc" id="L56" title="All 2 branches covered.">       if(equipamneto.getStatus()==null){</span>
+<span class="fc" id="L57">           msgErro +=(&quot;Status Inválido\n&quot;);</span>
        }
-<span class="pc bpc" id="L59" title="1 of 2 branches missed.">       if(equipamneto.getDataCompra() == null){</span>
-<span class="nc" id="L60">           msgErro +=(&quot;Data da Compra Inválida\n&quot;);</span>
+<span class="fc bfc" id="L59" title="All 2 branches covered.">       if(equipamneto.getDataCompra() == null){</span>
+<span class="fc" id="L60">           msgErro +=(&quot;Data da Compra Inválida\n&quot;);</span>
        }
-<span class="pc bpc" id="L62" title="1 of 2 branches missed.">       if(equipamneto.getValidade()== null){</span>
-<span class="nc" id="L63">          msgErro +=(&quot;Data da Validade Inválida\n&quot;);</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">       if(equipamneto.getValidade()== null){</span>
+<span class="fc" id="L63">          msgErro +=(&quot;Data da Validade Inválida\n&quot;);</span>
        }
-<span class="pc bpc" id="L65" title="1 of 2 branches missed.">       if(equipamneto.getProximaRevisao()== null){</span>
-<span class="nc" id="L66">           msgErro +=(&quot;Data de próxima revisão Inválida\n&quot;);</span>
+<span class="fc bfc" id="L65" title="All 2 branches covered.">       if(equipamneto.getProximaRevisao()== null){</span>
+<span class="fc" id="L66">           msgErro +=(&quot;Data de próxima revisão Inválida\n&quot;);</span>
        }
 <span class="fc bfc" id="L68" title="All 2 branches covered.">      if(!msgErro.isEmpty()){</span>
 <span class="fc" id="L69">          throw new EquipamentoInvalidoException(msgErro);</span>
@@ -72,22 +72,22 @@ import java.util.regex.Pattern;
     
     public static void validarLocatario(Locatario locatario) throws LocatarioInvalidoException{
 <span class="fc" id="L74">         String msgErro = &quot;&quot;;</span>
-<span class="pc bpc" id="L75" title="1 of 2 branches missed.">        if(locatario.getId()&lt;0){</span>
-<span class="nc" id="L76">          msgErro += (&quot;Id inválido\n&quot;);</span>
+<span class="fc bfc" id="L75" title="All 2 branches covered.">        if(locatario.getId()&lt;0){</span>
+<span class="fc" id="L76">          msgErro += (&quot;Id inválido\n&quot;);</span>
        }
-<span class="pc bpc" id="L78" title="1 of 2 branches missed.">        if(locatario.getTipo() == null){</span>
-<span class="nc" id="L79">          msgErro += (&quot;Tipo de Pessoa inválido\n&quot;);</span>
+<span class="fc bfc" id="L78" title="All 2 branches covered.">        if(locatario.getTipo() == null){</span>
+<span class="fc" id="L79">          msgErro += (&quot;Tipo de Pessoa inválido\n&quot;);</span>
        }else{
 <span class="fc bfc" id="L81" title="All 2 branches covered.">            if(locatario.getTipo() == TipoLocatario.JURIDICA){</span>
-<span class="pc bpc" id="L82" title="1 of 2 branches missed.">                if(locatario.getRazaoSocial() == null){</span>
+<span class="fc bfc" id="L82" title="All 2 branches covered.">                if(locatario.getRazaoSocial() == null){</span>
 <span class="fc" id="L83">                     msgErro += (&quot;Razão Social Inválida\n&quot;);</span>
                 }else{
-<span class="nc bnc" id="L85" title="All 2 branches missed.">                    if(locatario.getRazaoSocial().length() == 0){</span>
-<span class="nc" id="L86">                        msgErro += (&quot;Razão Social Inválida\n&quot;);</span>
+<span class="fc bfc" id="L85" title="All 2 branches covered.">                    if(locatario.getRazaoSocial().length() == 0){</span>
+<span class="fc" id="L86">                        msgErro += (&quot;Razão Social Inválida\n&quot;);</span>
                     }
                     else
-<span class="nc bnc" id="L89" title="All 2 branches missed.">                      if(locatario.getRazaoSocial().length() &gt; 255){</span>
-<span class="nc" id="L90">                        msgErro += (&quot;Razão Social Inválida\n&quot;);</span>
+<span class="pc bpc" id="L89" title="1 of 2 branches missed.">                      if(locatario.getRazaoSocial().length() &gt; 255){</span>
+<span class="fc" id="L90">                        msgErro += (&quot;Razão Social Inválida\n&quot;);</span>
                     }  
                     
                 }
@@ -100,320 +100,323 @@ import java.util.regex.Pattern;
 <span class="fc" id="L100">          msgErro += (&quot;Nome inválido\n&quot;);</span>
        }
        
-<span class="fc" id="L103">       String cpf = locatario.getCpf();</span>
-<span class="fc" id="L104">       String regex = &quot;([0-9])+&quot;;</span>
-<span class="fc" id="L105">       Pattern pattern = Pattern.compile(regex);</span>
-<span class="fc bfc" id="L106" title="All 2 branches covered.">       if(cpf!=null){</span>
-<span class="fc" id="L107">            Matcher matcher = pattern.matcher(cpf);</span>
-<span class="pc bpc" id="L108" title="1 of 2 branches missed.">            if(!matcher.matches()){</span>
-<span class="nc" id="L109">                msgErro += (&quot;CPF inválido\n&quot;);</span>
-            }
-       }
-<span class="fc" id="L112">       String ie = locatario.getInscricaoEstadual();</span>
-<span class="fc bfc" id="L113" title="All 2 branches covered.">       if(ie!=null){</span>
-<span class="fc" id="L114">            Matcher matcher = pattern.matcher(ie);</span>
-<span class="pc bpc" id="L115" title="1 of 2 branches missed.">            if(!matcher.matches()){</span>
-<span class="nc" id="L116">                 msgErro += (&quot;IE inválida\n&quot;);</span>
-            }
-       }
-<span class="fc" id="L119">       String cnpj = locatario.getCnpj();</span>
-<span class="fc bfc" id="L120" title="All 2 branches covered.">       if(cnpj!=null){</span>
-<span class="fc" id="L121">            Matcher matcher = pattern.matcher(cnpj);</span>
-<span class="fc bfc" id="L122" title="All 2 branches covered.">            if(!matcher.matches()){</span>
-<span class="fc" id="L123">                msgErro += (&quot;CNPJ inválido\n&quot;);</span>
-            }
-       }
+<span class="fc" id="L103">       String regex = &quot;([0-9])+&quot;;</span>
+<span class="fc" id="L104">       Pattern pattern = Pattern.compile(regex);</span>
        
-<span class="fc bfc" id="L127" title="All 2 branches covered.">       if(locatario.getNumero()&lt;=0){</span>
-<span class="fc" id="L128">           msgErro += (&quot;Número inválido\n&quot;);</span>
-       }
+<span class="fc" id="L106">        msgErro += validarDadosFiscais(locatario, pattern, msgErro);</span>
        
-<span class="fc bfc" id="L131" title="All 2 branches covered.">       if(locatario.getDataNascimento()== null){</span>
-<span class="fc" id="L132">           msgErro += (&quot;Data de nascimento inválida\n&quot;);</span>
-       }
+<span class="fc" id="L108">        msgErro += validarEndereco(locatario, msgErro, pattern);</span>
        
-<span class="fc bfc" id="L135" title="All 2 branches covered.">       if(locatario.getRua() == null){</span>
-<span class="fc" id="L136">           msgErro += (&quot;Rua inválida\n&quot;);</span>
-       }
-<span class="fc bfc" id="L138" title="All 2 branches covered.">       if(locatario.getRua().length()&gt;255){</span>
-<span class="fc" id="L139">           msgErro += (&quot;Rua inválida\n&quot;);</span>
-       }
-       
-<span class="fc" id="L142">       String cep = locatario.getCep();</span>
-<span class="pc bpc" id="L143" title="1 of 2 branches missed.">       if(cep == null){</span>
-<span class="nc" id="L144">           msgErro += (&quot;Cep inválido\n&quot;);</span>
-       }else{
-<span class="pc bpc" id="L146" title="1 of 2 branches missed.">            if(cep.length() == 0){</span>
-<span class="nc" id="L147">                msgErro += (&quot;Cep inválido\n&quot;);</span>
+              
+<span class="fc" id="L111">        msgErro += validarInfoContato(locatario, msgErro, pattern);</span>
+<span class="fc bfc" id="L112" title="All 2 branches covered.">        if(!msgErro.isEmpty()){</span>
+<span class="fc" id="L113">            throw new Excecoes.LocatarioInvalidoException(msgErro);</span>
+        }
+<span class="fc" id="L115">    }</span>
+
+    public static String validarDadosFiscais(Locatario locatario, Pattern pattern, String msgErro) {
+<span class="fc" id="L118">        String cpf = locatario.getCpf();</span>
+<span class="fc bfc" id="L119" title="All 2 branches covered.">        if(cpf!=null){</span>
+<span class="fc" id="L120">            Matcher matcher = pattern.matcher(cpf);</span>
+<span class="pc bpc" id="L121" title="1 of 2 branches missed.">            if(!matcher.matches()){</span>
+<span class="nc" id="L122">                msgErro += (&quot;CPF inválido\n&quot;);</span>
             }
-<span class="fc" id="L149">            Matcher matcherCep = pattern.matcher(cep);</span>
-<span class="pc bpc" id="L150" title="1 of 2 branches missed.">             if(!matcherCep.matches()){</span>
-<span class="nc" id="L151">                 msgErro += (&quot;Cep inválido\n&quot;);</span>
-             }  
-       }
-<span class="fc" id="L154">       String bairro = locatario.getBairro();</span>
-<span class="pc bpc" id="L155" title="1 of 2 branches missed.">       if(bairro == null){</span>
-<span class="nc" id="L156">           msgErro += (&quot;Bairro inválido\n&quot;);</span>
-       }else{
-<span class="pc bpc" id="L158" title="1 of 2 branches missed.">            if(bairro.length() == 0){</span>
-<span class="nc" id="L159">               msgErro += (&quot;Bairro inválido\n&quot;);</span>
+<span class="fc" id="L124">        }String ie = locatario.getInscricaoEstadual();</span>
+<span class="fc bfc" id="L125" title="All 2 branches covered.">        if(ie!=null){</span>
+<span class="fc" id="L126">            Matcher matcher = pattern.matcher(ie);</span>
+<span class="pc bpc" id="L127" title="1 of 2 branches missed.">            if(!matcher.matches()){</span>
+<span class="nc" id="L128">                msgErro += (&quot;IE inválida\n&quot;);</span>
             }
-<span class="fc bfc" id="L161" title="All 2 branches covered.">            if(bairro.length() &gt; 255){</span>
-<span class="fc" id="L162">                msgErro += (&quot;Bairro inválido\n&quot;);</span>
+<span class="fc" id="L130">        }String cnpj = locatario.getCnpj();</span>
+<span class="fc bfc" id="L131" title="All 2 branches covered.">        if(cnpj!=null){</span>
+<span class="fc" id="L132">            Matcher matcher = pattern.matcher(cnpj);</span>
+<span class="fc bfc" id="L133" title="All 2 branches covered.">            if(!matcher.matches()){</span>
+<span class="fc" id="L134">                msgErro += (&quot;CNPJ inválido\n&quot;);</span>
             }
-       }
-<span class="fc" id="L165">       String cidade = locatario.getCidade();</span>
-<span class="pc bpc" id="L166" title="1 of 2 branches missed.">       if(cidade == null){</span>
-<span class="nc" id="L167">           msgErro += (&quot;Cidade inválida\n&quot;);</span>
-       }else{
-<span class="pc bpc" id="L169" title="1 of 2 branches missed.">            if(cidade.length() == 0){</span>
-<span class="nc" id="L170">                msgErro += (&quot;Cidade inválida\n&quot;);</span>
+<span class="fc" id="L136">        }return msgErro;</span>
+    }
+
+    public static String validarEndereco(Locatario locatario, String msgErro, Pattern pattern) {
+<span class="fc bfc" id="L140" title="All 2 branches covered.">        if(locatario.getDataNascimento()== null){</span>
+<span class="fc" id="L141">            msgErro += (&quot;Data de nascimento inválida\n&quot;);</span>
+<span class="fc bfc" id="L142" title="All 2 branches covered.">        }if(locatario.getNumero()&lt;=0){</span>
+<span class="fc" id="L143">            msgErro += (&quot;Número inválido\n&quot;);</span>
+<span class="fc bfc" id="L144" title="All 2 branches covered.">        }if(locatario.getRua() == null){</span>
+<span class="fc" id="L145">            msgErro += (&quot;Rua inválida\n&quot;);</span>
+<span class="fc bfc" id="L146" title="All 2 branches covered.">        }if(locatario.getRua().length()&gt;255){</span>
+<span class="fc" id="L147">            msgErro += (&quot;Rua inválida\n&quot;);</span>
+<span class="fc" id="L148">        }String cep = locatario.getCep();</span>
+<span class="pc bpc" id="L149" title="1 of 2 branches missed.">        if(cep == null){</span>
+<span class="nc" id="L150">            msgErro += (&quot;Cep inválido\n&quot;);</span>
+        }else{
+<span class="pc bpc" id="L152" title="1 of 2 branches missed.">            if(cep.length() == 0){</span>
+<span class="nc" id="L153">                msgErro += (&quot;Cep inválido\n&quot;);</span>
             }
-<span class="fc bfc" id="L172" title="All 2 branches covered.">            if(cidade.length() &gt; 255){</span>
-<span class="fc" id="L173">                msgErro += (&quot;Cidade inválida\n&quot;);</span>
+<span class="fc" id="L155">            Matcher matcherCep = pattern.matcher(cep);</span>
+<span class="pc bpc" id="L156" title="1 of 2 branches missed.">            if(!matcherCep.matches()){</span>
+<span class="nc" id="L157">                msgErro += (&quot;Cep inválido\n&quot;);</span>
             }
-       }
-<span class="pc bpc" id="L176" title="1 of 2 branches missed.">       if(locatario.getUf() == null){</span>
-<span class="nc" id="L177">          msgErro += (&quot;UF inválida\n&quot;);</span>
-       }
-       
-<span class="pc bpc" id="L180" title="1 of 2 branches missed.">       if(locatario.getStatus()== null){</span>
-<span class="nc" id="L181">           msgErro += (&quot;Status inválido\n&quot;);</span>
-       }
-       
-<span class="fc" id="L184">       String telefone1 = locatario.getTelefonePrincipal();</span>
-<span class="pc bpc" id="L185" title="1 of 2 branches missed.">       if(telefone1 == null){</span>
-<span class="nc" id="L186">           msgErro += (&quot;Telefone1 inválido\n&quot;);</span>
-       }else{
-<span class="pc bpc" id="L188" title="1 of 2 branches missed.">            if(telefone1.length() == 0){</span>
-<span class="nc" id="L189">                msgErro += (&quot;Telefone1 inválido\n&quot;);</span>
+<span class="fc" id="L159">        }String bairro = locatario.getBairro();</span>
+<span class="pc bpc" id="L160" title="1 of 2 branches missed.">        if(bairro == null){</span>
+<span class="nc" id="L161">            msgErro += (&quot;Bairro inválido\n&quot;);</span>
+        }else{
+<span class="pc bpc" id="L163" title="1 of 2 branches missed.">            if(bairro.length() == 0){</span>
+<span class="nc" id="L164">                msgErro += (&quot;Bairro inválido\n&quot;);</span>
             }
-<span class="fc" id="L191">            Matcher matcherTel1 = pattern.matcher(telefone1);</span>
-<span class="pc bpc" id="L192" title="1 of 2 branches missed.">             if(!matcherTel1.matches()){</span>
-<span class="nc" id="L193">                 msgErro += (&quot;Telefone1 inválido\n&quot;);</span>
-             }  
-       }
-<span class="fc" id="L196">       String telefone2 = locatario.getTelefone2();</span>
-<span class="pc bpc" id="L197" title="1 of 2 branches missed.">       if(telefone2 == null){</span>
-<span class="nc" id="L198">                msgErro += (&quot;Telefone2 inválido\n&quot;);</span>
+<span class="fc bfc" id="L166" title="All 2 branches covered.">            if(bairro.length() &gt; 255){</span>
+<span class="fc" id="L167">                msgErro += (&quot;Bairro inválido\n&quot;);</span>
             }
-       else
-       {
+<span class="fc" id="L169">        }String cidade = locatario.getCidade();</span>
+<span class="pc bpc" id="L170" title="1 of 2 branches missed.">        if(cidade == null){</span>
+<span class="nc" id="L171">            msgErro += (&quot;Cidade inválida\n&quot;);</span>
+        }else{
+<span class="pc bpc" id="L173" title="1 of 2 branches missed.">            if(cidade.length() == 0){</span>
+<span class="nc" id="L174">                msgErro += (&quot;Cidade inválida\n&quot;);</span>
+            }
+<span class="fc bfc" id="L176" title="All 2 branches covered.">            if(cidade.length() &gt; 255){</span>
+<span class="fc" id="L177">                msgErro += (&quot;Cidade inválida\n&quot;);</span>
+            }
+<span class="pc bpc" id="L179" title="1 of 2 branches missed.">        }if(locatario.getUf() == null){</span>
+<span class="nc" id="L180">            msgErro += (&quot;UF inválida\n&quot;);</span>
+<span class="fc" id="L181">        }return msgErro;</span>
+    }
+
+    public static String validarInfoContato(Locatario locatario, String msgErro, Pattern pattern) {
+<span class="fc" id="L185">        String telefone1 = locatario.getTelefonePrincipal();</span>
+<span class="pc bpc" id="L186" title="1 of 2 branches missed.">        if(telefone1 == null){</span>
+<span class="nc" id="L187">            msgErro += (&quot;Telefone1 inválido\n&quot;);</span>
+        }else{
+<span class="pc bpc" id="L189" title="1 of 2 branches missed.">            if(telefone1.length() == 0){</span>
+<span class="nc" id="L190">                msgErro += (&quot;Telefone1 inválido\n&quot;);</span>
+            }
+<span class="fc" id="L192">            Matcher matcherTel1 = pattern.matcher(telefone1);</span>
+<span class="pc bpc" id="L193" title="1 of 2 branches missed.">            if(!matcherTel1.matches()){</span>
+<span class="nc" id="L194">                msgErro += (&quot;Telefone1 inválido\n&quot;);</span>
+            }
+<span class="fc" id="L196">        }String telefone2 = locatario.getTelefone2();</span>
+<span class="pc bpc" id="L197" title="1 of 2 branches missed.">        if(telefone2 == null){</span>
+<span class="nc" id="L198">            msgErro += (&quot;Telefone2 inválido\n&quot;);</span>
+        }
+        else
+        {
 <span class="pc bpc" id="L202" title="1 of 2 branches missed.">            if(telefone2.length() == 0){</span>
 <span class="nc" id="L203">                msgErro += (&quot;Telefone2 inválido\n&quot;);</span>
             }
 <span class="fc" id="L205">            Matcher matcherTel2 = pattern.matcher(telefone2);</span>
-<span class="pc bpc" id="L206" title="1 of 2 branches missed.">             if(!matcherTel2.matches()){</span>
-<span class="nc" id="L207">                 msgErro += (&quot;Telefone2 inválido\n&quot;);</span>
-             }
-       }
-<span class="fc" id="L210">        String email1 = locatario.getEmailPrincipal();</span>
-<span class="fc" id="L211">        String regexEmail = &quot;(?:[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+)*|\&quot;(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\&quot;)@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])&quot;;</span>
-<span class="fc" id="L212">        Pattern patternEmail = Pattern.compile(regexEmail);</span>
-            
-<span class="pc bpc" id="L214" title="1 of 2 branches missed.">        if(email1 == null){</span>
-<span class="nc" id="L215">           msgErro += (&quot;Email1 inválido\n&quot;);</span>
-        }else{
-<span class="pc bpc" id="L217" title="1 of 2 branches missed.">            if(email1.length() == 0){</span>
-<span class="nc" id="L218">                msgErro += (&quot;Email1 inválido\n&quot;);</span>
-            }
-<span class="fc" id="L220">            Matcher matcherEmail1 = patternEmail.matcher(email1);</span>
-<span class="fc bfc" id="L221" title="All 2 branches covered.">            if(!matcherEmail1.matches()){</span>
-<span class="fc" id="L222">                msgErro += (&quot;Email1 inválido\n&quot;);</span>
+<span class="pc bpc" id="L206" title="1 of 2 branches missed.">            if(!matcherTel2.matches()){</span>
+<span class="nc" id="L207">                msgErro += (&quot;Telefone2 inválido\n&quot;);</span>
             }
         }
-<span class="fc" id="L225">        String email2 = locatario.getEmail2();</span>
-<span class="pc bpc" id="L226" title="1 of 2 branches missed.">        if(email2 == null){</span>
-<span class="nc" id="L227">               msgErro += (&quot;Email2 inválido\n&quot;);</span>
+        
+<span class="fc" id="L211">        msgErro = validarEmail(locatario, msgErro);</span>
+<span class="fc" id="L212">        return msgErro;</span>
+    }
+
+    public static String validarEmail(Locatario locatario, String msgErro) {
+<span class="fc" id="L216">        String email1 = locatario.getEmailPrincipal();</span>
+<span class="fc" id="L217">        String regexEmail = &quot;(?:[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+)*|\&quot;(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\&quot;)@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])&quot;;</span>
+<span class="fc" id="L218">        Pattern patternEmail = Pattern.compile(regexEmail);</span>
+<span class="pc bpc" id="L219" title="1 of 2 branches missed.">        if(email1 == null){</span>
+<span class="nc" id="L220">            msgErro += (&quot;Email1 inválido\n&quot;);</span>
+        }else{
+<span class="pc bpc" id="L222" title="1 of 2 branches missed.">            if(email1.length() == 0){</span>
+<span class="nc" id="L223">                msgErro += (&quot;Email1 inválido\n&quot;);</span>
             }
+<span class="fc" id="L225">            Matcher matcherEmail1 = patternEmail.matcher(email1);</span>
+<span class="fc bfc" id="L226" title="All 2 branches covered.">            if(!matcherEmail1.matches()){</span>
+<span class="fc" id="L227">                msgErro += (&quot;Email1 inválido\n&quot;);</span>
+            }
+        }
+<span class="fc" id="L230">        String email2 = locatario.getEmail2();</span>
+<span class="pc bpc" id="L231" title="1 of 2 branches missed.">        if(email2 == null){</span>
+<span class="nc" id="L232">            msgErro += (&quot;Email2 inválido\n&quot;);</span>
+        }
         else{
             
-<span class="pc bpc" id="L231" title="1 of 2 branches missed.">            if(email2.length() == 0){</span>
-<span class="nc" id="L232">                msgErro += (&quot;Email2 inválido\n&quot;);</span>
+<span class="pc bpc" id="L236" title="1 of 2 branches missed.">            if(email2.length() == 0){</span>
+<span class="nc" id="L237">                msgErro += (&quot;Email2 inválido\n&quot;);</span>
             }
-<span class="fc" id="L234">            Matcher matcherEmail2 = patternEmail.matcher(email2);</span>
-<span class="fc bfc" id="L235" title="All 2 branches covered.">            if(!matcherEmail2.matches()){</span>
-<span class="fc" id="L236">               msgErro += (&quot;Email2 inválido\n&quot;);</span>
+<span class="fc" id="L239">            Matcher matcherEmail2 = patternEmail.matcher(email2);</span>
+<span class="fc bfc" id="L240" title="All 2 branches covered.">            if(!matcherEmail2.matches()){</span>
+<span class="fc" id="L241">                msgErro += (&quot;Email2 inválido\n&quot;);</span>
             }
         }
-<span class="fc bfc" id="L239" title="All 2 branches covered.">        if(!msgErro.isEmpty()){</span>
-<span class="fc" id="L240">            throw new Excecoes.LocatarioInvalidoException(msgErro);</span>
-        }
-<span class="fc" id="L242">    }</span>
+<span class="fc" id="L244">        return msgErro;</span>
+    }
     
     public static void validarFuncionario(Funcionario funcionario) throws FuncionarioInvalidoException{
-<span class="fc" id="L245">        String msgErro = &quot;&quot;;</span>
+<span class="fc" id="L248">        String msgErro = &quot;&quot;;</span>
         try{
-<span class="fc" id="L247">            validarLocatario(funcionario);</span>
+<span class="fc" id="L250">            validarLocatario(funcionario);</span>
         }
-<span class="fc" id="L249">        catch(Exception e){</span>
-<span class="fc" id="L250">            msgErro +=(e.getMessage())+&quot;\n&quot;;</span>
-<span class="fc" id="L251">        }</span>
-<span class="fc bfc" id="L252" title="All 2 branches covered.">        if(funcionario.getDataAdmissao() == null){</span>
-<span class="fc" id="L253">           msgErro +=(&quot;Data de admissão inválida\n&quot;);</span>
+<span class="fc" id="L252">        catch(Exception e){</span>
+<span class="fc" id="L253">            msgErro +=(e.getMessage())+&quot;\n&quot;;</span>
+<span class="fc" id="L254">        }</span>
+<span class="fc bfc" id="L255" title="All 2 branches covered.">        if(funcionario.getDataAdmissao() == null){</span>
+<span class="fc" id="L256">           msgErro +=(&quot;Data de admissão inválida\n&quot;);</span>
         }
-<span class="fc" id="L255">       String regex = &quot;([0-9])+&quot;;</span>
-<span class="fc" id="L256">       Pattern pattern = Pattern.compile(regex);</span>
-<span class="fc" id="L257">       String nis = funcionario.getNis();</span>
-<span class="fc bfc" id="L258" title="All 2 branches covered.">       if(nis == null){</span>
-<span class="fc" id="L259">           msgErro +=(&quot;NIS inválido\n&quot;);</span>
+<span class="fc" id="L258">       String regex = &quot;([0-9])+&quot;;</span>
+<span class="fc" id="L259">       Pattern pattern = Pattern.compile(regex);</span>
+<span class="fc" id="L260">       String nis = funcionario.getNis();</span>
+<span class="fc bfc" id="L261" title="All 2 branches covered.">       if(nis == null){</span>
+<span class="fc" id="L262">           msgErro +=(&quot;NIS inválido\n&quot;);</span>
        }else{
-<span class="pc bpc" id="L261" title="1 of 2 branches missed.">            if(nis.length() == 0){</span>
-<span class="nc" id="L262">                msgErro +=(&quot;NIS inválido\n&quot;);</span>
+<span class="fc bfc" id="L264" title="All 2 branches covered.">            if(nis.length() == 0){</span>
+<span class="fc" id="L265">                msgErro +=(&quot;NIS inválido\n&quot;);</span>
             }
-<span class="fc" id="L264">            Matcher matcherNis = pattern.matcher(nis);</span>
-<span class="pc bpc" id="L265" title="1 of 2 branches missed.">            if(!matcherNis.matches()){</span>
-<span class="nc" id="L266">                 msgErro +=(&quot;NIS inválido\n&quot;);</span>
+<span class="fc" id="L267">            Matcher matcherNis = pattern.matcher(nis);</span>
+<span class="fc bfc" id="L268" title="All 2 branches covered.">            if(!matcherNis.matches()){</span>
+<span class="fc" id="L269">                 msgErro +=(&quot;NIS inválido\n&quot;);</span>
             }
        }
        
-<span class="fc bfc" id="L270" title="All 2 branches covered.">       if(funcionario.getSalario()&lt;=0){</span>
-<span class="fc" id="L271">            msgErro +=(&quot;Salário inválido\n&quot;);</span>
+<span class="fc bfc" id="L273" title="All 2 branches covered.">       if(funcionario.getSalario()&lt;=0){</span>
+<span class="fc" id="L274">            msgErro +=(&quot;Salário inválido\n&quot;);</span>
        }
-<span class="fc bfc" id="L273" title="All 2 branches covered.">       if(funcionario.getSenha() == null){</span>
-<span class="fc" id="L274">            msgErro +=(&quot;Senha Inválida\n&quot;);</span>
+<span class="fc bfc" id="L276" title="All 2 branches covered.">       if(funcionario.getSenha() == null){</span>
+<span class="fc" id="L277">            msgErro +=(&quot;Senha Inválida\n&quot;);</span>
        }else
-<span class="pc bpc" id="L276" title="1 of 2 branches missed.">       if(funcionario.getSenha().length() == 0){</span>
-<span class="nc" id="L277">           msgErro +=(&quot;Senha Inválida\n&quot;);</span>
+<span class="fc bfc" id="L279" title="All 2 branches covered.">       if(funcionario.getSenha().length() == 0){</span>
+<span class="fc" id="L280">           msgErro +=(&quot;Senha Inválida\n&quot;);</span>
        }
        
-<span class="fc bfc" id="L280" title="All 2 branches covered.">       if(!msgErro.isEmpty()){</span>
-<span class="fc" id="L281">           throw new Excecoes.FuncionarioInvalidoException(msgErro);</span>
+<span class="fc bfc" id="L283" title="All 2 branches covered.">       if(!msgErro.isEmpty()){</span>
+<span class="fc" id="L284">           throw new Excecoes.FuncionarioInvalidoException(msgErro);</span>
        }
-<span class="fc" id="L283">    }</span>
+<span class="fc" id="L286">    }</span>
     
     public static void validarConcessionaria(Concessionaria concessionaria) throws ConcessionariaInvalidaException{
-<span class="fc" id="L286">        String msgErro = &quot;&quot;;</span>
+<span class="fc" id="L289">        String msgErro = &quot;&quot;;</span>
         try{
-<span class="fc" id="L288">            validarLocatario(concessionaria);</span>
+<span class="fc" id="L291">            validarLocatario(concessionaria);</span>
         }
-<span class="fc" id="L290">        catch(Exception e){</span>
-<span class="fc" id="L291">             msgErro+=(e.getMessage())+&quot;\n&quot;;</span>
-<span class="fc" id="L292">        }</span>
-<span class="pc bpc" id="L293" title="1 of 2 branches missed.">        if(concessionaria.getNomeResponsavel() == null){</span>
-<span class="nc" id="L294">             msgErro+=(&quot;Nome do Resposável Inválido [t : null]\n&quot;);</span>
+<span class="fc" id="L293">        catch(Exception e){</span>
+<span class="fc" id="L294">             msgErro+=(e.getMessage())+&quot;\n&quot;;</span>
+<span class="fc" id="L295">        }</span>
+<span class="fc bfc" id="L296" title="All 2 branches covered.">        if(concessionaria.getNomeResponsavel() == null){</span>
+<span class="fc" id="L297">             msgErro+=(&quot;Nome do Resposável Inválido [t : null]\n&quot;);</span>
         }else{
-<span class="pc bpc" id="L296" title="1 of 2 branches missed.">            if(concessionaria.getNomeResponsavel().length()==0){</span>
-<span class="nc" id="L297">                msgErro+=(&quot;Nome do Resposável Inválido [t: 0]\n&quot;);</span>
+<span class="fc bfc" id="L299" title="All 2 branches covered.">            if(concessionaria.getNomeResponsavel().length()==0){</span>
+<span class="fc" id="L300">                msgErro+=(&quot;Nome do Resposável Inválido [t: 0]\n&quot;);</span>
             }else
-<span class="fc bfc" id="L299" title="All 2 branches covered.">            if(concessionaria.getNomeResponsavel().length()&gt;255){</span>
-<span class="fc" id="L300">                msgErro+=(&quot;Nome do Resposável Inválido [t &gt; 255]\n&quot;);</span>
+<span class="fc bfc" id="L302" title="All 2 branches covered.">            if(concessionaria.getNomeResponsavel().length()&gt;255){</span>
+<span class="fc" id="L303">                msgErro+=(&quot;Nome do Resposável Inválido [t &gt; 255]\n&quot;);</span>
             }
         }
         
-<span class="fc bfc" id="L304" title="All 2 branches covered.">        if(concessionaria.getRazaoSocial()== null){</span>
-<span class="fc" id="L305">            msgErro+=(&quot;Razao Social Inválida [t : null]\n&quot;);</span>
+<span class="fc bfc" id="L307" title="All 2 branches covered.">        if(concessionaria.getRazaoSocial()== null){</span>
+<span class="fc" id="L308">            msgErro+=(&quot;Razao Social Inválida [t : null]\n&quot;);</span>
         }else{
-<span class="pc bpc" id="L307" title="1 of 2 branches missed.">            if(concessionaria.getRazaoSocial().length()==0){</span>
-<span class="nc" id="L308">                msgErro+=(&quot;Razao Social Inválida [t: 0]\n&quot;);</span>
+<span class="fc bfc" id="L310" title="All 2 branches covered.">            if(concessionaria.getRazaoSocial().length()==0){</span>
+<span class="fc" id="L311">                msgErro+=(&quot;Razao Social Inválida [t: 0]\n&quot;);</span>
             }else
-<span class="pc bpc" id="L310" title="1 of 2 branches missed.">            if(concessionaria.getRazaoSocial().length()&gt;255){</span>
-<span class="nc" id="L311">                msgErro+=(&quot;Razao Social Inválida [t &gt; 255]\n&quot;);</span>
+<span class="fc bfc" id="L313" title="All 2 branches covered.">            if(concessionaria.getRazaoSocial().length()&gt;255){</span>
+<span class="fc" id="L314">                msgErro+=(&quot;Razao Social Inválida [t &gt; 255]\n&quot;);</span>
             }
         }
-<span class="fc bfc" id="L314" title="All 2 branches covered.">        if(!msgErro.isEmpty()){</span>
-<span class="fc" id="L315">            throw new Excecoes.ConcessionariaInvalidaException(msgErro);</span>
+<span class="fc bfc" id="L317" title="All 2 branches covered.">        if(!msgErro.isEmpty()){</span>
+<span class="fc" id="L318">            throw new Excecoes.ConcessionariaInvalidaException(msgErro);</span>
         }
-<span class="fc" id="L317">    }</span>
+<span class="fc" id="L320">    }</span>
     
     public static void validarLocacao(Locacao locacao) throws LocacaoInvalidaException{
-<span class="fc" id="L320">        String msgErro = &quot;&quot;;</span>
+<span class="fc" id="L323">        String msgErro = &quot;&quot;;</span>
         
-<span class="fc bfc" id="L322" title="All 2 branches covered.">        if(locacao.getId() &lt;0){</span>
-<span class="fc" id="L323">            msgErro += &quot;id invalido&quot;;</span>
+<span class="fc bfc" id="L325" title="All 2 branches covered.">        if(locacao.getId() &lt;0){</span>
+<span class="fc" id="L326">            msgErro += &quot;id invalido&quot;;</span>
         }
-<span class="pc bpc" id="L325" title="1 of 2 branches missed.">        if(locacao.getLocatario() == null){</span>
-<span class="nc" id="L326">           msgErro += &quot;Locatario Obrigatório para locação&quot;;</span>
+<span class="fc bfc" id="L328" title="All 2 branches covered.">        if(locacao.getLocatario() == null){</span>
+<span class="fc" id="L329">           msgErro += &quot;Locatario Obrigatório para locação&quot;;</span>
         }
-<span class="pc bpc" id="L328" title="1 of 2 branches missed.">        if(locacao.getFuncionario() == null){</span>
-<span class="nc" id="L329">            msgErro += &quot;Funcionario Obrigatório para locação&quot;;</span>
+<span class="fc bfc" id="L331" title="All 2 branches covered.">        if(locacao.getFuncionario() == null){</span>
+<span class="fc" id="L332">            msgErro += &quot;Funcionario Obrigatório para locação&quot;;</span>
         }
-<span class="pc bpc" id="L331" title="1 of 2 branches missed.">        if(locacao.getDataLocacao() == null){</span>
-<span class="nc" id="L332">           msgErro += &quot;Data de Locação Obrigatória para locação&quot;;</span>
+<span class="fc bfc" id="L334" title="All 2 branches covered.">        if(locacao.getDataLocacao() == null){</span>
+<span class="fc" id="L335">           msgErro += &quot;Data de Locação Obrigatória para locação&quot;;</span>
         }
-<span class="pc bpc" id="L334" title="1 of 2 branches missed.">        if(locacao.getDataDevolucao()== null){</span>
-<span class="nc" id="L335">            msgErro += &quot;Data de Devolução Obrigatória para locação&quot;;</span>
+<span class="fc bfc" id="L337" title="All 2 branches covered.">        if(locacao.getDataDevolucao()== null){</span>
+<span class="fc" id="L338">            msgErro += &quot;Data de Devolução Obrigatória para locação&quot;;</span>
         }
-<span class="pc bpc" id="L337" title="1 of 2 branches missed.">        if(locacao.getStatus()== null){</span>
-<span class="nc" id="L338">           msgErro += &quot;Status Obrigatório para locação&quot;;</span>
+<span class="fc bfc" id="L340" title="All 2 branches covered.">        if(locacao.getStatus()== null){</span>
+<span class="fc" id="L341">           msgErro += &quot;Status Obrigatório para locação&quot;;</span>
         }
         
-<span class="fc" id="L341">        Set&lt;Pagamento&gt; pagamentos = locacao.getPagamentos();</span>
-<span class="pc bpc" id="L342" title="2 of 6 branches missed.">        if((pagamentos ==null || pagamentos.isEmpty())  &amp;&amp; locacao.getStatus()!=StatusLocacao.Aberta){</span>
-<span class="nc" id="L343">           msgErro += &quot;É obrigatorio pagamentos para autorizar a locação&quot;;</span>
+<span class="fc" id="L344">        Set&lt;Pagamento&gt; pagamentos = locacao.getPagamentos();</span>
+<span class="pc bpc" id="L345" title="1 of 6 branches missed.">        if((pagamentos ==null || pagamentos.isEmpty())  &amp;&amp; locacao.getStatus()!=StatusLocacao.Aberta){</span>
+<span class="fc" id="L346">           msgErro += &quot;É obrigatorio pagamentos para autorizar a locação&quot;;</span>
         }else
-<span class="fc bfc" id="L345" title="All 2 branches covered.">        for(Pagamento pagamento: pagamentos){</span>
+<span class="fc bfc" id="L348" title="All 2 branches covered.">        for(Pagamento pagamento: pagamentos){</span>
             try{
-<span class="fc" id="L347">                validarPagamento(pagamento);</span>
+<span class="fc" id="L350">                validarPagamento(pagamento);</span>
             }
-<span class="nc" id="L349">            catch(Exception e){</span>
-<span class="nc" id="L350">                msgErro += e.getMessage();</span>
-<span class="fc" id="L351">            }</span>
-<span class="fc" id="L352">        }</span>
+<span class="nc" id="L352">            catch(Exception e){</span>
+<span class="nc" id="L353">                msgErro += e.getMessage();</span>
+<span class="fc" id="L354">            }</span>
+<span class="fc" id="L355">        }</span>
         
         
-<span class="pc bpc" id="L355" title="1 of 2 branches missed.">        if(locacao.getValorDiaria()&lt;0){</span>
-<span class="nc" id="L356">            msgErro += &quot;Valor de diária inválido&quot;;</span>
+<span class="fc bfc" id="L358" title="All 2 branches covered.">        if(locacao.getValorDiaria()&lt;0){</span>
+<span class="fc" id="L359">            msgErro += &quot;Valor de diária inválido&quot;;</span>
         }
         
-<span class="pc bpc" id="L359" title="1 of 2 branches missed.">        if(locacao.getTotalLocacao()&lt;0){</span>
-<span class="nc" id="L360">            msgErro += &quot;Total da Locação inválido&quot;;</span>
+<span class="fc bfc" id="L362" title="All 2 branches covered.">        if(locacao.getTotalLocacao()&lt;0){</span>
+<span class="fc" id="L363">            msgErro += &quot;Total da Locação inválido&quot;;</span>
         }
         
-<span class="pc bpc" id="L363" title="1 of 2 branches missed.">        if(locacao.getMultaAtraso()&lt;0){</span>
-<span class="nc" id="L364">            msgErro += &quot;Multa de Atraso inválida&quot;;</span>
+<span class="fc bfc" id="L366" title="All 2 branches covered.">        if(locacao.getMultaAtraso()&lt;0){</span>
+<span class="fc" id="L367">            msgErro += &quot;Multa de Atraso inválida&quot;;</span>
         }
-<span class="fc bfc" id="L366" title="All 2 branches covered.">        if(!msgErro.isEmpty()){</span>
-<span class="fc" id="L367">            throw new Excecoes.LocacaoInvalidaException(msgErro);</span>
+<span class="fc bfc" id="L369" title="All 2 branches covered.">        if(!msgErro.isEmpty()){</span>
+<span class="fc" id="L370">            throw new Excecoes.LocacaoInvalidaException(msgErro);</span>
         }
-<span class="fc" id="L369">    }</span>
+<span class="fc" id="L372">    }</span>
     
     public static void validarPagamento(Pagamento pagamento) throws PagamentoInvalidoException{
         
-<span class="pc bpc" id="L373" title="1 of 2 branches missed.">        if(pagamento.getId()&lt;0){</span>
-<span class="nc" id="L374">            throw new Excecoes.PagamentoInvalidoException(&quot;id de pagamento inválido&quot;);</span>
+<span class="fc bfc" id="L376" title="All 2 branches covered.">        if(pagamento.getId()&lt;0){</span>
+<span class="fc" id="L377">            throw new Excecoes.PagamentoInvalidoException(&quot;id de pagamento inválido&quot;);</span>
         }
-<span class="pc bpc" id="L376" title="1 of 2 branches missed.">        if(pagamento.getFormaPagamento() == null){</span>
-<span class="nc" id="L377">            throw new Excecoes.PagamentoInvalidoException(&quot;Forma de Pagamento Inválido&quot;);</span>
+<span class="pc bpc" id="L379" title="1 of 2 branches missed.">        if(pagamento.getFormaPagamento() == null){</span>
+<span class="nc" id="L380">            throw new Excecoes.PagamentoInvalidoException(&quot;Forma de Pagamento Inválido&quot;);</span>
         }
         try{
-<span class="fc" id="L380">            validarFormaPagamento(pagamento.getFormaPagamento());</span>
+<span class="fc" id="L383">            validarFormaPagamento(pagamento.getFormaPagamento());</span>
         }
-<span class="nc" id="L382">        catch(Exception e){</span>
-<span class="nc" id="L383">            throw new Excecoes.PagamentoInvalidoException(e.getMessage());</span>
-<span class="fc" id="L384">        }</span>
-<span class="pc bpc" id="L385" title="2 of 4 branches missed.">        if(pagamento.getReferencia()== null || pagamento.getReferencia().length()&gt;255){</span>
-<span class="nc" id="L386">            throw new Excecoes.PagamentoInvalidoException(&quot;Referência de Pagamento Inválida&quot;);</span>
+<span class="nc" id="L385">        catch(Exception e){</span>
+<span class="nc" id="L386">            throw new Excecoes.PagamentoInvalidoException(e.getMessage());</span>
+<span class="fc" id="L387">        }</span>
+<span class="pc bpc" id="L388" title="2 of 4 branches missed.">        if(pagamento.getReferencia()== null || pagamento.getReferencia().length()&gt;255){</span>
+<span class="nc" id="L389">            throw new Excecoes.PagamentoInvalidoException(&quot;Referência de Pagamento Inválida&quot;);</span>
         }
-<span class="pc bpc" id="L388" title="1 of 2 branches missed.">        if(pagamento.getParcela()&lt;=0){</span>
-<span class="nc" id="L389">            throw new Excecoes.PagamentoInvalidoException(&quot;Nº de parcelas inválido&quot;);</span>
+<span class="pc bpc" id="L391" title="1 of 2 branches missed.">        if(pagamento.getParcela()&lt;=0){</span>
+<span class="nc" id="L392">            throw new Excecoes.PagamentoInvalidoException(&quot;Nº de parcelas inválido&quot;);</span>
         }
-<span class="pc bpc" id="L391" title="1 of 2 branches missed.">        if(pagamento.getTotalParcelas()&lt;=0){</span>
-<span class="nc" id="L392">            throw new Excecoes.PagamentoInvalidoException(&quot;Nº total de parcelas inválido&quot;);</span>
+<span class="pc bpc" id="L394" title="1 of 2 branches missed.">        if(pagamento.getTotalParcelas()&lt;=0){</span>
+<span class="nc" id="L395">            throw new Excecoes.PagamentoInvalidoException(&quot;Nº total de parcelas inválido&quot;);</span>
         }
-<span class="pc bpc" id="L394" title="1 of 2 branches missed.">        if(pagamento.getPendente() == null){</span>
-<span class="nc" id="L395">            throw new Excecoes.PagamentoInvalidoException(&quot;Estado do pagamento inválido&quot;);</span>
+<span class="pc bpc" id="L397" title="1 of 2 branches missed.">        if(pagamento.getPendente() == null){</span>
+<span class="nc" id="L398">            throw new Excecoes.PagamentoInvalidoException(&quot;Estado do pagamento inválido&quot;);</span>
         }
-<span class="pc bpc" id="L397" title="1 of 2 branches missed.">        if(pagamento.getDataPagamento()== null){</span>
-<span class="nc" id="L398">            throw new Excecoes.PagamentoInvalidoException(&quot;Data de pagamento inválida&quot;);</span>
+<span class="pc bpc" id="L400" title="1 of 2 branches missed.">        if(pagamento.getDataPagamento()== null){</span>
+<span class="nc" id="L401">            throw new Excecoes.PagamentoInvalidoException(&quot;Data de pagamento inválida&quot;);</span>
         }
         
-<span class="fc" id="L401">    }</span>
+<span class="fc" id="L404">    }</span>
     
     public static void validarFormaPagamento(FormaPagamento formaPagamento) throws FormaPagamentoInvalida{
         
-<span class="pc bpc" id="L405" title="1 of 2 branches missed.">        if(formaPagamento.getNome() == null){</span>
-<span class="nc" id="L406">            throw new Excecoes.FormaPagamentoInvalida(&quot;Nome da Forma de Pagamento Inválido&quot;);</span>
-        }
-<span class="pc bpc" id="L408" title="1 of 2 branches missed.">        if(formaPagamento.getNome().length()&gt;255){</span>
+<span class="pc bpc" id="L408" title="1 of 2 branches missed.">        if(formaPagamento.getNome() == null){</span>
 <span class="nc" id="L409">            throw new Excecoes.FormaPagamentoInvalida(&quot;Nome da Forma de Pagamento Inválido&quot;);</span>
         }
-<span class="pc bpc" id="L411" title="1 of 2 branches missed.">        if(formaPagamento.getDescricao() == null){</span>
-<span class="nc" id="L412">             throw new Excecoes.FormaPagamentoInvalida(&quot;Descrição da Forma de Pagamento Inválida&quot;);</span>
+<span class="pc bpc" id="L411" title="1 of 2 branches missed.">        if(formaPagamento.getNome().length()&gt;255){</span>
+<span class="nc" id="L412">            throw new Excecoes.FormaPagamentoInvalida(&quot;Nome da Forma de Pagamento Inválido&quot;);</span>
         }
-<span class="pc bpc" id="L414" title="1 of 2 branches missed.">        if(formaPagamento.getDescricao().length()&gt;255){</span>
-<span class="nc" id="L415">              throw new Excecoes.FormaPagamentoInvalida(&quot;Descrição da Forma de Pagamento Inválida&quot;);</span>
+<span class="pc bpc" id="L414" title="1 of 2 branches missed.">        if(formaPagamento.getDescricao() == null){</span>
+<span class="nc" id="L415">             throw new Excecoes.FormaPagamentoInvalida(&quot;Descrição da Forma de Pagamento Inválida&quot;);</span>
         }
-<span class="fc" id="L417">    }</span>
+<span class="pc bpc" id="L417" title="1 of 2 branches missed.">        if(formaPagamento.getDescricao().length()&gt;255){</span>
+<span class="nc" id="L418">              throw new Excecoes.FormaPagamentoInvalida(&quot;Descrição da Forma de Pagamento Inválida&quot;);</span>
+        }
+<span class="fc" id="L420">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

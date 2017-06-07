@@ -105,7 +105,7 @@ public class FuncionarioTest {
             funcionarioTesteOK.setSenha("123");
             funcionarioTesteOK.setNis("2");
             funcionarioTesteOK.setSalario(500);
-        // Cadastro de funcionário correto
+        // Cadastro de Concessionaria correta
          concessionariaTesteOK = new Concessionaria();
             concessionariaTesteOK.setNome("Concessionária de teste correto");
             concessionariaTesteOK.setCpf("12345678900");
@@ -176,13 +176,13 @@ public class FuncionarioTest {
      * [OK] cadastrarConcessionaria, 
      * [OK] alterarConcessionaria, 
      * 
-     * [FALTA CADASTRO VALIDO] cadastrarEquipamento, 
-     * [FALTA CADASTRO VALIDO] atualizarEquipamento, 
+     * [OK] cadastrarEquipamento, 
+     * [OK] atualizarEquipamento, 
      * 
-     * [DEPENDE DO CADASTRO DE EQUIPAMENTO] fazerLocacao,
-     * [DEPENDE DO CADASTRO DE EQUIPAMENTO] atualizarLocacao, 
+     * [OK] fazerLocacao,
+     * [OK] atualizarLocacao, 
      * 
-     * [DEPENDE DO CADASTRO DE EQUIPAMENTO] fazerReserva, 
+     * [OK] fazerReserva, 
      * 
      * [OK] registrarFormaPagamento,
      * [OK] atualizarFormaPagamento
@@ -210,7 +210,41 @@ public class FuncionarioTest {
         
         assertTrue(funcionarioTesteOK.getId()>0);
         assertNotSame(busca.getNome(), funcionarioTesteAux.getNome());
-    } 
+    }
+    
+    @Test
+    public void CadastrarFuncionarioErrado() throws Exception {
+        System.out.println("Teste Cadastrar Funcionario Errado");
+        funcionarioTesteOK.cadastrarFuncionario(funcionarioTesteOK);
+        
+        Exception erro = null;
+        Funcionario funcionarioNotOK = new Funcionario();
+        try {
+            // -- exclusivo de funcionario -- //
+            funcionarioNotOK.setNis("a");
+            funcionarioNotOK.setSenha("");
+
+            funcionarioTesteOK.cadastrarFuncionario(funcionarioNotOK);
+        }
+        catch (Exception ex) {
+            erro = ex;
+        }
+        
+        assertNotNull(erro);
+        
+        try {
+            // -- exclusivo de funcionario -- //
+            funcionarioNotOK.setNis("");
+
+            funcionarioTesteOK.cadastrarFuncionario(funcionarioNotOK);
+        }
+        catch (Exception ex) {
+            erro = ex;
+        }
+        
+        assertNotNull(erro);
+    }    
+    
     
     @Test
     public void testCadastrarLocatario() throws Exception {
@@ -247,6 +281,100 @@ public class FuncionarioTest {
     }   
     
     @Test
+    public void CadastrarLocatarioErrado() throws Exception {
+        System.out.println("Teste Cadastrar Locatario Errado");
+        funcionarioTesteOK.cadastrarFuncionario(funcionarioTesteOK);
+        
+        Exception erro = null;
+        String vazio = new String();
+        String invalido = "=^!@#$%^&*根";
+        Locatario LocatarioNotOK = new Locatario();
+
+        LocatarioNotOK.setId(-1);
+        
+        LocatarioNotOK.setCpf(invalido);
+
+        LocatarioNotOK.setInscricaoEstadual(invalido);
+        
+        LocatarioNotOK.setUf(null);
+
+        LocatarioNotOK.setStatus(null);
+        
+        try {
+            LocatarioNotOK.setTipo(null);
+
+            LocatarioNotOK.setRazaoSocial("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur massa neque, dictum id ante blandit, placerat faucibus lorem. Pellentesque sagittis lacus turpis, id elementum turpis semper et. Vivamus sodales elementum quam, ac vulputate quam bibendum finibus. Praesent luctus libero erat, nec consectetur leo ullamcorper sit amet. Aliquam erat volutpat. Proin nisi ante, egestas sit amet facilisis ac, vestibulum a nisi. In hac habitasse platea dictumst. Praesent vel mauris malesuada, efficitur nibh ut, varius mauris. Aenean egestas eget diam a consequat. Proin eget ultrices lorem. Aliquam varius lacus neque, sed hendrerit risus hendrerit non. Nunc sit amet quam in libero condimentum");
+
+            LocatarioNotOK.setCep(null);
+
+            LocatarioNotOK.setBairro(null);
+
+            LocatarioNotOK.setCidade(null);
+
+            LocatarioNotOK.setTelefonePrincipal(null);
+
+            LocatarioNotOK.setTelefone2(null);
+
+            LocatarioNotOK.setEmailPrincipal("");
+
+            LocatarioNotOK.setEmail2("");
+
+            funcionarioTesteOK.cadastrarLocatario(LocatarioNotOK);
+        }
+        catch (Exception ex) {
+            erro = ex;
+        }
+             
+        try {
+            
+            LocatarioNotOK.setTipo(TipoLocatario.JURIDICA);
+
+            LocatarioNotOK.setRazaoSocial(vazio);
+    
+            LocatarioNotOK.setCep(vazio);
+
+            LocatarioNotOK.setBairro(vazio);
+
+            LocatarioNotOK.setCidade(vazio);
+
+            LocatarioNotOK.setTelefonePrincipal(vazio);
+
+            LocatarioNotOK.setTelefone2(vazio);
+
+            LocatarioNotOK.setEmailPrincipal(vazio);
+
+            LocatarioNotOK.setEmail2(vazio);
+            
+            funcionarioTesteOK.cadastrarLocatario(LocatarioNotOK);
+        }
+        catch (Exception ex) {
+            erro = ex;
+        }
+        
+        try {
+            LocatarioNotOK.setTipo(TipoLocatario.JURIDICA);
+
+            LocatarioNotOK.setCep(invalido);
+
+            LocatarioNotOK.setTelefonePrincipal(invalido);
+
+            LocatarioNotOK.setTelefone2(invalido);
+
+            LocatarioNotOK.setEmailPrincipal(invalido);
+
+            LocatarioNotOK.setEmail2(invalido);
+
+            funcionarioTesteOK.cadastrarLocatario(LocatarioNotOK);
+        }
+        
+        catch (Exception ex) {
+            erro = ex;
+        }
+        
+        assertNotNull(erro);
+    }
+    
+    @Test
     public void testCadastrarConcessionaria() throws Exception {
         System.out.println("Teste Cadastrar Concessionaria");
         funcionarioTesteOK.cadastrarFuncionario(funcionarioTesteOK);
@@ -279,6 +407,39 @@ public class FuncionarioTest {
         assertTrue(concessionariaTesteOK.getId()>0);
         assertNotSame(busca.getNome(), concessionariaTesteAux.getNome());
     }   
+    
+    @Test
+    public void CadastrarConcessionariaErrado() throws Exception {
+        System.out.println("Teste Cadastrar Concessionaria Errado");
+        funcionarioTesteOK.cadastrarFuncionario(funcionarioTesteOK);
+        
+        Exception erro = null;
+        String vazio = new String();
+        Concessionaria concessionariaNotOK = new Concessionaria();
+
+        
+        try {
+            
+            concessionariaNotOK.setNomeResponsavel(null);
+            concessionariaNotOK.setRazaoSocial(vazio);
+
+            funcionarioTesteOK.cadastrarConcessionaria(concessionariaNotOK);
+        }
+        catch (Exception ex) {
+            erro = ex;
+        }
+        
+        try {        
+            concessionariaNotOK.setNomeResponsavel(vazio);
+            concessionariaNotOK.setRazaoSocial("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur massa neque, dictum id ante blandit, placerat faucibus lorem. Pellentesque sagittis lacus turpis, id elementum turpis semper et. Vivamus sodales elementum quam, ac vulputate quam bibendum finibus. Praesent luctus libero erat, nec consectetur leo ullamcorper sit amet. Aliquam erat volutpat. Proin nisi ante, egestas sit amet facilisis ac, vestibulum a nisi. In hac habitasse platea dictumst. Praesent vel mauris malesuada, efficitur nibh ut, varius mauris. Aenean egestas eget diam a consequat. Proin eget ultrices lorem. Aliquam varius lacus neque, sed hendrerit risus hendrerit non. Nunc sit amet quam in libero condimentum");            
+            funcionarioTesteOK.cadastrarConcessionaria(concessionariaNotOK);
+        }
+        catch (Exception ex) {
+            erro = ex;
+        }
+        
+        assertNotNull(erro);
+    }
     
     @Test
     public void testCadastrarEquipamento() throws Exception {
@@ -316,12 +477,45 @@ public class FuncionarioTest {
         assertNotSame(busca.getNome(), equipamentoTesteAux.getNome());
     }
     
+    @Test
+    public void CadastrarEquipamentoErrado() throws Exception {
+        System.out.println("Teste Cadastrar Equipamento Errado");
+        funcionarioTesteOK.cadastrarFuncionario(funcionarioTesteOK);
+        funcionarioTesteOK.cadastrarConcessionaria(concessionariaTesteOK);
+        
+        Exception erro = null;
+        String vazio = new String();
+        Equipamento equipamentoNotOK = new Equipamento();
 
-    
-   
-    
+        equipamentoNotOK.setId(-1);
+        equipamentoNotOK.setNome(null);
+        equipamentoNotOK.setDescricao(null); 
+        equipamentoNotOK.setValorDiaria(-1);  
+        equipamentoNotOK.setValorPatrimonio(-1);
+        equipamentoNotOK.setStatus(null);      
+        equipamentoNotOK.setDataCompra(null); 
+        equipamentoNotOK.setValidade(null);   
+        equipamentoNotOK.setProximaRevisao(null);
+                
+        try {
+            equipamentoNotOK.setFabricante(null);
+            funcionarioTesteOK.cadastrarEquipamento(equipamentoNotOK);
+        }
+        catch (Exception ex) {
+            erro = ex;
+        }
+        
+        try {        
+            equipamentoNotOK.setFabricante("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur massa neque, dictum id ante blandit, placerat faucibus lorem. Pellentesque sagittis lacus turpis, id elementum turpis semper et. Vivamus sodales elementum quam, ac vulputate quam bibendum finibus. Praesent luctus libero erat, nec consectetur leo ullamcorper sit amet. Aliquam erat volutpat. Proin nisi ante, egestas sit amet facilisis ac, vestibulum a nisi. In hac habitasse platea dictumst. Praesent vel mauris malesuada, efficitur nibh ut, varius mauris. Aenean egestas eget diam a consequat. Proin eget ultrices lorem. Aliquam varius lacus neque, sed hendrerit risus hendrerit non. Nunc sit amet quam in libero condimentum");   
+            funcionarioTesteOK.cadastrarEquipamento(equipamentoNotOK);
+        }
+        catch (Exception ex) {
+            erro = ex;
+        }
+        
+        assertNotNull(erro);
+    }
   
-    
     @Test
     public void testRegistrarFormaPagamento() throws Exception {
         System.out.println("Teste Registrar Forma Pagamento");
@@ -345,5 +539,91 @@ public class FuncionarioTest {
         FormaPagamento busca = (FormaPagamento) Persistencia.buscar(FormaPagamento.class, pagamentoTesteOK.getId());
        
         assertEquals("Descrição alterada", busca.getDescricao());
+    }
+    
+    @Test
+    public void testRegistrarFormaPagamentoErrado() throws Exception {
+        System.out.println("Teste Registrar Forma Pagamento");
+        funcionarioTesteOK.cadastrarFuncionario(funcionarioTesteOK);
+        
+        FormaPagamento formaPagamentoNotOK = new FormaPagamento();
+        Exception erro = null;
+
+        try {
+            
+            formaPagamentoNotOK.setNome(null);
+            formaPagamentoNotOK.setDescricao(null);
+
+            funcionarioTesteOK.cadastrarFormaPagamento(formaPagamentoNotOK);
+        }
+        catch (Exception ex) {
+            erro = ex;
+        }        
+        
+        try {
+            
+            formaPagamentoNotOK.setNome("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur massa neque, dictum id ante blandit, placerat faucibus lorem. Pellentesque sagittis lacus turpis, id elementum turpis semper et. Vivamus sodales elementum quam, ac vulputate quam bibendum finibus. Praesent luctus libero erat, nec consectetur leo ullamcorper sit amet. Aliquam erat volutpat. Proin nisi ante, egestas sit amet facilisis ac, vestibulum a nisi. In hac habitasse platea dictumst. Praesent vel mauris malesuada, efficitur nibh ut, varius mauris. Aenean egestas eget diam a consequat. Proin eget ultrices lorem. Aliquam varius lacus neque, sed hendrerit risus hendrerit non. Nunc sit amet quam in libero condimentum");
+            formaPagamentoNotOK.setDescricao("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur massa neque, dictum id ante blandit, placerat faucibus lorem. Pellentesque sagittis lacus turpis, id elementum turpis semper et. Vivamus sodales elementum quam, ac vulputate quam bibendum finibus. Praesent luctus libero erat, nec consectetur leo ullamcorper sit amet. Aliquam erat volutpat. Proin nisi ante, egestas sit amet facilisis ac, vestibulum a nisi. In hac habitasse platea dictumst. Praesent vel mauris malesuada, efficitur nibh ut, varius mauris. Aenean egestas eget diam a consequat. Proin eget ultrices lorem. Aliquam varius lacus neque, sed hendrerit risus hendrerit non. Nunc sit amet quam in libero condimentum");
+        
+            funcionarioTesteOK.cadastrarFormaPagamento(formaPagamentoNotOK);
+        }
+        catch (Exception ex) {
+            erro = ex;
+        }   
+        
+        assertNotNull(erro);
+    }
+    
+    @Test
+    public void testValidarLocacaoErrado() throws Exception {
+        System.out.println("Teste Registrar Forma Pagamento");
+        funcionarioTesteOK.cadastrarFuncionario(funcionarioTesteOK);
+        
+        Exception erro = null;
+        
+        Locacao locacaoNotOK = new Locacao();
+        
+        locacaoNotOK.setFuncionario(null);
+        locacaoNotOK.setDataLocacao(null);
+        locacaoNotOK.setDataDevolucao(null);
+        locacaoNotOK.setStatus(null);
+        locacaoNotOK.setValorDiaria(-1);      
+        locacaoNotOK.setTotalLocacao(-1);
+        locacaoNotOK.setMultaAtraso(-1);
+                
+        try {
+            funcionarioTesteOK.fazerLocacao(locacaoNotOK);
+        }
+          catch (Exception ex) {
+            erro = ex;
+        }   
+        
+        assertNotNull(erro);
+    }
+    
+    @Test
+    public void testValidarPagamentoErrado() throws Exception {
+        System.out.println("Teste Registrar Forma Pagamento");
+        funcionarioTesteOK.cadastrarFuncionario(funcionarioTesteOK);
+        
+        Pagamento PagamentoNotOK = new Pagamento();
+        Exception erro = null;
+
+        PagamentoNotOK.setId(-1);
+        PagamentoNotOK.setFormaPagamento(null);
+        PagamentoNotOK.setReferencia(null);    
+        PagamentoNotOK.setParcela(-1);
+        PagamentoNotOK.setTotalParcelas(-1);     
+        PagamentoNotOK.setPendente(true);   
+        PagamentoNotOK.setDataPagamento(null);        
+  
+        try {
+            Validacao.validarPagamento(PagamentoNotOK);
+        }
+        catch (Exception ex) {
+            erro = ex;
+        }        
+        
+        assertNotNull(erro);
     }
 }
